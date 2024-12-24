@@ -1,0 +1,255 @@
+<template>
+    <section class="container mx-auto">
+        <div class="mt-16 xl:mt-20 mx-auto xl:max-w-6xl">
+            <div class="flex flex-col items-center xl:items-start z-20">
+                <h1 class="text-2xl xl:text-3xl text-left text-primary-default mt-12">Portfólio de <span
+                        class="text-secondary-default text-2xl xl:text-3xl">Projetos realizados</span></h1>
+            </div>
+            <div class="flex flex-col xl:flex-row justify-center">
+                <div class="relative flex items-center mx-5 px-10 bg-gray-100 xl:h-[650px] rounded-lg xl:mt-[24px]">
+                    <!-- Imagem de fundo -->
+                    <img class="absolute inset-0 w-full h-full object-cover rounded-lg z-0" :src="KitchenWallpaperGrey"
+                        alt="Background">
+
+                    <!-- Botões de categorias -->
+                    <div class="relative z-10 flex flex-col w-full xl:h-full items-center py-4 bg-opacity-70 mt-2">
+                        <div class="flex flex-row xl:flex-col">
+                            <button type="button" @click="filterByCategory(null)"
+                                class="text-white border border-primary-default bg-primary-default hover:border-primary-default focus:ring-4 focus:outline-none rounded-full text-base xl:text-xl font-medium px-1 xl:px-10 mx-1 py-1 text-center mb-3 w-full">
+                                Todos
+                            </button>
+
+                            <!-- Skeleton loader para categorias -->
+                            <v-skeleton-loader v-if="isLoading" :loading="isLoading" type="list-item"
+                                class="w-full mb-3">
+                                <template #default>
+                                    <div v-for="n in 3" :key="n"
+                                        class="w-full h-10 bg-gray-300 animate-pulse rounded-full mb-3"></div>
+                                </template>
+                            </v-skeleton-loader>
+
+                            <!-- Categorias carregadas -->
+                            <div v-else>
+                                <div v-for="category in categories" :key="category.id">
+                                    <button @click="filterByCategory(category.id)"
+                                        class="text-black border bg-gray-300 focus:ring-4 focus:outline-none rounded-full text-base xl:text-xl font-medium px-10 py-1 text-center mb-3 w-full">
+                                        {{ category.name }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-100 rounded-lg mt-[22px] min-w-full">
+                    <!-- Skeleton loader para projetos -->
+                    <v-skeleton-loader v-if="isLoading" :loading="isLoading" type="card" class="w-full h-48">
+                        <template #default>
+                            <div v-for="index in 5" :key="index"
+                                class="w-full h-48 bg-gray-300 animate-pulse mb-4 rounded-lg"></div>
+                        </template>
+                    </v-skeleton-loader>
+
+                    <div v-else>
+                        <div v-if="filteredProjects.length > 0"
+                            class="grid grid-cols-2 justify-center xl:mt-6 mx-6 xl:grid-cols-5 gap-4 mb-5 bg-gray-100 rounded-full">
+                            <div class="relative group bg-gray-100" v-for="(project, index) in paginatedProjects"
+                                :key="index">
+                                <div class="relative overflow-hidden rounded-lg shadow-lg">
+                                    <!-- Imagem do projeto -->
+                                    <img @click="openModal(`/storage/${project.main_image}`)"
+                                        class="w-full h-48 object-cover transition-transform duration-500 transform group-hover:scale-110"
+                                        :src="project.main_image ? `/storage/${project.main_image}` : 'default-image.jpg'"
+                                        :alt="project.title" />
+
+                                    <!-- Informações ao passar o mouse -->
+                                    <div
+                                        class="absolute bottom-0 left-0 w-full h-[44%] bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-4 border-t-4 border-secondary-default ">
+                                        <h3 class="font-semibold text-base">
+                                            {{ project.title
+                                            }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-else class="text-center mt-10">
+                            <p class="text-gray-500">Nenhum projeto encontrado.</p>
+                            <p v-if="error" class="text-red-500">{{ error }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal para imagem em tamanho grande -->
+            <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+                <div class="relative max-w-full max-h-full">
+                    <!-- Botão de fechar -->
+                    <button @click="closeModal" class="absolute top-0 right-0 text-white text-3xl p-2">
+                        &times;
+                    </button>
+                    <!-- Imagem em tamanho grande -->
+                    <img :src="selectedImage" alt="Imagem grande" class="max-w-full max-h-[90vh] object-contain">
+                </div>
+            </div>
+
+            <!-- Paginação -->
+            <div v-if="filteredProjects.length > 0" class="flex justify-between items-center mb-10 px-10 mt-5">
+                <!-- Botão Voltar -->
+                <p v-if="currentPage > 1" @click="goToPage(currentPage - 1)"
+                    class="cursor-pointer text-black mx-3 text-base xl:text-xl">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </p>
+
+                <!-- Números de páginas -->
+                <ul class="flex space-x-2">
+                    <li v-for="page in pageNumbers" :key="page" @click="goToPage(page)"
+                        :class="{ 'text-black text-base xl:text-xl': currentPage !== page, 'text-white rounded-full px-2 bg-secondary-default text-base xl:text-xl': currentPage === page }"
+                        class="cursor-pointer">
+                        {{ page }}
+                    </li>
+                </ul>
+
+                <!-- Botão Próximo -->
+                <p v-if="currentPage < totalPages" @click="goToPage(currentPage + 1)"
+                    class="cursor-pointer text-base xl:text-xl text-black mx-3">
+                    Próximo <i class="fas fa-arrow-right"></i>
+                </p>
+            </div>
+
+            <blockquote class="text-center mb-10">
+                <p class="font-bold text-base xl:text-xl">"A qualidade nunca é um acidente; é sempre o resultado de um
+                    esforço inteligente."</p>
+                <cite>— John Ruskine</cite>
+            </blockquote>
+        </div>
+    </section>
+</template>
+
+<script>
+import axios from 'axios'; // Importa o Axios
+import { ref, computed } from 'vue';
+import KitchenWallpaperGrey from '@/assets/images/services/kitechenwallpapergrey.svg';
+
+const isLoading = ref(true); // Estado de carregamento
+
+export default {
+    name: "Portfolios",
+    setup() {
+        const projects = ref([]);
+        const filteredProjects = ref([]);
+        const categories = ref([]);
+        const error = ref(null);
+        const currentPage = ref(1);
+        const itemsPerPage = 15;
+        const showModal = ref(false); // Controla a visibilidade do modal
+        const selectedImage = ref(null); // Armazena a imagem selecionada
+
+        // Método para buscar os projetos e categorias
+        const fetchProjectsAndCategories = async () => {
+            try {
+                isLoading.value = true; // Inicia o carregamento
+
+                // Requisição para pegar os projetos
+                const projectResponse = await axios.get('/api/portfolios');
+                const categoryResponse = await axios.get('/api/categories');
+
+                console.log('Projetos recebidos:', projectResponse.data);
+                console.log('Categorias recebidas:', categoryResponse.data);
+
+                projects.value = projectResponse.data || [];
+                filteredProjects.value = [...projects.value]; // Inicializa com todos os projetos
+                categories.value = categoryResponse.data || []; // Atualiza as categorias
+
+                isLoading.value = false; // Finaliza o carregamento
+            } catch (err) {
+                console.error('Erro ao fazer a requisição:', err);
+                error.value = err.message || 'Erro desconhecido';
+                isLoading.value = false; // Finaliza o carregamento em caso de erro
+            }
+        };
+
+        // Carregar os projetos e categorias ao iniciar
+        fetchProjectsAndCategories();
+
+        // Calcular o número total de páginas
+        const totalPages = computed(() => {
+            return Math.ceil(filteredProjects.value.length / itemsPerPage);
+        });
+
+        // Filtrar projetos para a página atual
+        const paginatedProjects = computed(() => {
+            const start = (currentPage.value - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            return filteredProjects.value.slice(start, end);
+        });
+
+        // Gerar os números de páginas
+        const pageNumbers = computed(() => {
+            const numbers = [];
+            for (let i = 1; i <= totalPages.value; i++) {
+                numbers.push(i);
+            }
+            return numbers;
+        });
+
+        // Função para ir para uma página específica
+        const goToPage = (page) => {
+            if (page < 1 || page > totalPages.value) return;
+            currentPage.value = page;
+        };
+
+        // Função para filtrar projetos por categoria
+        const filterByCategory = (categoryId) => {
+            if (categoryId === null) {
+                filteredProjects.value = [...projects.value]; // Todos os projetos
+            } else {
+                filteredProjects.value = projects.value.filter(project => project.category_id === categoryId);
+            }
+            currentPage.value = 1; // Resetar a página ao aplicar filtro
+        };
+
+        // Função para abrir o modal com a imagem
+        const openModal = (image) => {
+            selectedImage.value = image;
+            showModal.value = true;
+        };
+
+        // Função para fechar o modal
+        const closeModal = () => {
+            showModal.value = false;
+            selectedImage.value = null;
+        };
+
+        // Retornar as propriedades para o template
+        return {
+            KitchenWallpaperGrey,
+            projects,
+            categories,
+            error,
+            currentPage,
+            totalPages,
+            paginatedProjects,
+            pageNumbers,
+            goToPage,
+            filteredProjects,
+            filterByCategory,
+            showModal,
+            selectedImage,
+            openModal,
+            closeModal
+        };
+    },
+};
+</script>
+
+
+<style scoped>
+/* Modal */
+.fixed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+</style>
