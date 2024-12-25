@@ -1,7 +1,9 @@
 <template>
     <section>
         <div class="container mx-auto w-full grid grid-cols-1 justify-center mt-10 xl:mt-20">
-            <div class="flex flex-col items-center px-4 z-20">
+            <img :src="wallpaperkitchen" alt="kitchen" class="absolute transform scale-x-[-1]">
+            <div class="bg-gray-100 rounded-lg pt-10 pb-20">
+                <div class="flex flex-col items-center px-4 z-20">
                 <h1 class="text-xl xl:text-3xl text-center text-primary-default">
                     {{ $t('projectsfeactures.projects') }}
                     <span class="text-secondary-default text-xl xl:text-3xl">
@@ -14,13 +16,13 @@
             <div v-if="featuredProjects.length > 0"
                 class="flex flex-col xl:flex-row gap-4 items-center justify-center mt-10">
                 <div v-for="(project, index) in featuredProjects" :key="project.id"
-                    class="card w-72 h-80 xl:h-96 relative overflow-hidden">
+                    class="card w-72 h-80 xl:h-96 relative overflow-hidden border-4 border-primary-default">
                     <img :src="getImageUrl(project.main_image)" :alt="project.title"
                         class="absolute inset-0 w-full h-full object-cover cursor-pointer"
                         @click="openModal(getImageUrl(project.main_image), project)" />
 
                     <div
-                        class="absolute bottom-4 right-[0rem] bg-primary-default text-white px-4 py-2 rounded-s-3xl text-base w-[250px]">
+                        class="absolute bottom-4 right-[0rem] bg-primary-default text-white px-4 py-2 rounded-s-3xl text-base min-w-24">
                         <p>{{ project.title }}</p>
                     </div>
                     <p
@@ -31,6 +33,7 @@
             </div>
             <p class="text-center text-primary-default text-bold text-base xl:text-lg mt-7" v-else>Carregando projetos
                 ou nenhum projeto encontrado.</p>
+            </div>
         </div>
 
         <!-- Modal para exibir a imagem em tamanho grande -->
@@ -54,6 +57,7 @@
 
 <script>
 import axios from 'axios';
+import wallpaperkitchen from '@/assets/images/services/kitechenwallpapergrey.svg';
 
 export default {
     name: "ProjectFeature",
@@ -61,9 +65,10 @@ export default {
         return {
             featuredProjects: [],
             categories: [],
-            showModal: false, // Controla a visibilidade do modal
+            showModal: false,
             selectedImage: null,
-            selectedProject: null // Armazena o projeto selecionado
+            selectedProject: null,
+            wallpaperkitchen
         };
     },
     mounted() {

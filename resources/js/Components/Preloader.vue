@@ -7,7 +7,7 @@
         <div class="relative flex flex-col items-center space-y-6">
             <!-- Logotipo -->
             <div class="logo-container blinking-logo" :class="{ 'fade-in': !isExiting, 'fade-out': isExiting }">
-                <img :src="logo" alt="Logotipo Tecozi" class="w-full h-full object-contain ml-[3.8rem] xl:ml-[4.8rem]" />
+                <img :src="logo" alt="Logotipo Tecozi" class="w-full h-full object-contain ml-[3.8rem] xl:ml-[5rem]" />
             </div>
 
             <!-- Campo de Entrada com Ícone -->
