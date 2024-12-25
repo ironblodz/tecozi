@@ -36,7 +36,7 @@
         <!-- Modal para exibir a imagem em tamanho grande -->
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
             <div class="relative group">
-                <img :src="selectedImage" alt="Imagem do projeto" class="rounded-lg"
+                <img :src="selectedImage" alt="Imagem do projeto" class="rounded-xl"
                     style="max-width: none; max-height: none;" />
                 <!-- Texto sobreposto -->
                 <div
