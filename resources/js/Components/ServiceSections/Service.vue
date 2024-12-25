@@ -68,89 +68,90 @@
             </div>
 
             <!-- Seção da Timeline -->
-            <div class="flex flex-col items-center xl:items-start max-w-full z-20 mt-10">
-                <div class="w-full">
-                    <h1 class="text-2xl xl:text-3xl text-center xl:text-left text-primary-default">Fases do <span
-                            class="text-secondary-default text-2xl xl:text-3xl">Projeto</span></h1>
-                    <p class="text-xl mt-8 text-center xl:text-left">Aqui estão as fases do nosso projeto,
-                        mostrando o progresso e as
-                        etapas importantes.</p>
-                </div>
+            <div>
+                <h1 class="text-2xl xl:text-3xl text-center xl:text-left text-primary-default mt-12">Fases dos
+                    <span class="text-secondary-default text-2xl xl:text-3xl">Projeto</span>
+                </h1>
+                <img :src="WallpaperFundo" alt="WallpaperFundo" class="absolute object-scale-down h-[250px] xl:h-[500px] right-2">
                 <div class="relative mt-10 flex items-start justify-center xl:justify-normal">
                     <!-- Contêiner da Timeline -->
                     <div class="flex flex-col z-20 w-4/5 timeline-container">
                         <!-- Fase 1 -->
-                        <div class="flex items-start mb-10">
+                        <div class="flex items-start mb-10 relative bg-cover bg-no-repeat"
+                            style="background-image: url('caminho/para/sua-imagem.jpg'); background-position: right center;">
                             <div class="flex-shrink-0">
                                 <img :src="Fase1" alt="Fase 1" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-xl">Após contacto, combinamos uma primeira visita à obra
+                                <p class="text-base xl:text-xl">Após contacto, combinamos uma primeira visita à obra
                                     para recolher
                                     medidas e as ideias do cliente.</p>
                             </div>
                         </div>
                         <!-- Fase 2 -->
-                        <div class="flex items-start mb-10">
+                        <div class="flex items-start mb-10 relative bg-cover bg-no-repeat"
+                            style="background-image: url('caminho/para/sua-imagem.jpg'); background-position: right center;">
                             <div class="flex-shrink-0">
                                 <img :src="Fase2" alt="Fase 2" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-xl">Apresentamos o projeto 3D e os materiais, seguido de uma
-                                    proposta
-                                    orçamentária personalizada.</p>
+                                <p class="text-base xl:text-xl">Apresentamos o projeto 3D e os materiais, seguido de uma
+                                    proposta orçamentária personalizada.</p>
                             </div>
                         </div>
                         <!-- Fase 3 -->
-                        <div class="flex items-start mb-10">
+                        <div class="flex items-start mb-10 relative bg-cover bg-no-repeat"
+                            style="background-image: url('caminho/para/sua-imagem.jpg'); background-position: right center;">
                             <div class="flex-shrink-0">
                                 <img :src="Fase3" alt="Fase 3" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-xl">Após a adjudicação voltamos à obra para retificar todas
-                                    as medidas.
-                                </p>
+                                <p class="text-base xl:text-xl">Após a adjudicação voltamos à obra para retificar todas
+                                    as
+                                    medidas.</p>
                             </div>
                         </div>
                         <!-- Fase 4 -->
-                        <div class="flex items-start mb-10">
+                        <div class="flex items-start mb-10 relative bg-cover bg-no-repeat"
+                            style="background-image: url('caminho/para/sua-imagem.jpg'); background-position: right center;">
                             <div class="flex-shrink-0">
                                 <img :src="Fase4" alt="Fase 4" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-xl">Após definir todos os pormenores e prazos, realizamos e
-                                    instalamos
-                                    conforme combinado.</p>
+                                <p class="text-base xl:text-xl">Após definir todos os pormenores e prazos, realizamos e
+                                    instalamos conforme combinado.</p>
                             </div>
                         </div>
                         <!-- Fase 5 -->
-                        <div class="flex items-start mb-10">
+                        <div class="flex items-start mb-10 relative bg-cover bg-no-repeat"
+                            style="background-image: url('caminho/para/sua-imagem.jpg'); background-position: right center;">
                             <div class="flex-shrink-0">
                                 <img :src="Fase5" alt="Fase 5" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-xl">Realizamos acabamentos cuidados em cada obra para um
-                                    melhor
-                                    resultado.</p>
+                                <p class="text-base xl:text-xl">Realizamos acabamentos cuidados em cada obra para um
+                                    melhor resultado.</p>
                             </div>
                         </div>
                         <!-- Fase 6 -->
-                        <div class="flex items-start mb-10">
+                        <div class="flex items-start mb-10 relative bg-cover bg-no-repeat"
+                            style="background-image: url('caminho/para/sua-imagem.jpg'); background-position: right center;">
                             <div class="flex-shrink-0">
                                 <img :src="Fase6" alt="Fase 6" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-xl">Asseguramos um serviço pós-venda de qualidade e sempre
-                                    disponível.
-                                </p>
+                                <p class="text-base xl:text-xl">Asseguramos um serviço pós-venda de qualidade e sempre
+                                    disponível.</p>
                             </div>
                         </div>
                     </div>
-
                     <!-- Linha conectando as fases -->
-                    <div class="timeline-line"></div>
+                    <div
+                        class="absolute top-0 left-[57px] xl:left-5 transform -translate-x-1/2 w-px h-[90%] border border-primary-default border-dotted">
+                    </div>
                 </div>
             </div>
+
             <div class="flex flex-col xl:flex-row gap-8 items-center xl:items-start mt-10">
                 <div class="flex flex-col justify ">
                     <img :src="KitchenWallpaperGrey" alt="Descrição da Imagem"
@@ -272,6 +273,7 @@ import RoupeirosService from '@/assets/images/services/closetsservice.svg';
 import OtherService from '@/assets/images/services/otherservices.svg';
 import KitchenWallpaper from '@/assets/images/services/kitchen_wallpaper.svg';
 import KitchenWallpaperGrey from '@/assets/images/services/kitechenwallpapergrey.svg';
+import WallpaperFundo from '@/assets/images/services/wallpaperfundo.svg';
 
 import Fase1 from '@/assets/images/services/fases1.svg';
 import Fase2 from '@/assets/images/services/fases2.svg';
@@ -294,6 +296,7 @@ export default {
             Fase4,
             Fase5,
             Fase6,
+            WallpaperFundo,
             KitchenWallpaper,
             KitchenWallpaperGrey,
             activeIndex: null,
@@ -316,6 +319,4 @@ export default {
 .group:hover .group-hover\:py-8 {
     padding: 1rem 1rem;
 }
-
-
 </style>

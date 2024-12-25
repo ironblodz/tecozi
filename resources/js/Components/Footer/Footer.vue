@@ -8,34 +8,34 @@
 
       <!-- Contactos -->
       <nav class="flex flex-col items-center md:items-start" aria-label="contactos">
-        <h6 class="text-lg text-center md:text-left font-bold text-white">Contactos</h6>
-        <a class="text-white text-center md:text-left font-bold">Produção</a>
-        <a class="text-white text-center md:text-left">+351 968 433 620</a>
-        <a class="text-white text-center md:text-left">(chamada para rede móvel nacional)</a>
-        <a class="text-white text-center md:text-left font-bold">Financeiro</a>
-        <a class="text-white text-center md:text-left">+351 966 122 406</a>
-        <a class="text-white text-center md:text-left">(chamada para rede móvel nacional)</a>
+        <h6 class="text-lg text-center text-base xl:text-lg md:text-left font-bold text-white">Contactos</h6>
+        <a class="text-white text-center text-base xl:text-lg md:text-left font-bold">Produção</a>
+        <a class="text-white text-center text-base xl:text-lg md:text-left">+351 968 433 620</a>
+        <a class="text-white text-center text-base xl:text-lg md:text-left">(chamada para rede móvel nacional)</a>
+        <a class="text-white text-center text-base xl:text-lg md:text-left font-bold">Financeiro</a>
+        <a class="text-white text-center text-base xl:text-lg md:text-left">+351 966 122 406</a>
+        <a class="text-white text-center text-base xl:text-lg md:text-left">(chamada para rede móvel nacional)</a>
       </nav>
 
       <!-- Localização -->
       <nav class="flex flex-col items-center md:items-start" aria-label="localização">
-        <h6 class="text-lg text-center md:text-left font-bold text-white">Localização</h6>
-        <a class="text-white text-center md:text-left">
+        <h6 class="text-center text-base xl:text-lg md:text-left font-bold text-white">Localização</h6>
+        <a class="text-white text-center text-base xl:text-lg md:text-left">
           Rua da Lagoinha, nº29 Milhariças,<br> 3100-046 Abiul
         </a>
-        <h6 class="text-lg text-center md:text-left font-bold text-white mt-4">Termos e Condições</h6>
-        <a class="text-white text-center md:text-left">Política de privacidade</a>
-        <a class="text-white text-center md:text-left">Resolução de Litígios</a>
+        <h6 class="text-base xl:text-lg text-center md:text-left font-bold text-white mt-4">Termos e Condições</h6>
+        <a class="text-white text-center md:text-left text-base xl:text-lg">Política de privacidade</a>
+        <a class="text-white text-center md:text-left text-base xl:text-lg">Resolução de Litígios</a>
       </nav>
 
       <!-- Páginas -->
       <nav class="flex flex-col items-center md:items-start" aria-label="páginas">
-        <h6 class="text-lg text-left md:text-left text-white font-bold">Páginas</h6>
-        <a class="text-white text-center md:text-left">Sobre Nós</a>
-        <a class="text-white text-center md:text-left">Serviços</a>
-        <a class="text-white text-center md:text-left">Materiais</a>
-        <a class="text-white text-center md:text-left">Portfólio</a>
-        <a class="text-white text-center md:text-left">Contactos</a>
+        <h6 class="text-base xl:text-lg text-left md:text-left text-white font-bold">Páginas</h6>
+        <a class="text-white text-base xl:text-lg text-center md:text-left">Sobre Nós</a>
+        <a class="text-white text-base xl:text-lg text-center md:text-left">Serviços</a>
+        <a class="text-white text-base xl:text-lg text-center md:text-left">Materiais</a>
+        <a class="text-white text-base xl:text-lg text-center md:text-left">Portfólio</a>
+        <a class="text-white text-base xl:text-lg text-center md:text-left">Contactos</a>
       </nav>
 
       <!-- Kitchen Image -->
