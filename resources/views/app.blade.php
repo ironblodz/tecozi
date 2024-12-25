@@ -49,7 +49,7 @@
 
 <body class="font-sans antialiased">
     <div id="scrollToTopButton" class="fixed bottom-4 right-4 z-50 cursor-pointer animate-float">
-        <img id="scrollToTopImage" src="{{ asset('/assets/images/home/Top.svg') }}" alt="floating image"
+        <img id="scrollToTopImage" src="{{ asset('/assets/images/home/scrollup.png') }}" alt="floating image"
             class="w-12 h-12" />
     </div>
 
@@ -63,7 +63,7 @@
         const scrollToTopButton = document.getElementById('scrollToTopButton');
         const scrollToTopImage = document.getElementById('scrollToTopImage');
 
-        const originalImageSrc = '/assets/images/home/Top.svg';
+        const originalImageSrc = '/assets/images/home/scrollup.png';
         const whiteImageSrc = '/assets/images/home/tt.png';
 
         // Função para rolar até o topo
