@@ -12,13 +12,14 @@
                     </div>
                     <div class="-mt-[45px] mb-4">
                         <p class="text-center text-base font-bold">Produção</p>
-                        <p class="text-center text-base">+351 936 609 747</p>
+                        <p class="text-center text-base">+351 968 433 620</p>
                         <p class="text-center text-base mb-4">(Chamada para rede móvel nacional)</p>
                         <p class="text-center text-base font-bold">Financeiro</p>
                         <p class="text-center text-base">+351 966 122 406</p>
                         <p class="text-center text-base mb-4">(Chamada para rede móvel nacional)</p>
                         <p class="text-center text-base font-bold">Geral</p>
-                        <p class="text-center text-base mb-4">+351 236 926 148</p>
+                        <p class="text-center text-base">+351 236 926 148</p>
+                        <p class="text-center text-base mb-4">(Chamada para rede fixa nacional)</p>
                         <p class="text-center text-base">E-mail: tecozi11@gmail.com</p>
                     </div>
                 </div>
@@ -56,66 +57,70 @@
                 <div class="border border-primary-default rounded-xl p-6 w-full xl:h-[620px] xl:w-[800px]">
                     <h1 class="text-primary-default text-2xl font-bold">Contacte-nos</h1>
                     <p class="text-base mt-2">Estamos à disposição para qualquer dúvida ou questão</p>
-                    <form class="flex flex-col space-y-5 mt-5" @submit.prevent="submitForm">
+                    <form @submit.prevent="submitForm" class="flex flex-col space-y-5 mt-5">
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <div class="flex flex-col">
-                                <label for="name" class="text-base text-primary-default">Primeiro Nome<span
+                                <label for="first_name" class="text-base text-primary-default">Primeiro Nome<span
                                         class="text-secondary-default"> *</span></label>
-                                <input id="name" v-model="formData.first_name" type="text"
+                                <input id="first_name" v-model="form.first_name" type="text"
                                     class="p-2 border border-primary-default rounded-xl outline-none focus:border-primary-default transition-colors mt-1"
-                                    placeholder="O seu Nome" />
+                                    placeholder="O seu Nome" required />
                                 <span v-if="errors.first_name" class="text-red-500 text-sm">{{ errors.first_name[0]
                                     }}</span>
                             </div>
                             <div class="flex flex-col">
-                                <label for="surname" class="text-base text-primary-default">Apelido<span
+                                <label for="nickname" class="text-base text-primary-default">Apelido<span
                                         class="text-secondary-default"> *</span></label>
-                                <input id="surname" v-model="formData.nickname" type="text"
+                                <input id="nickname" v-model="form.nickname" type="text"
                                     class="p-2 border border-primary-default rounded-xl outline-none focus:border-primary-default transition-colors mt-1"
-                                    placeholder="O seu Apelido" />
+                                    placeholder="O seu Apelido" required />
                                 <span v-if="errors.nickname" class="text-red-500 text-sm">{{ errors.nickname[0]
                                     }}</span>
                             </div>
                         </div>
+
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                             <div class="flex flex-col">
                                 <label for="email" class="text-base text-primary-default">E-mail<span
                                         class="text-secondary-default"> *</span></label>
-                                <input id="email" type="email" v-model="formData.email"
+                                <input id="email" type="email" v-model="form.email"
                                     class="p-2 border border-primary-default rounded-xl outline-none focus:border-primary-default transition-colors mt-1"
-                                    placeholder="O seu E-mail" required/>
+                                    placeholder="O seu E-mail" required />
                             </div>
                             <div class="flex flex-col">
                                 <label for="phone" class="text-base text-primary-default">Telemóvel</label>
-                                <input id="phone" type="text" v-model="formData.phone"
+                                <input id="phone" type="text" v-model="form.phone"
                                     class="p-2 border border-primary-default rounded-xl outline-none focus:border-primary-default transition-colors mt-1"
-                                    placeholder="O seu Telemóvel" required />
+                                    placeholder="O seu Telemóvel" />
                             </div>
                         </div>
+
                         <div class="flex flex-col">
                             <label for="subject" class="text-base text-primary-default">Assunto<span
                                     class="text-secondary-default"> *</span></label>
                             <div
                                 class="flex flex-col lg:flex-row items-start lg:items-center space-y-2 lg:space-y-0 lg:space-x-4 mt-2">
                                 <label class="flex items-center">
-                                    <input type="radio" name="subject" value="Informações" v-model="formData.subject"
+                                    <input type="radio" name="subject" value="Informações" v-model="form.subject"
                                         class="mr-2 border-none bg-gray-100" required>
                                     <p class="text-primary-default">Informações</p>
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="radio" name="subject" value="Pedido de Orçamento" v-model="formData.subject"
-                                        class="mr-2 border-none bg-gray-100" required>
+                                    <input type="radio" name="subject" value="Pedido de Orçamento"
+                                        v-model="form.subject" class="mr-2 border-none bg-gray-100" required>
                                     <p class="text-primary-default">Pedido de Orçamento</p>
                                 </label>
                             </div>
                         </div>
+
                         <div class="flex flex-col">
                             <label for="message" class="text-base text-primary-default">Mensagem<span
                                     class="text-secondary-default"> *</span></label>
                             <textarea id="message"
                                 class="p-2 border border-primary-default rounded-xl bg-transparent outline-none focus:border-primary-default transition-colors mt-1 h-32"
-                                placeholder="Escreva a sua Mensagem" v-model="formData.message" required></textarea>
+                                placeholder="Escreva a sua Mensagem" v-model="form.message" required></textarea>
                         </div>
+
                         <div
                             class="flex flex-col lg:flex-row justify-between items-start lg:items-center mt-5 space-y-4 lg:space-y-0">
                             <label class="flex items-center">
@@ -130,6 +135,7 @@
                             </button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -151,64 +157,79 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import axios from 'axios';
 
 export default {
     name: "Contacts",
-    data() {
-        return {
-            formData: {
-                first_name: '',
-                nickname: '',
-                email: '',
-                phone: '',
-                subject: '',
-                message: '',
-                agreement: false,
-            },
-            errors: {},
-        };
-    },
-    methods: {
-        async submitForm() {
-            if (!this.formData.agreement) {
-                this.errors.agreement = "Você precisa concordar com a política de privacidade.";
-                return;
-            }
+    setup() {
+        // Definindo o objeto `form` como um `ref` reativo
+        const form = ref({
+            first_name: '',
+            nickname: '',
+            email: '',
+            phone: '',
+            subject: '',
+            message: ''
+        });
+
+        // Definindo um objeto para armazenar os erros de validação
+        const errors = ref({
+            first_name: '',
+            nickname: '',
+            email: '',
+            phone: '',
+            subject: '',
+            message: ''
+        });
+
+        // Função para submeter o formulário
+        const submitForm = async () => {
+            // Limpar erros anteriores
+            errors.value = {};
 
             try {
-                const response = await axios.post('/backoffice/contacts/store', this.formData, {
-                    headers: { 'Content-Type': 'application/json' },
-                });
-                alert('Contato enviado com sucesso!');
-                this.resetForm();
+                console.log(form.value); // Verifique os dados do formulário
+                const response = await axios.post('/backoffice/contacts/store', form.value);
+
+                if (response.status === 200) {
+                    alert('Mensagem enviada com sucesso!');
+                    // Limpar o formulário após o envio
+                    form.value = {
+                        first_name: '',
+                        nickname: '',
+                        email: '',
+                        phone: '',
+                        subject: '',
+                        message: ''
+                    };
+                }
             } catch (error) {
-                if (error.response && error.response.data.errors) {
-                    this.errors = error.response.data.errors;
+                // Verificar se houve erro de validação (422)
+                if (error.response && error.response.status === 422) {
+                    // Preencher os erros a partir da resposta da validação
+                    errors.value = error.response.data.errors;
                 } else {
-                    console.error('Erro ao enviar:', error);
-                    alert('Ocorreu um erro ao enviar o contato.');
+                    console.error('Erro ao enviar o formulário:', error);
+                    alert('Erro ao enviar a mensagem. Tente novamente mais tarde.');
                 }
             }
-        },
-        resetForm() {
-            this.formData = {
-                first_name: '',
-                nickname: '',
-                email: '',
-                phone: '',
-                subject: '',
-                message: '',
-                agreement: false,
-            };
-            this.errors = {};
-        },
-    },
+        };
+
+
+        return {
+            form,
+            submitForm,
+            errors // Expor os erros para o template
+        };
+    }
 };
 </script>
 
 
-
 <style scoped>
-/* Ajustes adicionais de estilo, se necessário */
+.error-message {
+    color: red;
+    font-size: 12px;
+}
 </style>

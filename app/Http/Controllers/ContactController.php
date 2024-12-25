@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -52,28 +53,24 @@ class ContactController extends Controller
         $validatedData = $this->validateData($request);
 
         try {
+            // Cria um novo contato com os dados validados
             Contact::create($validatedData);
 
-            return response()->json(['message' => 'Contato criado com sucesso.'], 201);
+            return redirect()->route('contacts.index')->with('success', 'Contato criado com sucesso.');
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Erro ao criar contato.', 'error' => $e->getMessage()], 500);
+            return back()->with('error', 'Erro ao criar o contato: ' . $e->getMessage());
         }
     }
 
-
     public function update(Request $request, Contact $contact)
     {
-
         $validatedData = $this->validateData($request);
 
         try {
-            $contact->where('id', $request->id)->update($validatedData);
-
-            $this->returnSuccess ($request, 'Contato atualizado com sucesso.');
-
+            $contact->update($validatedData);  // Automatically uses the `$contact` instance
+            return redirect()->route('contacts.index')->with('success', 'Contato atualizado com sucesso.');
         } catch (\Exception $e) {
-
-            $this->returnError ($request, 'Erro para atualizar contato: ' . $e->getMessage());
+            return back()->with('error', 'Erro para atualizar contato: ' . $e->getMessage());
         }
     }
 
