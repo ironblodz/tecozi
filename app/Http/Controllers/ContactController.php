@@ -14,7 +14,7 @@ class ContactController extends Controller
             'first_name' => 'required|string|max:100',
             'nickname' => 'required|string|max:100',
             'email' => 'required|string|email|max:255',
-            'phone' => 'required|string|max:100',
+            'phone' => 'required|string|regex:/^\+?[0-9\s\-]{7,15}$/',
             'subject' => 'required|string|max:100',
             'message' => 'required|string|max:255',
         ]);
@@ -30,7 +30,7 @@ class ContactController extends Controller
             ]);
         }
 
-        $this->returnError ($request, 'Algo deu errado!');   
+        $this->returnError ($request, 'Algo deu errado!');
     }
 
     public function edit($id)
@@ -54,18 +54,18 @@ class ContactController extends Controller
         try {
             Contact::create($validatedData);
 
-            $this->returnSuccess ($request, 'Contato criado com sucesso.');
-
+            return response()->json(['message' => 'Contato criado com sucesso.'], 201);
         } catch (\Exception $e) {
-            $this->returnError ($request, 'Erro para criar a contato: ' . $e->getMessage());            
+            return response()->json(['message' => 'Erro ao criar contato.', 'error' => $e->getMessage()], 500);
         }
     }
+
 
     public function update(Request $request, Contact $contact)
     {
 
         $validatedData = $this->validateData($request);
-        
+
         try {
             $contact->where('id', $request->id)->update($validatedData);
 
@@ -83,11 +83,11 @@ class ContactController extends Controller
 
             Contact::where('id', $request->id)->delete();
             $this->returnSuccess ($request, 'Contato excluido com sucesso.');
-            
+
         } catch (\Exception $e) {
 
             $this->returnError ($request, 'Erro ao excluir contato: ' . $e->getMessage());
-            
+
         }
     }
 }

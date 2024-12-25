@@ -115,15 +115,23 @@ onMounted(() => {
                         <thead class="bg-gray-100">
                             <tr>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">                                    
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Nome
                                 </th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">                                    
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Apelido
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     E-mail
                                 </th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">                                    
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Telemóvel
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Assunto
                                 </th>
                                 <th
@@ -135,7 +143,9 @@ onMounted(() => {
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr v-for="item in filteredContact" :key="item.id">
                                 <td class="px-6 py-4 whitespace-nowrap">{{ item.first_name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ item.nickname }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ item.email }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ item.phone }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ item.subject }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center space-x-4">
