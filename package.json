@@ -24,6 +24,7 @@
         "@inertiajs/inertia": "^0.11.1",
         "@primevue/themes": "^4.1.0",
         "@vueuse/core": "^12.2.0",
+        "@vueuse/integrations": "^12.2.0",
         "dropzone": "^6.0.0-beta.2",
         "flowbite": "^2.5.2",
         "inertia": "^0.0.7",

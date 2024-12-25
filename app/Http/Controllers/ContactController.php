@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -18,6 +18,7 @@ class ContactController extends Controller
             'phone' => 'required|string|regex:/^\+?[0-9\s\-]{7,15}$/',
             'subject' => 'required|string|max:100',
             'message' => 'required|string|max:255',
+            'recaptcha_token' => 'required|string',
         ]);
     }
 
@@ -50,16 +51,37 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
+        // Valida os dados do formulário
         $validatedData = $this->validateData($request);
 
+        // Verifica o token do reCAPTCHA
+        $recaptchaResponse = $this->verifyRecaptcha($validatedData['recaptcha_token']);
+
+        if (!$recaptchaResponse || !$recaptchaResponse['success']) {
+            return back()->with('error', 'Falha na validação do reCAPTCHA.');
+        }
+
         try {
-            // Cria um novo contato com os dados validados
+            // Cria um novo contato com os dados validados (exceto o recaptcha_token)
+            unset($validatedData['recaptcha_token']); // Remove o token antes de salvar no banco
             Contact::create($validatedData);
 
             return redirect()->route('contacts.index')->with('success', 'Contato criado com sucesso.');
         } catch (\Exception $e) {
             return back()->with('error', 'Erro ao criar o contato: ' . $e->getMessage());
         }
+    }
+
+
+private function verifyRecaptcha($recaptchaToken)
+    {
+        $secretKey = env('RECAPTCHA_SECRET_KEY'); // Certifique-se de usar a chave correta
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $secretKey,
+            'response' => $recaptchaToken,
+        ]);
+
+        return $response->json();
     }
 
     public function update(Request $request, Contact $contact)

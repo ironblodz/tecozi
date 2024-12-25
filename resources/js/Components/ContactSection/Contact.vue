@@ -133,6 +133,7 @@
                                 class="bg-primary-default text-white p-3 rounded-xl hover:bg-primary-dark transition-colors w-full lg:w-auto">
                                 Enviar Mensagem
                             </button>
+                            <input type="hidden" v-model="form.recaptcha_token" />
                         </div>
                     </form>
 
@@ -163,51 +164,58 @@ import axios from 'axios';
 export default {
     name: "Contacts",
     setup() {
-        // Definindo o objeto `form` como um `ref` reativo
+        // Formulário e erros
         const form = ref({
             first_name: '',
             nickname: '',
             email: '',
             phone: '',
             subject: '',
-            message: ''
+            message: '',
+            recaptcha_token: ''
         });
 
-        // Definindo um objeto para armazenar os erros de validação
-        const errors = ref({
-            first_name: '',
-            nickname: '',
-            email: '',
-            phone: '',
-            subject: '',
-            message: ''
-        });
+        const errors = ref({});
 
-        // Função para submeter o formulário
+        const getRecaptchaToken = async () => {
+            return new Promise((resolve, reject) => {
+                if (!window.grecaptcha) {
+                    return reject(new Error("reCAPTCHA não está disponível."));
+                }
+
+                window.grecaptcha.ready(() => {
+                    window.grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, { action: 'submit' })
+                        .then(resolve)
+                        .catch(reject);
+                });
+            });
+        };
+
+        // Submeter o formulário
         const submitForm = async () => {
-            // Limpar erros anteriores
             errors.value = {};
 
             try {
-                console.log(form.value); // Verifique os dados do formulário
+                // Obter o token do reCAPTCHA
+                form.value.recaptcha_token = await getRecaptchaToken();
+
+                // Enviar os dados para o backend
                 const response = await axios.post('/backoffice/contacts/store', form.value);
 
                 if (response.status === 200) {
                     alert('Mensagem enviada com sucesso!');
-                    // Limpar o formulário após o envio
                     form.value = {
                         first_name: '',
                         nickname: '',
                         email: '',
                         phone: '',
                         subject: '',
-                        message: ''
+                        message: '',
+                        recaptcha_token: ''
                     };
                 }
             } catch (error) {
-                // Verificar se houve erro de validação (422)
                 if (error.response && error.response.status === 422) {
-                    // Preencher os erros a partir da resposta da validação
                     errors.value = error.response.data.errors;
                 } else {
                     console.error('Erro ao enviar o formulário:', error);
@@ -216,15 +224,27 @@ export default {
             }
         };
 
-
         return {
             form,
             submitForm,
-            errors // Expor os erros para o template
+            errors
         };
+
+    },
+
+    mounted() {
+        const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY; // Substituído corretamente
+
+        // Carregar o script do reCAPTCHA com a Site Key do ambiente
+        const script = document.createElement('script');
+        script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
     }
 };
 </script>
+
 
 
 <style scoped>
