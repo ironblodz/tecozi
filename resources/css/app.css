@@ -5,4 +5,13 @@
 @tailwind components; /* Component styles from Tailwind CSS */
 @tailwind utilities; /* Utility classes from Tailwind CSS */
 
-/* Estilos personalizados podem ser adicionados aqui */
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  body.loaded {
+    overflow: auto;
+  }
