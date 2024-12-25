@@ -82,24 +82,23 @@ Route::get('/', function () {
 
 Route::get('/about', function () {
     return Inertia::render('About');
-});
+})->name('about');
 
 Route::get('/services', function () {
     return Inertia::render('Services');
-});
+})->name('services');
 
 Route::get('/materials', function () {
     return Inertia::render('Material');
-});
+})->name('materials');
 
 Route::get('/contacts', function () {
     return Inertia::render('Contact');
-});
+})->name('contacts');
 
 Route::get('/portfolio', function () {
     return Inertia::render('Portfolio');
-});
-
+})->name('portfolio');
 
 
 require __DIR__.'/auth.php';

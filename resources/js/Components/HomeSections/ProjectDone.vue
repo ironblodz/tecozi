@@ -2,7 +2,7 @@
     <section>
         <div class="container mx-auto w-full grid grid-col justify-center items-center xl:mt-10">
             <div class="flex flex-col  z-20">
-                <p class="text-base xl:text-xl text-center mt-10">
+                <p class="text-base xl:text-lg text-center mt-10">
                     {{ $t('projectdone.paragraph') }}
                 </p>
                 <h1 class="text-xl xl:text-3xl text-center text-primary-default mt-10">
@@ -18,7 +18,7 @@
             <img :src="user" class="w-20 absolute -top-10 left-1/2 transform -translate-x-1/2 transition-opacity duration-300 opacity-100 group-hover:opacity-0" alt="user">
 
             <!-- Título que será oculto no hover -->
-            <h2 class="text-white text-center text-base xl:text-xl mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.visite') }}</h2>
+            <h2 class="text-white text-center text-base xl:text-lg mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.visite') }}</h2>
 
             <!-- Descrição que aparece no hover -->
             <p class="absolute inset-0 flex items-center justify-center text-white text-sm xl:text-base px-6 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -31,7 +31,7 @@
 
         <div class="card-body relative">
             <img :src="ruler" class="w-20 absolute -top-10 left-1/2 transform -translate-x-1/2 transition-opacity duration-300 opacity-100 group-hover:opacity-0" alt="ruler">
-            <h2 class="text-white text-center text-base xl:text-xl mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.project') }}</h2>
+            <h2 class="text-white text-center text-base xl:text-lg mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.project') }}</h2>
             <p class="absolute inset-0 flex items-center justify-center text-white text-center text-sm xl:text-base px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {{ $t('projectdone.projectp') }}
             </p>
@@ -42,7 +42,7 @@
 
         <div class="card-body relative">
             <img :src="tape" class="w-20 absolute -top-10 left-1/2 transform -translate-x-1/2 transition-opacity duration-300 opacity-100 group-hover:opacity-0" alt="tape">
-            <h2 class="text-white text-center text-base xl:text-xl mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.retification') }}</h2>
+            <h2 class="text-white text-center text-base xl:text-lg mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.retification') }}</h2>
             <p class="absolute inset-0 flex items-center justify-center text-white text-center text-sm xl:text-base px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {{ $t('projectdone.retificationp') }}
             </p>
@@ -53,7 +53,7 @@
 
         <div class="card-body relative">
             <img :src="drill" class="w-20 absolute -top-10 left-1/2 transform -translate-x-1/2 transition-opacity duration-300 opacity-100 group-hover:opacity-0" alt="drill">
-            <h2 class="text-white text-center text-base xl:text-xl mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.execution') }}</h2>
+            <h2 class="text-white text-center text-base xl:text-lg mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.execution') }}</h2>
             <p class="absolute inset-0 flex items-center justify-center text-white text-center text-sm xl:text-base px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {{ $t('projectdone.executionp') }}
             </p>
@@ -64,7 +64,7 @@
 
         <div class="card-body relative">
             <img :src="kitchen" class="w-20 absolute -top-10 left-1/2 transform -translate-x-1/2 transition-opacity duration-300 opacity-100 group-hover:opacity-0" alt="kitchen">
-            <h2 class="text-white text-center text-base xl:text-xl mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.finishes') }}</h2>
+            <h2 class="text-white text-center text-base xl:text-lg mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.finishes') }}</h2>
             <p class="absolute inset-0 flex items-center justify-center text-white text-center text-sm xl:text-base px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {{ $t('projectdone.finishesp') }}
             </p>
@@ -75,7 +75,7 @@
 
         <div class="card-body relative">
             <img :src="premier" class="w-20 absolute -top-10 left-1/2 transform -translate-x-1/2 transition-opacity duration-300 opacity-100 group-hover:opacity-0" alt="premier">
-            <h2 class="text-white text-center text-base xl:text-xl mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.sells') }}</h2>
+            <h2 class="text-white text-center text-base xl:text-lg mt-7 transition-opacity duration-300 opacity-100 group-hover:opacity-0">{{ $t('projectdone.sells') }}</h2>
             <p class="absolute inset-0 flex items-center justify-center text-white text-center text-sm xl:text-base px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {{ $t('projectdone.sellsp') }}
             </p>

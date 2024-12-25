@@ -11,7 +11,7 @@
                     {{ $t('carrousel.carrouselp') }}
                 </p>
                 <button class="rounded-full bg-primary-default text-white py-2 px-8 text-sm md:text-base">
-                    {{ $t('carrousel.readmore') }}
+                   <a :href="route('services')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
             <div class="absolute left-4 right-4 top-[72%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
@@ -35,7 +35,7 @@
                     {{ $t('carrousel.carrousel2p') }}
                 </p>
                 <button class="rounded-full bg-primary-default text-white py-2 px-8 text-sm md:text-base">
-                    {{ $t('carrousel.readmore') }}
+                   <a :href="route('materials')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
             <div class="absolute left-4 right-4 top-[72%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
@@ -59,7 +59,7 @@
                     {{ $t('carrousel.carrousel3p') }}
                 </p>
                 <button class="rounded-full bg-primary-default text-white py-2 px-8 text-sm md:text-base">
-                    {{ $t('carrousel.readmore') }}
+                   <a :href="route('portfolio')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
             <div class="absolute left-4 right-4 top-[72%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
@@ -83,7 +83,7 @@
                     {{ $t('carrousel.carrousel4p') }}
                 </p>
                 <button class="rounded-full bg-primary-default text-white py-2 px-8 text-sm md:text-base">
-                    {{ $t('carrousel.readmore') }}
+                   <a :href="route('contacts')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
             <div class="absolute left-4 right-4 top-[72%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">

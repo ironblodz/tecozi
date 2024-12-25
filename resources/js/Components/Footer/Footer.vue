@@ -31,11 +31,11 @@
       <!-- Páginas -->
       <nav class="flex flex-col items-center md:items-start" aria-label="páginas">
         <h6 class="text-base xl:text-lg text-left md:text-left text-white font-bold">Páginas</h6>
-        <a class="text-white text-base xl:text-lg text-center md:text-left">Sobre Nós</a>
-        <a class="text-white text-base xl:text-lg text-center md:text-left">Serviços</a>
-        <a class="text-white text-base xl:text-lg text-center md:text-left">Materiais</a>
-        <a class="text-white text-base xl:text-lg text-center md:text-left">Portfólio</a>
-        <a class="text-white text-base xl:text-lg text-center md:text-left">Contactos</a>
+        <a :href="route('about')" class="text-white text-base xl:text-lg text-center md:text-left hover:underline ">Sobre Nós</a>
+        <a :href="route('services')" class="text-white text-base xl:text-lg text-center md:text-left hover:underline ">Serviços</a>
+        <a :href="route('materials')" class="text-white text-base xl:text-lg text-center md:text-left hover:underline ">Materiais</a>
+        <a :href="route('portfolio')" class="text-white text-base xl:text-lg text-center md:text-left hover:underline ">Portfólio</a>
+        <a :href="route('contacts')" class="text-white text-base xl:text-lg text-center md:text-left hover:underline ">Contactos</a>
       </nav>
 
       <!-- Kitchen Image -->

@@ -127,7 +127,7 @@
             </div>
 
             <blockquote class="text-center mb-10">
-                <p class="font-bold text-base xl:text-xl">"A qualidade nunca é um acidente; é sempre o resultado de um
+                <p class="font-bold text-base xl:text-lg">"A qualidade nunca é um acidente; é sempre o resultado de um
                     esforço inteligente."</p>
                 <cite>— John Ruskine</cite>
             </blockquote>

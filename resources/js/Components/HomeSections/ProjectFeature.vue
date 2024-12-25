@@ -8,7 +8,7 @@
                         {{ $t('projectsfeactures.projectscc') }}
                     </span>
                 </h1>
-                <p class="text-base xl:text-xl mt-8 text-center" v-html="$t('projectsfeactures.projectsp')"></p>
+                <p class="text-base xl:text-lg mt-8 text-center" v-html="$t('projectsfeactures.projectsp')"></p>
             </div>
             <!-- Iterando sobre os projetos destacados -->
             <div v-if="featuredProjects.length > 0"
@@ -29,15 +29,15 @@
                     </p>
                 </div>
             </div>
-            <p class="text-center text-primary-default text-bold text-base xl:text-xl mt-7" v-else>Carregando projetos
+            <p class="text-center text-primary-default text-bold text-base xl:text-lg mt-7" v-else>Carregando projetos
                 ou nenhum projeto encontrado.</p>
         </div>
 
         <!-- Modal para exibir a imagem em tamanho grande -->
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
             <div class="relative group">
-                <img :src="selectedImage" alt="Imagem do projeto"
-                    class="max-w-full max-h-screen xl:w-[900px] xl:h-[750px] rounded-lg" />
+                <img :src="selectedImage" alt="Imagem do projeto" class="rounded-lg"
+                    style="max-width: none; max-height: none;" />
                 <!-- Texto sobreposto -->
                 <div
                     class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -114,5 +114,4 @@ export default {
     opacity: 1;
     border-radius: 5%;
 }
-
 </style>

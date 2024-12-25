@@ -83,7 +83,7 @@
                                 <img :src="Fase1" alt="Fase 1" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-base xl:text-xl">Após contacto, combinamos uma primeira visita à obra
+                                <p class="text-base xl:text-lg">Após contacto, combinamos uma primeira visita à obra
                                     para recolher
                                     medidas e as ideias do cliente.</p>
                             </div>
@@ -95,7 +95,7 @@
                                 <img :src="Fase2" alt="Fase 2" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-base xl:text-xl">Apresentamos o projeto 3D e os materiais, seguido de uma
+                                <p class="text-base xl:text-lg">Apresentamos o projeto 3D e os materiais, seguido de uma
                                     proposta orçamentária personalizada.</p>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                                 <img :src="Fase3" alt="Fase 3" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-base xl:text-xl">Após a adjudicação voltamos à obra para retificar todas
+                                <p class="text-base xl:text-lg">Após a adjudicação voltamos à obra para retificar todas
                                     as
                                     medidas.</p>
                             </div>
@@ -118,7 +118,7 @@
                                 <img :src="Fase4" alt="Fase 4" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-base xl:text-xl">Após definir todos os pormenores e prazos, realizamos e
+                                <p class="text-base xl:text-lg">Após definir todos os pormenores e prazos, realizamos e
                                     instalamos conforme combinado.</p>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
                                 <img :src="Fase5" alt="Fase 5" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-base xl:text-xl">Realizamos acabamentos cuidados em cada obra para um
+                                <p class="text-base xl:text-lg">Realizamos acabamentos cuidados em cada obra para um
                                     melhor resultado.</p>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                                 <img :src="Fase6" alt="Fase 6" class="w-10 h-10" />
                             </div>
                             <div class="ml-4 mt-2 w-full">
-                                <p class="text-base xl:text-xl">Asseguramos um serviço pós-venda de qualidade e sempre
+                                <p class="text-base xl:text-lg">Asseguramos um serviço pós-venda de qualidade e sempre
                                     disponível.</p>
                             </div>
                         </div>
@@ -160,11 +160,13 @@
                         <h1 class="text-2xl xl:text-3xl text-center xl:text-left text-primary-default z-50">
                             Perguntas Frequentes <span class="text-secondary-default text-2xl xl:text-3xl">(Faqs)</span>
                         </h1>
-                        <p class="text-xl mt-8 text-center xl:text-left z-50">
+                        <p class="text-base xl:text-lg mt-8 text-center xl:text-left z-50">
                             Encontre as respostas para as perguntas mais comuns sobre nossos serviços e processos.
                         </p>
                         <button
-                            class="bg-primary-default text-xl text-white rounded-full mt-5 mb-5 p-2 w-64 z-50">Contactar</button>
+                            class="bg-primary-default text-base xl:text-lg text-white rounded-full mt-5 mb-5 p-2 w-64 z-50">
+                            <a :href="route('contacts')">Contactar</a>
+                        </button>
                     </div>
                 </div>
 
@@ -174,7 +176,7 @@
                     <div class="bg-slate-50 px-6 mb-2 w-full xl:max-w-5xl rounded-md">
                         <button @click="toggle(1)"
                             class="w-full text-left py-4 text-xl font-semibold focus:outline-none flex items-center justify-between">
-                            <span class="text-md">O que é a carpintaria por medida?</span>
+                            <span class="text-base xl:text-lg">O que é a carpintaria por medida?</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                 :class="{ 'rotate-90': activeIndex === 1 }" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -183,7 +185,7 @@
                             </svg>
                         </button>
                         <div v-if="activeIndex === 1"
-                            class="text-xl xl:text-xl py-4 text-gray-700 transition-all duration-300">
+                            class="text-base xl:text-lg py-4 text-gray-700 transition-all duration-300">
                             É o serviço de criar móveis personalizados que se ajustam perfeitamente ao espaço e às
                             necessidades específicas de cada cliente.
                         </div>
@@ -191,7 +193,7 @@
                     <div class="bg-slate-50 px-6 mb-2 w-full xl:max-w-5xl rounded-md">
                         <button @click="toggle(2)"
                             class="w-full text-left py-4 text-xl font-semibold focus:outline-none flex items-center justify-between">
-                            <span class="text-md">Quais as vantagens de ser desenvolvido à medida?</span>
+                            <span class="text-base xl:text-lg">Quais as vantagens de ser desenvolvido à medida?</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                 :class="{ 'rotate-90': activeIndex === 2 }" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -199,7 +201,7 @@
                                     d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
-                        <div v-if="activeIndex === 2" class="text-xl py-4 text-gray-700 transition-all duration-300">
+                        <div v-if="activeIndex === 2" class="text-base xl:text-lg py-4 text-gray-700 transition-all duration-300">
                             As principais vantagens incluem a otimização do espaço, personalização do design, escolha
                             dos materiais e a possibilidade de criar um ambiente único que reflete o seu estilo e
                             necessidades
@@ -209,7 +211,7 @@
                     <div class="bg-slate-50 px-6 mb-2 w-full  xl:max-w-5xl rounded-md">
                         <button @click="toggle(3)"
                             class="w-full text-left py-4 text-xl font-semibold focus:outline-none flex items-center justify-between">
-                            <span>Posso ver exemplos de trabalhos realizados?</span>
+                            <span class="text-base xl:text-lg">Posso ver exemplos de trabalhos realizados?</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                 :class="{ 'rotate-90': activeIndex === 3 }" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -217,15 +219,15 @@
                                     d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
-                        <div v-if="activeIndex === 3" class="text-xl py-4 text-gray-700 transition-all duration-300">
+                        <div v-if="activeIndex === 3" class="text-base xl:text-lg py-4 text-gray-700 transition-all duration-300">
                             Sim, temos um portfólio de projetos que pode consultar aqui no nosso site. Ajudá-lo-á a
                             inspirar-se para o seu projeto.
                         </div>
                     </div>
                     <div class="bg-slate-50 px-6 mb-2 w-full  xl:max-w-5xl rounded-md">
                         <button @click="toggle(4)"
-                            class="w-full text-left py-4 text-xl font-semibold focus:outline-none flex items-center justify-between">
-                            <span> Como devo limpar a minha cozinha nova?
+                            class="w-full text-left py-4 text-base xl:text-lg font-semibold focus:outline-none flex items-center justify-between">
+                            <span class="text-base xl:text-lg"> Como devo limpar a minha cozinha nova?
                             </span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                 :class="{ 'rotate-90': activeIndex === 4 }" fill="none" viewBox="0 0 24 24"
@@ -234,15 +236,15 @@
                                     d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
-                        <div v-if="activeIndex === 4" class="text-xl py-4 text-gray-700 transition-all duration-300">
+                        <div v-if="activeIndex === 4" class="text-base xl:text-lg py-4 text-gray-700 transition-all duration-300">
                             Nas cozinhas termolaminadas pode usar um pano húmido (com pouca água) e detergente neutro,
                             isento de componentes agressivos/ abrasivos, passe de seguida um pano seco.
                         </div>
                     </div>
                     <div class="bg-slate-50 px-6 py-3 mb-2 w-full  xl:max-w-5xl rounded-md">
                         <button @click="toggle(5)"
-                            class="w-full text-left py-4 text-xl font-semibold focus:outline-none flex items-center justify-between">
-                            <span> O vosso serviço inclui as obras no espaço?</span>
+                            class="w-full text-left py-4 text-base xl:text-lg font-semibold focus:outline-none flex items-center justify-between">
+                            <span class="text-base xl:text-lg"> O vosso serviço inclui as obras no espaço?</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                 :class="{ 'rotate-90': activeIndex === 5 }" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -250,7 +252,7 @@
                                     d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
-                        <div v-if="activeIndex === 5" class="text-xl py-4 text-gray-700 transition-all duration-300">
+                        <div v-if="activeIndex === 5" class="text-base xl:text-lg py-4 text-gray-700 transition-all duration-300">
                             Não efetuamos a obras de estrutura, de canalização nem de instalações elétricas. Asseguramos
                             a instalação de móveis desenhados para o espaço comunicando com o empreiteiro, também
                             asseguramos as ligações de equipamentos incluídos no projeto desde que a instalação esteja
