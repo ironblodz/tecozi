@@ -4,13 +4,13 @@
             <img :src="wallpaperkitchen" alt="kitchen" class="absolute transform scale-x-[-1]">
             <div class="bg-gray-100 rounded-lg pt-10 pb-20">
                 <div class="flex flex-col items-center px-4 z-20">
-                <h1 class="text-xl xl:text-3xl text-center text-primary-default">
+                <h1 class="text-xl xl:text-3xl text-center text-primary-default z-20">
                     {{ $t('projectsfeactures.projects') }}
-                    <span class="text-secondary-default text-xl xl:text-3xl">
+                    <span class="text-secondary-default text-xl xl:text-3xl z-20">
                         {{ $t('projectsfeactures.projectscc') }}
                     </span>
                 </h1>
-                <p class="text-base xl:text-lg mt-8 text-center" v-html="$t('projectsfeactures.projectsp')"></p>
+                <p class="text-base xl:text-lg mt-8 text-center z-20" v-html="$t('projectsfeactures.projectsp')"></p>
             </div>
             <!-- Iterando sobre os projetos destacados -->
             <div v-if="featuredProjects.length > 0"
