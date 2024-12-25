@@ -1,7 +1,7 @@
 <template>
     <section class="container mx-auto">
         <div class="mt-16 xl:mt-20 mx-auto xl:max-w-6xl">
-            <div class="flex flex-col items-center xl:items-start z-20">
+            <div class="flex flex-col items-center xl:items-start z-20 mb-4">
                 <h1 class="text-2xl xl:text-3xl text-left text-primary-default mt-12">Portfólio de <span
                         class="text-secondary-default text-2xl xl:text-3xl">Projetos realizados</span></h1>
             </div>
@@ -9,13 +9,18 @@
                 <div class="relative flex items-center mx-5 px-10 bg-gray-100 xl:h-[650px] rounded-lg xl:mt-[24px]">
                     <!-- Imagem de fundo -->
                     <img class="absolute inset-0 w-full h-full object-cover rounded-lg z-0" :src="KitchenWallpaperGrey"
-                        alt="Background">
+                        alt="Background" />
 
                     <!-- Botões de categorias -->
                     <div class="relative z-10 flex flex-col w-full xl:h-full items-center py-4 bg-opacity-70 mt-2">
                         <div class="flex flex-row xl:flex-col">
-                            <button type="button" @click="filterByCategory(null)"
-                                class="text-white border border-primary-default bg-primary-default hover:border-primary-default focus:ring-4 focus:outline-none rounded-full text-base xl:text-xl font-medium px-1 xl:px-10 mx-1 py-1 text-center mb-3 w-full">
+                            <!-- Botão 'Todos' -->
+                            <button type="button" @click="filterByCategory(null)" :class="[
+                                'text-base xl:text-xl font-medium px-2 xl:px-1 mr-2 py-1 text-center mb-3 w-full rounded-full',
+                                selectedCategory === null
+                                    ? 'text-white bg-primary-default border-primary-default'
+                                    : 'text-black border bg-gray-300'
+                            ]">
                                 Todos
                             </button>
 
@@ -31,8 +36,12 @@
                             <!-- Categorias carregadas -->
                             <div v-else>
                                 <div v-for="category in categories" :key="category.id">
-                                    <button @click="filterByCategory(category.id)"
-                                        class="text-black border bg-gray-300 focus:ring-4 focus:outline-none rounded-full text-base xl:text-xl font-medium px-10 py-1 text-center mb-3 w-full">
+                                    <button @click="filterByCategory(category.id)" :class="[
+                                        'text-base xl:text-xl font-medium px-10 py-1 text-center mb-3 w-full rounded-full',
+                                        selectedCategory === category.id
+                                            ? 'text-white bg-primary-default border-primary-default'
+                                            : 'text-black border bg-gray-300'
+                                    ]">
                                         {{ category.name }}
                                     </button>
                                 </div>
@@ -136,6 +145,7 @@ const isLoading = ref(true); // Estado de carregamento
 export default {
     name: "Portfolios",
     setup() {
+        // Refs e estados
         const projects = ref([]);
         const filteredProjects = ref([]);
         const categories = ref([]);
@@ -144,6 +154,7 @@ export default {
         const itemsPerPage = 15;
         const showModal = ref(false); // Controla a visibilidade do modal
         const selectedImage = ref(null); // Armazena a imagem selecionada
+        const selectedCategory = ref(null); // Categoria selecionada
 
         // Método para buscar os projetos e categorias
         const fetchProjectsAndCategories = async () => {
@@ -201,10 +212,13 @@ export default {
 
         // Função para filtrar projetos por categoria
         const filterByCategory = (categoryId) => {
+            selectedCategory.value = categoryId; // Define a categoria selecionada
             if (categoryId === null) {
                 filteredProjects.value = [...projects.value]; // Todos os projetos
             } else {
-                filteredProjects.value = projects.value.filter(project => project.category_id === categoryId);
+                filteredProjects.value = projects.value.filter(
+                    project => project.category_id === categoryId
+                );
             }
             currentPage.value = 1; // Resetar a página ao aplicar filtro
         };
@@ -233,6 +247,7 @@ export default {
             pageNumbers,
             goToPage,
             filteredProjects,
+            selectedCategory, // Adiciona a categoria selecionada
             filterByCategory,
             showModal,
             selectedImage,

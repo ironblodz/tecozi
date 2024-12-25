@@ -2,12 +2,12 @@
     <section>
         <div class="container mx-auto w-full grid grid-col justify-center items-center my-24">
             <div class="flex flex-col md:flex-row justify-center items-start mx-10">
-                <div class="flex-1">
-                    <h1 class="text-3xl md:text-5xl text-primary-default mt-10 mb-5">
+                <div class="flex-1 text-center xl:text-left">
+                    <h1 class="text-2xl xl:text-3xl text-primary-default mt-10 mb-5">
                         A nossa
-                        <span class="text-secondary-default">História</span>
+                        <span class="text-secondary-default text-2xl xl:text-3xl">História</span>
                     </h1>
-                    <p class="text-base text-justify mb-10 max-w-[900px]">
+                    <p class="text-base xl:text-xl mb-10 max-w-[900px] text-center xl:text-left">
                         Somos uma empresa familiar, iniciámos a nossa atividade
                         em 2010. A paixão pela área, o profissionalismo e o
                         rigor do nosso gerente, tornou-nos numa referência de
@@ -17,85 +17,88 @@
                         Roupeiros, focada na satisfação dos nossos clientes.
                     </p>
                 </div>
-                <div class="absolute top-28 right-2">
+                <div class="absolute xl:top-28 xl:right-2 right-4 hidden xl:block">
                     <img :src="KitchenWallpaper" alt="kitchen" class="w-full h-auto object-cover" />
                 </div>
             </div>
             <div class="flex flex-col items-start mx-10">
                 <div class="mb-5">
-                    <h1 class="text-3xl md:text-5xl text-secondary-default mb-5">
+                    <h1 class="text-2xl xl:text-3xl text-secondary-default mb-5 text-center xl:text-left">
                         Equipa
                     </h1>
-                    <p class="text-base">
+                    <p class="text-base xl:text-xl text-center xl:text-left">
                         Profissionais atentos desde o início ao fim de cada
                         projeto
                     </p>
                 </div>
-                <div class="flex flex-col gap-8 lg:flex-row">
+                <div class="flex flex-col gap-4 lg:flex-row">
                     <div class="flex flex-wrap justify-center mt-5">
-                        <div class="card card-compact bg-base-200 w-80 shadow-xl flex flex-row">
-                            <div class="card-body w-1/2">
-                                <h2 class="text-base text-center bg-primary-default rounded-full text-white px-2">
+                        <div class="card card-compact bg-base-200 w-[22rem] shadow-xl flex flex-row">
+                            <div class="card-body w-[80%]">
+                                <h2 class="text-base xl:text-xl text-center bg-primary-default rounded-full text-white px-2">
                                     Dinis Barros
                                 </h2>
-                                <p class="font-bold text-center">Gerente</p>
-                                <p class="text-center">
+                                <span class="font-bold text-center text-base xl:text-xl">Gerente</span>
+                                <p class="text-center text-base xl:text-xl">
                                     Responsável pela produção
                                 </p>
                             </div>
-                            <figure class="w-1/2">
-                                <img :src="Dinis" alt="Dinis" class="w-38 p-2 h-full object-cover" />
+                            <figure class="w-[70%]">
+                                <img :src="Dinis" alt="Dinis"
+                                    class="w-38 p-2 h-[80%] object-cover border border-primary-default rounded-full" />
                             </figure>
                         </div>
                     </div>
                     <div class="flex flex-wrap justify-center mt-5">
-                        <div class="card card-compact bg-base-200 w-80 shadow-xl flex flex-row">
+                        <div class="card card-compact bg-base-200 w-[22rem] shadow-xl flex flex-row">
                             <div class="card-body w-1/2">
-                                <h2 class="text-base text-center bg-primary-default rounded-full text-white px-2">
+                                <h2 class="text-base xl:text-xl text-center bg-primary-default rounded-full text-white px-2">
                                     Paula Nunes
                                 </h2>
-                                <p class="font-bold text-center">Gerente</p>
-                                <p class="text-center">
+                                <span class="font-bold text-center text-base xl:text-xl">Gerente</span>
+                                <p class="text-center text-base xl:text-xl">
                                     Responsável Financeira, Orçamentação
                                 </p>
                             </div>
                             <figure class="w-1/2">
-                                <img :src="Paula" alt="Paula" class="w-38 p-2 h-full object-cover" />
+                                <img :src="Paula" alt="Paula"
+                                    class="w-38 p-2 h-[85%] object-cover border border-primary-default rounded-full" />
                             </figure>
                         </div>
                     </div>
                     <div class="flex flex-wrap justify-center mt-5">
-                        <div class="card card-compact bg-base-200 w-80 shadow-xl flex flex-row">
+                        <div class="card card-compact bg-base-200 w-[22rem] shadow-xl flex flex-row">
                             <div class="card-body w-1/2 mt-10">
-                                <h2 class="text-base text-center bg-primary-default rounded-full text-white px-2">
+                                <h2 class="text-base xl:text-xltext-center bg-primary-default rounded-full text-white px-2">
                                     Joana Barros
                                 </h2>
-                                <p class="text-center">Administrativa</p>
+                                <p class="text-center text-base xl:text-xl">Administrativa</p>
                             </div>
                             <figure class="w-1/2">
-                                <img :src="Joana" alt="Joana" class="w-38 p-2 h-full object-cover" />
+                                <img :src="Joana" alt="Joana"
+                                    class="w-38 p-2 h-[85%] object-cover border border-primary-default rounded-full" />
                             </figure>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row justify-center mt-10">
                     <!-- Cartão de Missão -->
-                    <div class="flex flex-wrap justify-center mt-5">
-                        <div class="card card-compact bg-primary-default w-full md:w-[730px] h-auto shadow-xl flex flex-row transition-all duration-300 transform"
-                            :class="{ 'md:w-[1200px]': activeCard === 'missao' }" @click="toggleCards('missao')">
-                            <div class="container mx-auto flex flex-col md:flex-row items-start gap-6 px-4 py-4">
+                    <div class="flex flex-wrap justify-center xl:mt-4 xl:pr-4">
+                        <div
+                            class="card card-compact bg-primary-default w-full xl:w-[750px] h-auto shadow-xl flex flex-row transition-all duration-300 ease-in-out transform">
+                            <div
+                                class="container mx-auto flex flex-col md:flex-row items-center justify-center gap-6 px-4 py-4">
                                 <!-- Ícone e Título -->
-                                <div class="flex flex-col items-center w-full md:w-1/4">
+                                <div class="flex flex-col items-center justify-center w-1/5">
                                     <img :src="Goal_White" alt="Missao" class="w-16 mb-2" />
-                                    <h2 class="text-lg text-center text-white font-bold">Missão</h2>
+                                    <h2 class="text-lg text-white font-bold text-center">Missão</h2>
                                 </div>
                                 <!-- Parágrafo -->
-                                <div class="text-base text-white text-left pt-5 w-full md:w-2/3 lg:w-3/4 xl:w-[80%]">
-                                    <p v-if="activeCard === 'missao'">
-                                        Estamos comprometidos em oferecer soluções personalizadas e de alta qualidade
-                                        que atendam às
-                                        necessidades dos nossos clientes, sempre com foco na excelência e na satisfação
-                                        total.
+                                <div
+                                    class="text-base xl:text-xl text-white text-center xl:text-left xl:pt-2 w-full xl:w-[80%]">
+                                    <p>
+                                        Projetar, fabricar e assentar móveis que combinam qualidade, design durabilidade
+                                        e funcionalidade para o dia-a-dia.
                                     </p>
                                 </div>
                             </div>
@@ -104,29 +107,35 @@
 
                     <!-- Cartão de Visão -->
                     <div class="flex flex-wrap justify-center mt-5">
-                        <div class="card card-compact bg-base-200 w-full md:w-[290px] h-auto shadow-xl flex flex-row transition-all duration-300 transform"
-                            :class="{ 'md:w-[300px]': activeCard !== 'visao' }" @click="toggleCards('visao')">
-                            <div class="container mx-auto flex flex-col justify-center items-center my-5">
-                                <img :src="Eye" alt="Visão" class="w-14 mb-5" />
-                                <h2 class="text-base text-center text-primary-default font-bold px-2">
-                                    Visão
-                                </h2>
-                                <p class="text-center text-base pt-3" v-if="activeCard === 'visao'">
-                                    A nossa visão é ser a referência em soluções
-                                    personalizadas, reconhecida pela qualidade e
-                                    inovação que oferecemos aos nossos clientes.
-                                </p>
+                        <div
+                            class="card card-compact bg-gray-100 w-full xl:w-[700px] h-auto shadow-xl flex flex-row transition-all duration-300 ease-in-out transform">
+                            <div
+                                class="container mx-auto flex flex-col md:flex-row items-center justify-center gap-6 px-4 py-4">
+                                <!-- Ícone e Título -->
+                                <div class="flex flex-col items-center justify-center w-1/5">
+                                    <img :src="Eye" alt="Visão" class="w-16 mb-2" />
+                                    <h2 class="text-lg text-black font-bold text-center">Visão</h2>
+                                </div>
+                                <!-- Parágrafo -->
+                                <div
+                                    class="text-base xl:text-xl text-black xl:text-left xl:pt-2 w-full xl:w-[80%] text-center">
+                                    <p>
+                                        Combinar produtos de qualidade e ser a preferência dos nossos clientes.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="flex flex-col justify-center items-center mt-20">
                     <div class="mb-5">
-                        <h1 class="text-3xl md:text-5xl text-primary-default mb-5">
+                        <h1 class="text-2xl xl:text-3xl text-primary-default mb-5 text-center xl:text-left">
                             Os nossos
-                            <span class="text-3xl md:text-5xl text-secondary-default">Valores</span>
+                            <span
+                                class="text-2xl xl:text-3xl text-secondary-default text-center xl:text-left">Valores</span>
                         </h1>
-                        <p class="text-base">
+                        <p class="text-base xl:text-xl text-center xl:text-left">
                             No cumprimento da sua missão, a Tecozi e os seus
                             profissionais perfilham os seguintes valores e
                             princípios:
@@ -134,16 +143,14 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-5">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-5">
                     <!-- Card 1: Missão -->
-                    <div class="card card-compact bg-base-200 shadow-xl p-5 text-left">
-                        <div class="items-start">
+                    <div
+                        class="card card-compact w-full h-[220px] xl:w-[350px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
+                        <div class="flex flex-col items-center xl:items-start xl:justify-center">
                             <img :src="Client" alt="Missão" class="w-14 h-14 mb-4" />
-                            <h2 class="text-base font-bold text-primary-default mb-2">
-                                Missão
-                            </h2>
-                            <p class="text-base">
-                                <strong>(A) Satisfação do Cliente -</strong>
+                            <p class="text-base xl:text-xl text-center xl:text-left">
+                                <strong>(A) Satisfação do Cliente -</strong> <br>
                                 Estamos focados nas necessidades e expectativas
                                 dos nossos clientes, proporcionando soluções e
                                 projetos personalizados.
@@ -152,28 +159,24 @@
                     </div>
 
                     <!-- Card 2: Visão -->
-                    <div class="card card-compact bg-base-200 shadow-xl p-5 text-left">
-                        <div class="items-start">
+                    <div
+                        class="card card-compact w-full h-[170px] xl:w-[350px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
+                        <div class="flex flex-col items-center xl:items-start xl:justify-center">
                             <img :src="HandShake" alt="Visão" class="w-14 h-14 mb-4" />
-                            <h2 class="text-base font-bold text-primary-default mb-2">
-                                Visão
-                            </h2>
-                            <p class="text-base">
-                                <strong>(B) Confiança -</strong> Valorizamos uma
+                            <p class="text-base xl:text-xl text-center xl:text-left">
+                                <strong>(B) Confiança -</strong> <br> Valorizamos uma
                                 relação de confiança com clientes e parceiros.
                             </p>
                         </div>
                     </div>
 
                     <!-- Card 3: Qualidade -->
-                    <div class="card card-compact bg-base-200 shadow-xl p-5 text-left">
-                        <div class="items-start">
+                    <div
+                        class="card card-compact w-full h-[190px] xl:w-[350px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
+                        <div class="flex flex-col items-center xl:items-start xl:justify-center">
                             <img :src="Guarantee" alt="Qualidade" class="w-14 h-14 mb-4" />
-                            <h2 class="text-base font-bold text-primary-default mb-2">
-                                Qualidade
-                            </h2>
-                            <p class="text-base">
-                                <strong>(C) Qualidade e Inovação -</strong>
+                            <p class="text-base xl:text-xl text-center xl:text-left">
+                                <strong>(C) Qualidade e Inovação -</strong> <br>
                                 Comprometemo-nos com as mais altas normas de
                                 qualidade e inovação em todos os projetos.
                             </p>
@@ -181,20 +184,18 @@
                     </div>
 
                     <!-- Card 4: Responsabilidade -->
-                    <div class="card card-compact bg-base-200 shadow-xl p-5 text-left">
-                        <div class="items-start">
-                            <img :src="Responsibility" alt="Responsabilidade" class="w-14 h-14 mb-4" />
-                            <h2 class="text-base font-bold text-primary-default mb-2">
-                                Responsabilidade
-                            </h2>
-                            <p class="text-base">
-                                <strong>(D) Responsabilidade Ambiental -</strong>
-                                Adotamos práticas responsáveis e sustentáveis
-                                em todos os aspectos do nosso negócio.
+                    <div
+                        class="card card-compact w-full h-[170px] xl:w-[350px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
+                        <div class="flex flex-col items-center xl:items-start xl:justify-center">
+                            <img :src="Business" alt="Responsabilidade" class="w-14 h-14 mb-4" />
+                            <p class="text-base xl:text-xl text-center xl:text-left">
+                                <strong>(D) Competência -</strong> <br>
+                                Profissionalismo e rigor nas diferentes fases do projeto.
                             </p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -229,15 +230,25 @@ export default {
         };
     },
     methods: {
-    toggleCards(card) {
-      this.activeCard = this.activeCard === card ? null : card;
     },
-  },
 };
 </script>
 
 <style scoped>
 .card {
-    transition: width 0.3s, transform 0.3s;
+    transition: all 0.3s ease-in-out;
+    transform-origin: center;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card.scale-105 {
+    transform: scale(1.05);
+}
+
+.card.shadow-2xl {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 </style>
