@@ -66,20 +66,19 @@
                                 :key="index">
                                 <div class="relative overflow-hidden rounded-lg shadow-lg">
                                     <!-- Imagem do projeto -->
-                                    <img @click="openModal(`/storage/${project.main_image}`)"
+                                    <img @click="openModal(project)"
                                         class="w-full h-48 object-cover transition-transform duration-500 transform group-hover:scale-110"
                                         :src="project.main_image ? `/storage/${project.main_image}` : 'default-image.jpg'"
                                         :alt="project.title" />
 
                                     <!-- Informações ao passar o mouse -->
                                     <div
-                                        class="absolute bottom-0 left-0 w-full h-[44%] bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-4 border-t-4 border-secondary-default ">
-                                        <h3 class="font-semibold text-base">
-                                            {{ project.title
-                                            }}</h3>
+                                        class="absolute bottom-0 left-0 w-full h-[44%] bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-4 border-t-4 border-secondary-default">
+                                        <h3 class="font-semibold text-base">{{ project.title }}</h3>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div v-else class="text-center mt-10">
@@ -90,15 +89,30 @@
                 </div>
             </div>
 
-            <!-- Modal para imagem em tamanho grande -->
-            <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-                <div class="relative max-w-full max-h-full">
+            <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+                @click="closeModal">
+                <div class="relative max-w-full max-h-full" @click.stop>
                     <!-- Botão de fechar -->
                     <button @click="closeModal" class="absolute top-0 right-0 text-white text-3xl p-2">
                         &times;
                     </button>
-                    <!-- Imagem em tamanho grande -->
-                    <img :src="selectedImage" alt="Imagem grande" class="max-w-full max-h-[90vh] object-contain">
+
+                    <!-- Container para imagem e informações -->
+                    <div class="relative group">
+                        <!-- Imagem em tamanho grande -->
+                        <img :src="selectedProject.main_image ? `/storage/${selectedProject.main_image}` : 'default-image.jpg'"
+                            class="w-full h-96 object-cover transition-transform duration-500 transform group-hover:scale-110"
+                            :alt="selectedProject.title" />
+
+                        <!-- Título e descrição do projeto -->
+                        <div
+                            class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 rounded-2xl">
+                            <div class="text-center text-white">
+                                <h3 class="text-2xl font-semibold">{{ selectedProject.title }}</h3>
+                                <p class="mt-2">{{ selectedProject.description }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -153,7 +167,7 @@ export default {
         const currentPage = ref(1);
         const itemsPerPage = 15;
         const showModal = ref(false); // Controla a visibilidade do modal
-        const selectedImage = ref(null); // Armazena a imagem selecionada
+        const selectedProject = ref({}); // Armazena o projeto selecionado
         const selectedCategory = ref(null); // Categoria selecionada
 
         // Método para buscar os projetos e categorias
@@ -165,16 +179,12 @@ export default {
                 const projectResponse = await axios.get('/api/portfolios');
                 const categoryResponse = await axios.get('/api/categories');
 
-                console.log('Projetos recebidos:', projectResponse.data);
-                console.log('Categorias recebidas:', categoryResponse.data);
-
                 projects.value = projectResponse.data || [];
                 filteredProjects.value = [...projects.value]; // Inicializa com todos os projetos
                 categories.value = categoryResponse.data || []; // Atualiza as categorias
 
                 isLoading.value = false; // Finaliza o carregamento
             } catch (err) {
-                console.error('Erro ao fazer a requisição:', err);
                 error.value = err.message || 'Erro desconhecido';
                 isLoading.value = false; // Finaliza o carregamento em caso de erro
             }
@@ -224,20 +234,22 @@ export default {
         };
 
         // Função para abrir o modal com a imagem
-        const openModal = (image) => {
-            selectedImage.value = image;
+        const openModal = (project) => {
+            selectedProject.value = project; // Armazena o projeto completo
             showModal.value = true;
         };
 
         // Função para fechar o modal
         const closeModal = () => {
+            console.log('Fechando modal...');
             showModal.value = false;
-            selectedImage.value = null;
+            selectedProject.value = {}; // Limpa o projeto selecionado
         };
+
+
 
         // Retornar as propriedades para o template
         return {
-            KitchenWallpaperGrey,
             projects,
             categories,
             error,
@@ -247,10 +259,11 @@ export default {
             pageNumbers,
             goToPage,
             filteredProjects,
-            selectedCategory, // Adiciona a categoria selecionada
+            selectedCategory,
             filterByCategory,
             showModal,
-            selectedImage,
+            selectedProject, // Adiciona o projeto selecionado
+            KitchenWallpaperGrey,
             openModal,
             closeModal
         };
