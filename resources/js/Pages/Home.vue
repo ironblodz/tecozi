@@ -1,14 +1,21 @@
 <template>
     <main>
-      <Preloader v-if="showPreloader" @animation-complete="onAnimationComplete" />
-      <div v-else>
-        <Navbar />
-        <Carousel />
-        <ProjectDone />
-        <ProjectFeature />
-        <ContactSection />
-        <Footer ref="footer" />
-      </div>
+      <!-- Envolva em um único transition para evitar separação -->
+      <transition name="fade">
+        <template v-if="showPreloader">
+          <Preloader @animation-complete="onAnimationComplete" />
+        </template>
+        <template v-else>
+          <div>
+            <Navbar />
+            <Carousel />
+            <ProjectDone />
+            <ProjectFeature />
+            <ContactSection />
+            <Footer ref="footer" />
+          </div>
+        </template>
+      </transition>
     </main>
   </template>
 
@@ -34,17 +41,25 @@ export default {
   },
   data() {
     return {
-      showPreloader: true,
+      showPreloader: true, // Controla a exibição do Preloader
     };
   },
   methods: {
+    // Método chamado quando o Preloader completa sua animação
     onAnimationComplete() {
       this.showPreloader = false;
+      document.body.classList.add("loaded"); // Garante que o corpo da página tenha uma classe específica
     },
   },
-  mounted() {
-  document.body.classList.add("loaded");
-}
-
 };
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
