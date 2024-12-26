@@ -38,19 +38,21 @@
 
         <!-- Modal para exibir a imagem em tamanho grande -->
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-            <div class="relative group">
-                <img :src="selectedImage" alt="Imagem do projeto" class="rounded-xl"
-                    style="max-width: none; max-height: none;" />
-                <!-- Texto sobreposto -->
-                <div
-                    class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h2 class="xl:text-2xl text-base font-bold text-center">{{ selectedProject.title }}</h2>
-                    <p class="xl:text-lg text-base mt-4 text-center px-4">{{ selectedProject.description }}</p>
-                </div>
-                <button @click="closeModal"
-                    class="absolute top-2 xl:top-6 right-2 xl:right-7 xl:w-11 bg-gray-200 text-black rounded-lg p-2 text-xl">✕</button>
-            </div>
+    <div class="relative group">
+        <img :src="selectedImage" alt="Imagem do projeto" class="rounded-xl"
+            style="max-width: none; max-height: none;" />
+        <!-- Texto sobreposto -->
+        <div
+            class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <h2 class="xl:text-2xl text-base font-bold text-center">{{ selectedProject.title }}</h2>
+            <p class="xl:text-lg text-base mt-4 text-center px-4">{{ selectedProject.description }}</p>
         </div>
+        <!-- Botão de fechamento ajustado -->
+        <button @click="closeModal"
+            class="fixed top-4 right-4 xl:top-6 xl:right-6 bg-gray-200 text-black rounded-lg p-2 text-xl z-50">✕</button>
+    </div>
+</div>
+
     </section>
 </template>
 

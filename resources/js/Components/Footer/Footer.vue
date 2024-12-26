@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer flex flex-col md:flex-row items-center md:items-start justify-center bg-primary-default border-b-4 border-secondary-default z-80 py-10 space-y-8 md:space-y-0 md:space-x-8">
+    <footer class="footer flex flex-col md:flex-row items-center md:items-start justify-center bg-primary-default border-b-4 border-secondary-default z-80 py-10 xl:space-y-0 xl:space-x-8">
 
       <!-- Logo -->
       <aside class="flex flex-col items-center md:items-start justify-center" aria-label="logo">
@@ -8,7 +8,7 @@
 
       <!-- Contactos -->
       <nav class="flex flex-col items-center md:items-start" aria-label="contactos">
-        <h6 class="text-lg text-center text-base xl:text-lg md:text-left font-bold text-white">Contactos</h6>
+        <h6 class="text-center text-base xl:text-lg md:text-left font-bold text-white">Contactos</h6>
         <a class="text-white text-center text-base xl:text-lg md:text-left font-bold">Produção</a>
         <a class="text-white text-center text-base xl:text-lg md:text-left">+351 968 433 620</a>
         <a class="text-white text-center text-base xl:text-lg md:text-left">(chamada para rede móvel nacional)</a>

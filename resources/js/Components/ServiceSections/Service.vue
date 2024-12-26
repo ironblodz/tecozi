@@ -72,7 +72,7 @@
                 <h1 class="text-2xl xl:text-3xl text-center xl:text-left text-primary-default mt-12">Fases dos
                     <span class="text-secondary-default text-2xl xl:text-3xl">Projeto</span>
                 </h1>
-                <img :src="WallpaperFundo" alt="WallpaperFundo" class="absolute object-scale-down h-[250px] xl:h-[500px] right-2">
+                <img :src="WallpaperFundo" alt="WallpaperFundo" class="absolute object-scale-down h-[250px] xl:h-[500px] right-2 pointer-events-none">
                 <div class="relative mt-10 flex items-start justify-center xl:justify-normal">
                     <!-- Contêiner da Timeline -->
                     <div class="flex flex-col z-20 w-4/5 timeline-container">
@@ -166,7 +166,7 @@
                         <button
                             class="bg-primary-default text-base xl:text-lg text-white rounded-full mt-5 mb-5 p-2 w-64 z-50">
                             <a :href="route('contacts')">Contactar</a>
-                        </button>
+                        </button>te
                     </div>
                 </div>
 
