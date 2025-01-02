@@ -22,7 +22,7 @@ const i18n = createI18n({
     carrousel3: "Each project is unique!",
     carrousel3p: "We tailor the project to meet each client's requirements.",
     carrousel4: "Shall we talk?",
-    carrouselp: "For any doubts or questions, don't hesitate to contact us.",
+    carrousel5: "For any doubts or questions, don't hesitate to contact us.",
   },
   projectdone: {
     paragraph: "At Tecozi, we stay up-to-date with current trends to offer the best solutions at the best price.",
@@ -78,7 +78,7 @@ quote: {
         carrousel3: "Cada projeto é único!",
         carrousel3p: "Adequamos o projeto às exigências de cada cliente.",
         carrousel4: "Vamos falar?",
-        carrouselp: "Qualquer dúvida ou questão não hesite em contactar-nos",
+        carrousel5: "Qualquer dúvida ou questão não hesite em contactar-nos",
     },
     projectdone: {
         paragraph: "Na Tecozi estamos atentos às tendências atuais para oferecer a melhor solução ao melhor preço.",
@@ -133,7 +133,7 @@ quote: {
     carrousel3: "Chaque projet est unique !",
     carrousel3p: "Nous adaptons le projet aux exigences de chaque client.",
     carrousel4: "On discute ?",
-    carrousel4p: "Pour toute question ou doute, n'hésitez pas à nous contacter.",
+    carrousel5: "Pour toute question ou doute, n'hésitez pas à nous contacter.",
   },
   projectdone: {
     paragraph: "Chez Tecozi, nous suivons les tendances actuelles pour offrir la meilleure solution au meilleur prix.",

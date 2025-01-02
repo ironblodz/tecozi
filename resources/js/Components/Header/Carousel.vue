@@ -7,11 +7,11 @@
                 <h1 class="text-xl md:text-5xl font-bold mt-12">
                     {{ $t('carrousel.carrousel') }}
                 </h1>
-                <p class="text-sm md:text-lg px-3">
+                <p class="text-base xl:text-lg px-3">
                     {{ $t('carrousel.carrouselp') }}
                 </p>
-                <button class="rounded-full bg-primary-default text-white py-2 px-8 text-sm md:text-base">
-                   <a :href="route('services')">{{ $t('carrousel.readmore') }}</a>
+                <button class="rounded-full bg-primary-default text-white py-2 px-8 text-base xl:text-lg relative z-10">
+                    <a :href="route('services')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
             <div class="absolute left-4 right-4 top-[72%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
@@ -31,14 +31,14 @@
                 <h1 class="text-xl md:text-5xl font-bold mt-12">
                     {{ $t('carrousel.carrousel2') }}
                 </h1>
-                <p class="text-sm md:text-lg px-3">
+                <p class="text-base xl:text-lg px-3">
                     {{ $t('carrousel.carrousel2p') }}
                 </p>
-                <button class="rounded-full bg-primary-default text-white py-2 px-8 text-sm md:text-base">
-                   <a :href="route('materials')">{{ $t('carrousel.readmore') }}</a>
+                <button class="rounded-full bg-primary-default text-white py-2 px-8 text-base xl:text-lg relative z-10">
+                    <a :href="route('materials')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
-            <div class="absolute left-4 right-4 top-[76%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
+            <div class="absolute left-4 right-4 top-[80%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
                 <a href="#slide1">
                     <img :src="arrowleft" alt="arrowleft" class="w-10 md:w-12" />
                 </a>
@@ -55,14 +55,14 @@
                 <h1 class="text-xl md:text-5xl font-bold mt-12">
                     {{ $t('carrousel.carrousel3') }}
                 </h1>
-                <p class="text-sm md:text-lg px-3">
+                <p class="text-base xl:text-lg px-3">
                     {{ $t('carrousel.carrousel3p') }}
                 </p>
-                <button class="rounded-full bg-primary-default text-white py-2 px-8 text-sm md:text-base">
-                   <a :href="route('portfolio')">{{ $t('carrousel.readmore') }}</a>
+                <button class="rounded-full bg-primary-default text-white py-2 px-8 text-base xl:text-lg relative z-10">
+                    <a :href="route('portfolio')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
-            <div class="absolute left-4 right-4 top-[71%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
+            <div class="absolute left-4 right-4 top-[73%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
                 <a href="#slide2">
                     <img :src="arrowleft" alt="arrowleft" class="w-10 md:w-12" />
                 </a>
@@ -79,14 +79,14 @@
                 <h1 class="text-xl md:text-5xl font-bold mt-12">
                     {{ $t('carrousel.carrousel4') }}
                 </h1>
-                <p class="text-sm md:text-lg px-3">
-                    {{ $t('carrousel.carrousel4p') }}
+                <p class="text-base xl:text-lg px-3">
+                    {{ $t('carrousel.carrousel5') }}
                 </p>
-                <button class="rounded-full bg-primary-default text-white py-2 px-8 text-sm md:text-base">
-                   <a :href="route('contacts')">{{ $t('carrousel.readmore') }}</a>
+                <button class="rounded-full bg-primary-default text-white py-2 px-8 text-base xl:text-lg relative z-10">
+                    <a :href="route('contacts')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
-            <div class="absolute left-4 right-4 top-[69%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
+            <div class="absolute left-4 right-4 top-[70%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
                 <a href="#slide3">
                     <img :src="arrowleft" alt="arrowleft" class="w-10 md:w-12" />
                 </a>
