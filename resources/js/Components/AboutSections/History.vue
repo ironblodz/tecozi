@@ -45,7 +45,7 @@
                             </div>
                             <figure class="w-[70%]">
                                 <img :src="Dinis" alt="Dinis"
-                                    class="w-38 p-2 h-[80%] object-cover border border-primary-default rounded-full" />
+                                    class="w-38 p-2 h-[90%] object-cover border border-primary-default rounded-full" />
                             </figure>
                         </div>
                     </div>

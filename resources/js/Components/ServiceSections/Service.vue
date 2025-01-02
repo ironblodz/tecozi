@@ -15,8 +15,8 @@
                         <span class="block group-hover:hidden text-xl">Cozinhas</span>
                         <h1 class="hidden group-hover:block group-hover:mb-5 group-hover:font-bold group-hover:text-lg">
                             Cozinhas</h1>
-                        <p class="hidden group-hover:block">Cozinhas práticas e funcionais que otimizar o espaço,
-                            respeitando as três zonas de trabalho: guardar, lavar e cozinhar</p>
+                        <p class="hidden group-hover:block line-clamp-2">Cozinhas práticas e funcionais que otimizar o espaço,
+                            respeitando as três zonas de trabalho</p>
                     </div>
 
                     <div class="transition-all duration-500 ease-in-out group-hover:bottom-48"></div>
@@ -166,7 +166,7 @@
                         <button
                             class="bg-primary-default text-base xl:text-lg text-white rounded-full mt-5 mb-5 p-2 w-64 z-50">
                             <a :href="route('contacts')">Contactar</a>
-                        </button>te
+                        </button>
                     </div>
                 </div>
 

@@ -7,6 +7,10 @@
 
 /* Estilos personalizados podem ser adicionados aqui */
 /* resources/css/app.css */
+
+html {
+    scroll-behavior: smooth;
+}
 body {
   margin: 0;
   padding: 0;

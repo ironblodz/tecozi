@@ -22,11 +22,11 @@
                         @click="openModal(getImageUrl(project.main_image), project)" />
 
                     <div
-                        class="absolute bottom-4 right-[0rem] bg-primary-default text-white px-4 py-2 rounded-s-3xl text-base min-w-24">
+                        class="absolute bottom-4 right-[0rem] bg-primary-default text-white px-4 py-2 rounded-s-3xl text-base xl:text-lg min-w-24">
                         <p>{{ project.title }}</p>
                     </div>
                     <p
-                        class="text-base mt-4 text-white bg-secondary-default  px-2 rounded-s-3xl w-[35%] relative ml-auto text-right">
+                        class="text-base xl:text-lg mt-4 text-white bg-secondary-default  px-2 rounded-s-3xl w-[35%] relative ml-auto text-right">
                         {{ getCategoryName(project.category_id) }}
                     </p>
                 </div>
@@ -45,7 +45,7 @@
         <div
             class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <h2 class="xl:text-2xl text-base font-bold text-center">{{ selectedProject.title }}</h2>
-            <p class="xl:text-lg text-base mt-4 text-center px-4">{{ selectedProject.description }}</p>
+            <p class="text-base xl:text-lg mt-4 text-center px-4">{{ selectedProject.description }}</p>
         </div>
         <!-- Botão de fechamento ajustado -->
         <button @click="closeModal"

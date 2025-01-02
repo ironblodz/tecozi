@@ -8,7 +8,7 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
-        "./node_modules/flowbite/**/*.js",
+        './node_modules/flowbite/**/*.js',
     ],
 
     theme: {
@@ -20,34 +20,34 @@ export default {
                 float: {
                     '0%, 100%': { transform: 'translateY(0)' },
                     '50%': { transform: 'translateY(-20px)' },
-                  },
+                },
             },
             animation: {
                 float: 'float 4s ease-in-out infinite',
-              },
-                colors: {
-                    primary: {
-                        default: '#3D4877',
-                    },
-                    secondary: {
-                        default: '#BF0404',
-                    },
-                    neutral: {
-                        default: '#F5F5F5',
-                    }
-                }
+            },
+            colors: {
+                primary: {
+                    default: '#3D4877',
+                },
+                secondary: {
+                    default: '#BF0404',
+                },
+                neutral: {
+                    default: '#F5F5F5',
+                },
             },
         },
+    },
 
-        plugins: [
-            forms,
-            require('daisyui'),
-            require('tailwindcss-primeui'),
-            require('flowbite/plugin'),
-        ],
+    plugins: [
+        forms,
+        require('daisyui'),
+        require('tailwindcss-primeui'),
+        require('flowbite/plugin'),
+        require('@tailwindcss/line-clamp'),
+    ],
 
-        // Configurações específicas do DaisyUI
-        daisyui: {
-            themes: ["light"],
-        },
-    };
+    daisyui: {
+        themes: ['light'],
+    },
+};

@@ -16,7 +16,7 @@
                         <div class="flex flex-row xl:flex-col">
                             <!-- Botão 'Todos' -->
                             <button type="button" @click="filterByCategory(null)" :class="[
-                                'text-base xl:text-xl font-medium px-2 xl:px-1 mr-2 py-1 text-center mb-3 w-full rounded-full',
+                                'text-base xl:text-lg font-medium px-2 xl:px-1 mr-2 py-1 text-center mb-3 w-full rounded-full',
                                 selectedCategory === null
                                     ? 'text-white bg-primary-default border-primary-default'
                                     : 'text-black border bg-gray-300'
@@ -37,7 +37,7 @@
                             <div v-else>
                                 <div v-for="category in categories" :key="category.id">
                                     <button @click="filterByCategory(category.id)" :class="[
-                                        'text-base xl:text-xl font-medium px-10 py-1 text-center mb-3 w-full rounded-full',
+                                        'text-base xl:text-lg font-medium px-10 py-1 text-center mb-3 w-full rounded-full',
                                         selectedCategory === category.id
                                             ? 'text-white bg-primary-default border-primary-default'
                                             : 'text-black border bg-gray-300'
@@ -73,7 +73,7 @@
 
                                     <!-- Informações ao passar o mouse -->
                                     <div
-                                        class="absolute bottom-0 left-0 w-full h-[44%] bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-4 border-t-4 border-secondary-default">
+                                        class="text-base xl:text-lg absolute bottom-0 left-0 w-full h-[44%] bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-4 border-t-4 border-secondary-default">
                                         <h3 class="font-semibold text-base">{{ project.title }}</h3>
                                     </div>
                                 </div>
@@ -82,8 +82,8 @@
                         </div>
 
                         <div v-else class="text-center mt-10">
-                            <p class="text-gray-500">Nenhum projeto encontrado.</p>
-                            <p v-if="error" class="text-red-500">{{ error }}</p>
+                            <p class="text-gray-500 text-base xl:text-lg">Nenhum projeto encontrado.</p>
+                            <p v-if="error" class="text-red-500 text-base xl:text-lg">{{ error }}</p>
                         </div>
                     </div>
                 </div>

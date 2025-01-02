@@ -2,7 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev": "concurrently \"php artisan serve\" \"vite\"",
         "build": "vite build"
     },
     "devDependencies": {
@@ -11,6 +11,7 @@
         "@vitejs/plugin-vue": "^5.0.0",
         "autoprefixer": "^10.4.12",
         "axios": "^1.7.9",
+        "concurrently": "^9.1.2",
         "daisyui": "^4.12.13",
         "laravel-vite-plugin": "^1.0.0",
         "postcss": "^8.4.31",
@@ -23,6 +24,7 @@
         "@heroicons/vue": "^2.1.5",
         "@inertiajs/inertia": "^0.11.1",
         "@primevue/themes": "^4.1.0",
+        "@tailwindcss/line-clamp": "^0.4.4",
         "@vueuse/core": "^12.2.0",
         "@vueuse/integrations": "^12.2.0",
         "dropzone": "^6.0.0-beta.2",
