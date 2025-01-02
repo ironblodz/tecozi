@@ -26,24 +26,24 @@
         <li class="relative">
           <button @click="toggleLanguageMenu" class="flex items-center space-x-2 text-white text-lg">
             <img :src="getFlag(currentLanguage)" alt="geography" class="w-6" />
-            <p class="text-red-700 font-medium">{{ currentLanguage }}</p>
+            <p class="text-red-700 font-bold text-base xl:text-lg">{{ currentLanguage }}</p>
           </button>
           <!-- Dropdown -->
           <div v-if="languageMenuOpen"
-               class="absolute bg-white text-black shadow-lg rounded-lg mt-2 p-2 z-40 w-[72px]"
+               class="absolute bg-primary-default text-white shadow-lg rounded-lg mt-2 p-2 z-40 w-[72px]"
                @mouseover="openDropdown" @mouseleave="closeDropdown">
             <ul class="space-y-2">
               <li @click="setLanguage('PT')" class="flex items-center space-x-2 cursor-pointer">
                 <img :src="ptFlag" alt="Portuguese" class="w-6" />
-                <span class="text-lg">PT</span>
+                <span class="text-base xl:text-lg">PT</span>
               </li>
               <li @click="setLanguage('FR')" class="flex items-center space-x-2 cursor-pointer">
                 <img :src="frFlag" alt="French" class="w-6" />
-                <span class="text-lg">FR</span>
+                <span class="text-base xl:text-lg">FR</span>
               </li>
               <li @click="setLanguage('EN')" class="flex items-center space-x-2 cursor-pointer">
                 <img :src="enFlag" alt="English" class="w-6" />
-                <span class="text-lg">EN</span>
+                <span class="text-base xl:text-lg">EN</span>
               </li>
             </ul>
           </div>
