@@ -44,7 +44,7 @@ const i18n = createI18n({
   projectsfeactures: {
     projects: "Featured",
     projectscc: "Projects",
-    projectsp: "The focus of Tecozi LD Kitchens is to expertly create custom Kitchens and Wardrobes.<br> We have a vast portfolio of works that tell our story over the years.",
+    projectsp: "The focus of Tecozi LDA Kitchens is to expertly create custom Kitchens and Wardrobes.<br> We have a vast portfolio of works that tell our story over the years.",
     kitchen: "Kitchens",
     wardrobes: "Wardrobes",
     closets: "Closets",
@@ -52,7 +52,7 @@ const i18n = createI18n({
   },
   contact: {
   title: "Contact Us",
-  description: "Turn dreams into reality! Don't hesitate to contact us. Shall we talk?",
+  description: "Turn dreams into reality! Don't hesitate to contact us. <br> Shall we talk?",
   button: "Contact"
 },
 quote: {
@@ -100,7 +100,7 @@ quote: {
     projectsfeactures: {
         projects: "Projetos em",
         projectscc: " Destaque",
-        projectsp: "O foco das Cozinhas Tecozi LD é realizar com sabedoria móveis de Cozinha e Roupeiros por medida.<br> Temos um vasto portfólio de trabalhos que contam a nossa história ao longo dos anos.",
+        projectsp: "O foco das Cozinhas Tecozi LDA é realizar com sabedoria móveis de Cozinha e Roupeiros por medida.<br> Temos um vasto portfólio de trabalhos que contam a nossa história ao longo dos anos.",
         kitchen: "Cozinhas",
         wardrobes: "Roupeiros",
         closets: "Closets",
@@ -108,7 +108,7 @@ quote: {
     },
     contact: {
       title: "Contacte-nos",
-      description: "Torne os sonhos realidade! Não hesite em entrar em contacto connosco. Vamos conversar?",
+      description: "Torne os sonhos realidade! Não hesite em entrar em contacto connosco. <p>Vamos conversar?</p>",
       button: "Contactar"
     },
     quote: {
@@ -155,7 +155,7 @@ quote: {
   projectsfeactures: {
     projects: "Projets en",
     projectscc: "vedette",
-    projectsp: "L'objectif des cuisines Tecozi LD est de créer avec expertise des cuisines et armoires sur mesure.<br> Nous avons un vaste portfolio de travaux qui raconte notre histoire au fil des années.",
+    projectsp: "L'objectif des cuisines Tecozi LDA est de créer avec expertise des cuisines et armoires sur mesure.<br> Nous avons un vaste portfolio de travaux qui raconte notre histoire au fil des années.",
     kitchen: "Cuisines",
     wardrobes: "Armoires",
     closets: "Dressing",
@@ -163,7 +163,7 @@ quote: {
   },
   contact: {
   title: "Contactez-nous",
-  description: "Réalisez vos rêves ! N'hésitez pas à nous contacter. Discutons ensemble ?",
+  description: "Réalisez vos rêves ! N'hésitez pas à nous contacter. <br> Discutons ensemble ?",
   button: "Contacter"
 },
 quote: {

@@ -1,14 +1,14 @@
 <template>
-    <section class="container mx-auto ">
-        <img :src="kitchen" class="absolute top-0 right-0 w-48 xl:w-60 xl:-mt-10 opacity-80 z-0" alt="Fundo Superior Direito" />
+    <section class="container mx-auto">
+        <img :src="kitchen" class="absolute top-0 right-0 w-48 xl:w-60 xl:-mt-10 opacity-80 z-0 scale-x-[-1]" alt="Fundo Superior Direito" />
 
         <!-- Imagem de fundo meio esquerda -->
-        <img :src="kitchen" class="absolute top-1/2 left-0 w-48 xl:w-60 xl:mt-16 opacity-80 transform -translate-y-1/2 z-0 scale-x-[-1]"
+        <img :src="kitchen" class="absolute top-1/2 left-0 w-48 xl:w-60 xl:mt-16 opacity-80 transform -translate-y-1/2 z-0"
             alt="Fundo Meio Esquerda" />
 
 
         <!-- Imagem de fundo inferior direita -->
-        <img :src="kitchen" class="absolute bottom-0 right-0 w-48 opacity-80 z-0 xl:w-60" alt="Fundo Inferior Direito" />
+        <img :src="kitchen" class="absolute bottom-0 right-0 w-48 opacity-80 z-0 xl:w-60 scale-x-[-1]" alt="Fundo Inferior Direito" />
 
         <div class="flex flex-col justify-center items-center mx-auto xl:max-w-7xl mt-36">
             <div class="flex flex-col mx-5 justify-center items-center xl:items-start">
@@ -164,7 +164,7 @@ import Material3 from "@/assets/images/materials/material3.svg";
 import Material4 from "@/assets/images/materials/material4.svg";
 import Material5 from "@/assets/images/materials/material5.svg";
 import Material6 from "@/assets/images/materials/material6.svg";
-import kitchen from "@/assets/images/services/kitechenwallpapergrey.svg";
+import kitchen from "@/assets/images/footer/kitchnet.svg";
 
 export default {
     name: "Materials",

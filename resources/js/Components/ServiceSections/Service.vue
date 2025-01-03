@@ -155,7 +155,7 @@
             <div class="flex flex-col xl:flex-row gap-8 items-center xl:items-start mt-10">
                 <div class="flex flex-col justify ">
                     <img :src="KitchenWallpaperGrey" alt="Descrição da Imagem"
-                        class="absolute transform scale-x-[-1] z-10 -ml-44 -mt-28 w-[300px] h-auto" />
+                        class="absolute transform z-10 -ml-32 -mt-[68px] w-[300px] h-auto" />
                     <div class="flex flex-col items-center xl:items-start xl:justify-normal">
                         <h1 class="text-2xl xl:text-3xl text-center xl:text-left text-primary-default z-50">
                             Perguntas Frequentes <span class="text-secondary-default text-2xl xl:text-3xl">(Faqs)</span>
@@ -274,7 +274,7 @@ import ClosetService from '@/assets/images/services/roupeirosservices.svg';
 import RoupeirosService from '@/assets/images/services/closetsservice.svg';
 import OtherService from '@/assets/images/services/otherservices.svg';
 import KitchenWallpaper from '@/assets/images/services/kitchen_wallpaper.svg';
-import KitchenWallpaperGrey from '@/assets/images/services/kitechenwallpapergrey.svg';
+import KitchenWallpaperGrey from '@/assets/images/footer/kitchnet.svg';
 import WallpaperFundo from '@/assets/images/services/wallpaperfundo.svg';
 
 import Fase1 from '@/assets/images/services/fases1.svg';
@@ -316,9 +316,11 @@ export default {
 <style scoped>
 .group:hover .group-hover\:h-1\/2 {
     height: 50% !important;
+    transition-duration: 2s; /* Aumente para tornar a animação mais lenta */
 }
 
 .group:hover .group-hover\:py-8 {
-    padding: 1rem 1rem;
+    padding: 1rem 1rem; /* Ajuste o padding caso necessário */
+    transition-duration: 2s; /* Aumente para tornar a animação mais lenta */
 }
 </style>
