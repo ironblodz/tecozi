@@ -10,13 +10,13 @@
 
         <!-- Contactos -->
         <nav class="flex flex-col items-center xl:items-start" aria-label="contactos">
-            <a class="text-white text-center text-base xl:text-left font-bold">Produção</a>
+            <a class="text-white text-center text-base xl:text-xl xl:text-left font-bold">Produção</a>
             <a class="text-white text-center text-base xl:text-left">+351 968 433 620</a>
             <a class="text-white text-center text-sm xl:text-left mb-2">(chamada para rede móvel nacional)</a>
-            <a class="text-white text-center text-base xl:text-left font-bold">Financeiro/ Orçamentação</a>
+            <a class="text-white text-center text-base xl:text-xl xl:text-left font-bold">Financeiro/ Orçamentação</a>
             <a class="text-white text-center text-base xl:text-left">+351 966 122 406</a>
             <a class="text-white text-center text-sm xl:text-left mb-2">(chamada para rede móvel nacional)</a>
-            <a class="text-white text-center text-base xl:text-left font-bold">Geral</a>
+            <a class="text-white text-center text-base xl:text-xl xl:text-left font-bold">Geral</a>
             <a class="text-white text-center text-base xl:text-left">+351 236 926 148</a>
             <a class="text-white text-center text-sm xl:text-left">(chamada para rede fixa nacional)</a>
         </nav>
@@ -24,19 +24,19 @@
         <!-- Localização -->
         <nav class="flex flex-col items-center xl:items-start" aria-label="localização">
             <div class="mb-5">
-                <h6 class="text-center text-base xl:text-left font-bold text-white mb-2">Localização</h6>
+                <h6 class="text-center text-base xl:text-left xl:text-xl font-bold text-white mb-2">Localização</h6>
                 <a class="text-white text-center text-base xl:text-left">
                     Rua da Lagoinha, nº29 Milhariças,<br> 3100-046 Abiul
                 </a>
             </div>
-            <h6 class="text-base text-center xl:text-left font-bold text-white mt-4 mb-2">Termos e Condições</h6>
+            <h6 class="text-base text-center xl:text-left font-bold xl:text-xl text-white mt-4 mb-2">Termos e Condições</h6>
             <a class="text-white text-center xl:text-left text-base">Política de privacidade</a>
             <a class="text-white text-center xl:text-left text-base">Resolução de Litígios</a>
         </nav>
 
         <!-- Páginas -->
         <nav class="flex flex-col items-center xl:items-start" aria-label="páginas">
-            <h6 class="text-base text-left xl:text-left text-white font-bold mb-2">Páginas</h6>
+            <h6 class="text-base text-left xl:text-left xl:text-xl text-white font-bold mb-2">Páginas</h6>
             <a :href="route('about')" class="text-white text-base text-center xl:text-left hover:underline mb-2">Sobre
                 Nós</a>
             <a :href="route('services')"

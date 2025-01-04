@@ -10,7 +10,7 @@
         <!-- Imagem de fundo inferior direita -->
         <img :src="kitchen" class="absolute bottom-0 right-0 w-48 opacity-80 z-0 xl:w-60 scale-x-[-1]" alt="Fundo Inferior Direito" />
 
-        <div class="flex flex-col justify-center items-center mx-auto xl:max-w-7xl mt-36">
+        <div class="flex flex-col justify-center items-center mx-auto mt-36">
             <div class="flex flex-col mx-5 justify-center items-center xl:items-start">
                 <h1 class="text-primary-default text-2xl xl:text-3xl text-center xl:text-left mb-5">
                     Trabalhamos com as <span class="text-secondary-default text-2xl xl:text-3xl">melhores marcas</span>

@@ -13,18 +13,18 @@
                     <div class="-mt-[45px] mb-4">
                         <p class="text-center text-base xl:text-lg font-bold">Produção</p>
                         <p class="text-center text-base xl:text-lg">+351 968 433 620</p>
-                        <p class="text-center text-base xl:text-lg mb-4">(Chamada para rede móvel nacional)</p>
+                        <p class="text-center text-base mb-4">(Chamada para rede móvel nacional)</p>
                         <p class="text-center text-base xl:text-lg font-bold">Financeiro</p>
                         <p class="text-center text-base xl:text-lg">+351 966 122 406</p>
-                        <p class="text-center text-base xl:text-lg mb-4">(Chamada para rede móvel nacional)</p>
+                        <p class="text-center text-base mb-4">(Chamada para rede móvel nacional)</p>
                         <p class="text-center text-base xl:text-lg font-bold">Geral</p>
                         <p class="text-center text-base xl:text-lg">+351 236 926 148</p>
-                        <p class="text-center text-base xl:text-lg mb-4">(Chamada para rede fixa nacional)</p>
-                        <p class="text-center text-base xl:text-lg">E-mail: tecozi11@gmail.com</p>
+                        <p class="text-center text-base mb-4">(Chamada para rede fixa nacional)</p>
+                        <p class="text-center text-base xl:text-lg pb-10">E-mail: tecozi11@gmail.com</p>
                     </div>
                 </div>
 
-                <div class="bg-gray-100 rounded-xl p-6 mt-4 w-full mx-auto">
+                <div class="bg-gray-100 rounded-xl p-6 mt-[65px] w-full mx-auto">
                     <div class="flex flex-row justify-center items-center">
                         <h1
                             class="bg-primary-default text-white rounded-lg w-44 text-center text-2xl relative -top-10 xl:-top-12">
@@ -34,20 +34,6 @@
                     <div class="-mt-[20px] mb-2">
                         <p class="text-center text-base xl:text-lg">Segunda-feira a Sexta-feira <br /> 8h:00 às 17h:00</p>
                         <p class="text-center text-base xl:text-lg">Descanso semanal sábado e domingo</p>
-                    </div>
-                </div>
-
-                <div class="bg-gray-100 rounded-xl p-6 mt-4 mb-5 w-full mx-auto">
-                    <div class="flex flex-row justify-center items-center">
-                        <h1
-                            class="bg-primary-default text-white rounded-lg w-44 text-center text-2xl relative -top-10 xl:-top-12">
-                            Localização
-                        </h1>
-                    </div>
-                    <div class="-mt-[20px]">
-                        <p class="text-center text-base xl:text-lg">
-                            Rua da Lagoinha, nº29 <br />Milhariças, 3100-046 Abiul
-                        </p>
                     </div>
                 </div>
             </div>
@@ -143,7 +129,7 @@
 
         <!-- Iframe do Google Maps -->
         <div class="flex flex-col items-center mt-10 mb-10">
-            <div class="w-full max-w-4xl xl:max-w-[74rem] px-4">
+            <div class="w-full max-w-4xl xl:max-w-[76.5rem] px-4">
                 <div class="relative w-full overflow-hidden rounded-xl" style="padding-top: 30.25%;">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48987.39309502312!2d-8.49835630115621!3d39.88068702937121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd22637ec1534ef5%3A0xae6b6f8154aee9b0!2sCozinhas%20Tecozi%20Lda!5e0!3m2!1spt-PT!2spt!4v1729005435063!5m2!1spt-PT!2spt"

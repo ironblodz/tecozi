@@ -14,7 +14,7 @@
         <div class="relative w-full max-w-lg mt-8">
           <!-- Botão Fixado -->
           <div class="button-container">
-            <span v-if="!isCompleted">Arraste para Entrar</span>
+            <span v-if="!isCompleted"></span>
             <span v-if="isCompleted">Entrando...</span>
 
             <!-- Slider que se move automaticamente -->
@@ -36,33 +36,32 @@
     data() {
       return {
         logo,
-        isVisible: true,
-        isExiting: false,
-        isCompleted: false,
-        sliderWidth: 0, // Largura do slider
-        maxSliderWidth: 100, // Largura máxima (100%)
-        sliderSpeed: 0.5, // Velocidade do slider
+    isVisible: true,
+    isExiting: false,
+    isCompleted: false,
+    sliderWidth: 0,
+    maxSliderWidth: 100,
+    sliderSpeed: 2,
       };
     },
     mounted() {
-      this.startSlider(); // Inicia o movimento do slider automaticamente
+      this.startSlider();
     },
     methods: {
-      startSlider() {
-        // O slider se move automaticamente
-        const interval = setInterval(() => {
-          if (this.sliderWidth < this.maxSliderWidth) {
-            this.sliderWidth += this.sliderSpeed; // Aumenta a largura do slider
-          } else {
-            clearInterval(interval); // Para quando o slider atingir 100%
-            this.completeSlider();
-          }
-        }, 30); // A cada 30ms o slider se move um pouco
-      },
+        startSlider() {
+    const interval = setInterval(() => {
+      if (this.sliderWidth < this.maxSliderWidth) {
+        this.sliderWidth += this.sliderSpeed;
+      } else {
+        clearInterval(interval);
+        this.completeSlider();
+      }
+    }, 20); // Intervalo reduzido para 20ms (anteriormente 30ms)
+  },
       completeSlider() {
-        this.isCompleted = true; // Marca o fim do movimento
+        this.isCompleted = true;
         setTimeout(() => {
-          this.triggerExitAnimation(); // Chama a animação de saída
+          this.triggerExitAnimation();
         }, 500);
       },
       triggerExitAnimation() {
