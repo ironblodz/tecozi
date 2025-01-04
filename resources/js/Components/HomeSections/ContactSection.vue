@@ -9,7 +9,7 @@
                         <a :href="route('contacts')">{{ $t('contact.button') }}</a>
                     </button>
                 </div>
-                <div class="relative lg:w-1/3 mt-6 lg:mt-0 flex-shrink-0 pr-12">
+                <div class="relative lg:w-1/3 mt-14 xl:mt-6 flex-shrink-0 pr-12 ">
                     <img :src="Wallpaper1" class="w-96 h-auto rounded-xl" alt="Imagem Principal" />
                     <img :src="Wallpaper2"
                         class="absolute -bottom-8 right-0 w-32 h-auto rounded-xl border-2 border-white"
