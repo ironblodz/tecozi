@@ -1,5 +1,5 @@
 <template>
-    <section class="container mx-auto">
+    <section>
         <img :src="kitchen" class="absolute top-0 right-0 w-48 xl:w-60 xl:-mt-10 opacity-80 z-0 scale-x-[-1]" alt="Fundo Superior Direito" />
 
         <!-- Imagem de fundo meio esquerda -->
@@ -10,13 +10,13 @@
         <!-- Imagem de fundo inferior direita -->
         <img :src="kitchen" class="absolute bottom-0 right-0 w-48 opacity-80 z-0 xl:w-60 scale-x-[-1]" alt="Fundo Inferior Direito" />
 
-        <div class="flex flex-col justify-center items-center mx-auto mt-36">
+        <div class="flex flex-col justify-center xl:mx-24 mt-36">
             <div class="flex flex-col mx-5 justify-center items-center xl:items-start">
-                <h1 class="text-primary-default text-2xl xl:text-3xl text-center xl:text-left mb-5 z-20">
-                    Trabalhamos com as <span class="text-secondary-default text-2xl xl:text-3xl z-20">melhores marcas</span>
+                <h1 class="text-primary-default text-2xl xl:text-3xl text-center mb-5 z-20">
+                    Trabalhamos com as <span class="text-secondary-default text-2xl xl:text-3xl">melhores marcas</span>
                     do mundo
                 </h1>
-                <p class="text-base xl:text-lg text-center xl:text-left mb-10">
+                <p class="text-base xl:text-lg text-center xl:text-left mb-10 z-50">
                     Trabalho de qualidade acompanhado dos melhores materiais em cada
                     projeto realizado! Os materiais que garantem o melhor resultado
                 </p>

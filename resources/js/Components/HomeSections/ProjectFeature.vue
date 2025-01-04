@@ -10,7 +10,8 @@
                             {{ $t('projectsfeactures.projectscc') }}
                         </span>
                     </h1>
-                    <p class="text-base xl:text-lg mt-8 text-center z-20" v-html="$t('projectsfeactures.projectsp')"></p>
+                    <p class="text-base xl:text-lg mt-8 text-center z-20" v-html="$t('projectsfeactures.projectsp')">
+                    </p>
                 </div>
                 <!-- Iterando sobre os projetos destacados -->
                 <div v-if="featuredProjects.length > 0"
@@ -31,17 +32,18 @@
                         </p>
                     </div>
                 </div>
-                <p class="text-center text-primary-default text-bold text-base xl:text-lg mt-7" v-else>Carregando projetos
+                <p class="text-center text-primary-default text-bold text-base xl:text-lg mt-7" v-else>Carregando
+                    projetos
                     ou nenhum projeto encontrado.</p>
             </div>
         </div>
 
         <!-- Modal para exibir a imagem em tamanho grande -->
-        <div v-if="showModal"
-            class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[9999]"
             @click="closeModal">
             <div class="relative group" @click.stop>
-                <img :src="selectedImage" alt="Imagem do projeto" class="rounded-xl transition-all duration-300 ease-in-out"
+                <img :src="selectedImage" alt="Imagem do projeto"
+                    class="rounded-xl transition-all duration-300 ease-in-out"
                     style="max-width: none; max-height: none;" />
                 <!-- Texto sobreposto -->
                 <div
@@ -105,12 +107,15 @@ export default {
             this.selectedImage = imageUrl;
             this.selectedProject = project;
             this.showModal = true;
+            document.body.classList.add('overflow-hidden');
         },
         closeModal() {
             this.showModal = false;
             this.selectedImage = null;
             this.selectedProject = null;
+            document.body.classList.remove('overflow-hidden');
         }
+
     }
 };
 </script>
@@ -129,5 +134,17 @@ export default {
 .group img {
     border-radius: 15px;
     transition: border-radius 0.3s ease;
+}
+
+.menu {
+    position: relative;
+    /* ou absolute, mas com z-index controlado */
+    z-index: 100;
+    /* Certifique-se de que seja menor que o modal */
+}
+
+.fixed.inset-0 {
+    width: 100vw;
+    height: 100vh;
 }
 </style>
