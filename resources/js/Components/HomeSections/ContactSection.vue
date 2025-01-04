@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="container mx-auto mt-10 w-[95%] mb-10">
+        <div class="container mx-auto mt-10 w-[85%] mb-10">
             <div class="bg-neutral-default rounded-xl p-6 text-left flex flex-col xl:flex-row justify-center items-center">
                 <div class="lg:w-2/3">
                     <h1 class="text-secondary-default text-xl xl:text-3xl">{{ $t('contact.title') }}</h1>
