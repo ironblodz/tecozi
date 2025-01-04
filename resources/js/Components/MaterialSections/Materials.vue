@@ -12,8 +12,8 @@
 
         <div class="flex flex-col justify-center items-center mx-auto mt-36">
             <div class="flex flex-col mx-5 justify-center items-center xl:items-start">
-                <h1 class="text-primary-default text-2xl xl:text-3xl text-center xl:text-left mb-5">
-                    Trabalhamos com as <span class="text-secondary-default text-2xl xl:text-3xl">melhores marcas</span>
+                <h1 class="text-primary-default text-2xl xl:text-3xl text-center xl:text-left mb-5 z-20">
+                    Trabalhamos com as <span class="text-secondary-default text-2xl xl:text-3xl z-20">melhores marcas</span>
                     do mundo
                 </h1>
                 <p class="text-base xl:text-lg text-center xl:text-left mb-10">
@@ -24,7 +24,7 @@
 
             <!-- Hero 1 - Imagem à esquerda, texto à direita -->
             <div class="hero flex justify-center items-center">
-                <div class="hero-content flex-col xl:flex-row">
+                <div class="hero-content flex-col lg:flex-row">
                     <!-- Imagem à esquerda -->
                     <div class="image-container relative">
                         <!-- Forma sólida para a sombra -->
@@ -40,7 +40,7 @@
                         <h2
                             class="text-xl xl:text-2xl bg-primary-default text-white rounded-full text-center w-40 xl:w-56 mt-5">
                             Madeiras</h2>
-                        <p class="py-4 text-base xl:text-lg text-center xl:text-left xl:max-w-lg">
+                        <p class="py-4 text-base xl:text-lg text-center xl:text-left ">
                             Apresentamos um vasto catálogo de materiais, de cores e decors madeira para cozinhas atuais
                             e modernas
                         </p>
@@ -63,10 +63,10 @@
                     <!-- Texto à direita -->
                     <div class="flex flex-col text-center items-center xl:items-start mx-12">
                         <h2
-                            class="text-xl xl:text-2xl bg-primary-default text-white rounded-full text-center w-40 xl:w-56 mt-5">
+                            class="text-xl xl:text-2xl bg-primary-default text-white rounded-full text-center w-40 xl:w-56 mt-14 xl:mt-5">
                             Ferragens
                         </h2>
-                        <p class="py-4 text-base xl:text-lg xl:text-left xl:max-w-md">
+                        <p class="py-4 text-base xl:text-lg xl:text-left">
                             As escolhas das ferragens são muito importantes para uma boa funcionalidade, durabilidade e
                             conforto.
                             Nas cozinhas, privilegiamos os sistemas de amortecedor integrados nas gavetas e dobradiças
@@ -94,9 +94,9 @@
                     <!-- Texto à direita -->
                     <div class="flex flex-col text-center items-center xl:items-start mx-12">
                         <h2
-                            class="text-xl xl:text-2xl  bg-primary-default text-white rounded-full text-center w-40 xl:w-56 mt-5">
+                            class="text-xl xl:text-2xl bg-primary-default text-white rounded-full text-center w-40 xl:w-56 mt-5">
                             Acessórios</h2>
-                        <p class="py-4 text-base xl:text-lg  xl:text-left xl:max-w-lg">
+                        <p class="py-4 text-base xl:text-lg xl:text-left">
                             Completamos com acessórios multifuncionais, para equipamento interior dos móveis das
                             cozinhas e dos roupeiros.
                         </p>
@@ -119,9 +119,9 @@
                     <!-- Texto à direita -->
                     <div class="flex flex-col text-center items-center xl:items-start mx-12">
                         <h2
-                            class="text-xl xl:text-2xl  bg-primary-default text-white rounded-full text-center w-48 xl:w-56 mt-5">
+                            class="text-xl xl:text-2xl  bg-primary-default text-white rounded-full text-center w-48 xl:w-56 mt-14 xl:mt-5">
                             Equipamento</h2>
-                        <p class="py-4 text-base xl:text-lg xl:text-left xl:max-w-lg">
+                        <p class="py-4 text-base xl:text-lg xl:text-left">
                             Podemos fornecer lava-loiça, exaustor, entre outros. Também efetuamos o serviço de
                             assentamento dos eletrodomésticos quando fornecidos por nós.
                         </p>
@@ -145,7 +145,7 @@
                         <h2
                             class="text-xl xl:text-2xl  bg-primary-default text-white rounded-full text-center w-40 mt-5">
                             Portaros</h2>
-                        <p class="py-4 text-base xl:text-lg xl:text-left xl:max-w-md">
+                        <p class="py-4 text-base xl:text-lg xl:text-left">
                             Portas interiores de qualidade, com diversos tipos de acabamento: Lacados, CPL, HPL,
                             Folheado a madeiras diversas: wengé, carvalho, teka...
                             Portas com kits completos compostos por aro, porta, guarnição, dobradiças e puxador de
