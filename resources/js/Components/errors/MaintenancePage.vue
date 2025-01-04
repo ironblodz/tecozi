@@ -1,7 +1,6 @@
 <template>
   <div class="maintenance-page">
     <div class="content">
-      <img src="/assets/maintenance.png" alt="Manutenção" class="maintenance-image" />
       <h1>Estamos em Construção</h1>
       <p>Desculpe pelo inconveniente. Site brevemente disponível!</p>
       <p>Obrigado pela sua paciência.</p>
