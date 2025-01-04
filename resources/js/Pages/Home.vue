@@ -10,9 +10,12 @@
                     <Navbar />
                     <Carousel />
                     <ProjectDone />
-                    <div class="bg-gray-300 ">
-                        <ProjectFeature />
-                        <ContactSection />
+                    <div class="w-full relative">
+                        <div class="absolute inset-0 bg-gray-600 opacity-30 h-[75%] mt-20"></div>
+                        <div class="relative z-20">
+                            <ProjectFeature />
+                            <ContactSection />
+                        </div>
                     </div>
                     <blockquote class="text-center mb-10">
                         <p class="font-bold text-base xl:text-lg">{{ $t('quote.text') }}</p>
