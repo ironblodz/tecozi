@@ -1,10 +1,10 @@
 <template>
-    <section class="container mx-auto">
-        <div class="mt-16 xl:mt-20 mx-auto xl:max-w-6xl">
-            <div class="flex flex-col items-center xl:items-baseline z-20 mb-4">
-                <h1 class="text-2xl xl:text-3xl text-left text-primary-default mt-12">Portfólio de <span
+    <section>
+        <div class="flex flex-col z-20 mt-20 mb-2">
+                <h1 class="text-2xl xl:text-3xl text-left text-primary-default mt-16 mx-16">Portfólio de <span
                         class="text-secondary-default text-2xl xl:text-3xl">Projetos realizados</span></h1>
-            </div>
+        </div>
+        <div class="container mx-auto xl:max-w-6xl">
             <div class="flex flex-col xl:flex-row justify-center">
                 <div class="relative flex items-center mx-5 px-10 bg-gray-100 xl:h-[650px] rounded-lg xl:mt-[24px]">
                     <!-- Imagem de fundo -->
