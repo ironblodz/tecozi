@@ -3,10 +3,9 @@
         class="footer flex flex-col xl:flex-row items-center justify-center bg-primary-default border-b-4 border-secondary-default z-80 py-10 xl:space-y-0 xl:space-x-8">
 
         <!-- Logo -->
-        <aside class="flex flex-col items-center justify-center shrink-0" aria-label="logo">
-            <img :src="logo" alt="logo" class="mt-4 xl:mt-0 mx-auto w-60">
+        <aside class="flex flex-col xl:flex-row items-center justify-center shrink-0" aria-label="logo">
+            <img :src="logo" alt="logo" class="mt-4 xl:mt-0 mx-auto w-60 ">
         </aside>
-
 
         <!-- Contactos -->
         <nav class="flex flex-col items-center xl:items-start" aria-label="contactos">
@@ -25,9 +24,10 @@
         <nav class="flex flex-col items-center xl:items-start" aria-label="localização">
             <div class="mb-5">
                 <h6 class="text-center text-base xl:text-left xl:text-xl font-bold text-white mb-2">Localização</h6>
-                <a class="text-white text-center text-base xl:text-left">
-                    Rua da Lagoinha, nº29 Milhariças,<br> 3100-046 Abiul
-                </a>
+                <p class="text-white text-center text-base xl:text-left">
+                    Rua da Lagoinha, nº29 Milhariças
+                </p>
+                <p class="text-white text-center text-base xl:text-left">3100-046 Abiul</p>
             </div>
             <h6 class="text-base text-center xl:text-left font-bold xl:text-xl text-white mt-4 mb-2">Termos e Condições</h6>
             <a :href="route('privacy')" class="text-white text-center xl:text-left text-base hover:underline ">Política de privacidade</a>

@@ -1,7 +1,7 @@
 <template>
     <section class="container mx-auto">
         <div class="mt-16 xl:mt-20 mx-auto xl:max-w-6xl">
-            <div class="flex flex-col items-center xl:items-start z-20 mb-4">
+            <div class="flex flex-col items-center xl:items-baseline z-20 mb-4">
                 <h1 class="text-2xl xl:text-3xl text-left text-primary-default mt-12">Portfólio de <span
                         class="text-secondary-default text-2xl xl:text-3xl">Projetos realizados</span></h1>
             </div>
@@ -35,7 +35,7 @@
 
                             <!-- Categorias carregadas -->
                             <div v-else>
-                                <div v-for="category in categories" :key="category.id">
+                                <div v-for="category in sortedCategories" :key="category.id">
                                     <button @click="filterByCategory(category.id)" :class="[
                                         'text-base xl:text-lg font-medium px-10 py-1 text-center mb-3 w-full rounded-full',
                                         selectedCategory === category.id
@@ -49,7 +49,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-gray-100 rounded-lg mt-[22px] min-w-full">
                     <!-- Skeleton loader para projetos -->
                     <v-skeleton-loader v-if="isLoading" :loading="isLoading" type="card" class="w-full h-48">
@@ -193,19 +192,29 @@ export default {
         // Carregar os projetos e categorias ao iniciar
         fetchProjectsAndCategories();
 
-        // Calcular o número total de páginas
+
+        const sortedCategories = computed(() => {
+            const order = ['cozinhas', 'roupeiros', 'closets', 'acessórios'];
+
+            const sortedList = [...categories.value];
+            return sortedList.sort((a, b) => {
+                return order.indexOf(a.name) - order.indexOf(b.name);
+            });
+        });
+
+
         const totalPages = computed(() => {
             return Math.ceil(filteredProjects.value.length / itemsPerPage);
         });
 
-        // Filtrar projetos para a página atual
+
         const paginatedProjects = computed(() => {
             const start = (currentPage.value - 1) * itemsPerPage;
             const end = start + itemsPerPage;
             return filteredProjects.value.slice(start, end);
         });
 
-        // Gerar os números de páginas
+
         const pageNumbers = computed(() => {
             const numbers = [];
             for (let i = 1; i <= totalPages.value; i++) {
@@ -214,28 +223,27 @@ export default {
             return numbers;
         });
 
-        // Função para ir para uma página específica
+
         const goToPage = (page) => {
             if (page < 1 || page > totalPages.value) return;
             currentPage.value = page;
         };
 
-        // Função para filtrar projetos por categoria
         const filterByCategory = (categoryId) => {
-            selectedCategory.value = categoryId; // Define a categoria selecionada
+            selectedCategory.value = categoryId;
             if (categoryId === null) {
-                filteredProjects.value = [...projects.value]; // Todos os projetos
+                filteredProjects.value = [...projects.value];
             } else {
                 filteredProjects.value = projects.value.filter(
                     project => project.category_id === categoryId
                 );
             }
-            currentPage.value = 1; // Resetar a página ao aplicar filtro
+            currentPage.value = 1;
         };
 
-        // Função para abrir o modal com a imagem
+
         const openModal = (project) => {
-            selectedProject.value = project; // Armazena o projeto completo
+            selectedProject.value = project;
             showModal.value = true;
         };
 
@@ -243,15 +251,13 @@ export default {
         const closeModal = () => {
             console.log('Fechando modal...');
             showModal.value = false;
-            selectedProject.value = {}; // Limpa o projeto selecionado
+            selectedProject.value = {};
         };
-
-
 
         // Retornar as propriedades para o template
         return {
             projects,
-            categories,
+            sortedCategories,
             error,
             currentPage,
             totalPages,
@@ -270,6 +276,7 @@ export default {
     },
 };
 </script>
+
 
 
 <style scoped>

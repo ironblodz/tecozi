@@ -24,7 +24,7 @@
 
             <!-- Hero 1 - Imagem à esquerda, texto à direita -->
             <div class="hero flex justify-center items-center">
-                <div class="hero-content flex-col lg:flex-row">
+                <div class="hero-content flex-col xl:flex-row">
                     <!-- Imagem à esquerda -->
                     <div class="image-container relative">
                         <!-- Forma sólida para a sombra -->

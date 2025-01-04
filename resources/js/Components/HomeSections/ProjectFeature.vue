@@ -121,13 +121,11 @@ export default {
     border-radius: 5%;
 }
 
-/* Garantir que o arredondamento da borda seja permanente */
 .card {
-    border-radius: 15px; /* Adicionando o arredondamento à borda da imagem */
-    overflow: hidden; /* Garantir que as bordas não ultrapassem os limites */
+    border-radius: 15px;
+    overflow: hidden;
 }
 
-/* Aplicar uma transição suave ao arredondamento de bordas */
 .group img {
     border-radius: 15px;
     transition: border-radius 0.3s ease;
