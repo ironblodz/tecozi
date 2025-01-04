@@ -3,9 +3,10 @@
         class="footer flex flex-col xl:flex-row items-center justify-center bg-primary-default border-b-4 border-secondary-default z-80 py-10 xl:space-y-0 xl:space-x-8">
 
         <!-- Logo -->
-        <aside class="flex flex-col xl:flex-row items-center justify-center shrink-0" aria-label="logo">
-            <img :src="logo" alt="logo" class="mt-4 xl:mt-0 mx-auto w-60 ">
-        </aside>
+        <aside class="flex justify-center items-center xl:justify-start ml-20 xl:ml-0" aria-label="logo">
+    <img :src="logo" alt="logo" class="w-60">
+</aside>
+
 
         <!-- Contactos -->
         <nav class="flex flex-col items-center xl:items-start" aria-label="contactos">

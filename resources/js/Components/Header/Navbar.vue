@@ -21,16 +21,16 @@
             class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8 lg:ml-44 lg:items-center lg:justify-center"
             :class="{ 'absolute bg-primary-default top-20 left-0 w-full p-8 lg:p-0 lg:bg-transparent lg:static': !screenIsLarge }">
             <li><a href="/about"
-                    class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Sobre
+                    class="text-white text-base xl:text-lg">Sobre
                     Nós</a></li>
             <li><a href="/services"
-                    class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Serviços</a>
+                    class="text-white text-base xl:text-lg">Serviços</a>
             </li>
             <li><a href="/materials"
-                    class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Materiais</a>
+                    class="text-white text-base xl:text-lg">Materiais</a>
             </li>
             <li><a href="/portfolio"
-                    class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Portfólio</a>
+                    class="text-white text-base xl:text-lg">Portfólio</a>
             </li>
 
             <!-- Dropdown de Idioma -->
