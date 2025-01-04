@@ -30,8 +30,8 @@
                 </a>
             </div>
             <h6 class="text-base text-center xl:text-left font-bold xl:text-xl text-white mt-4 mb-2">Termos e Condições</h6>
-            <a class="text-white text-center xl:text-left text-base">Política de privacidade</a>
-            <a class="text-white text-center xl:text-left text-base">Resolução de Litígios</a>
+            <a :href="route('privacy')" class="text-white text-center xl:text-left text-base hover:underline ">Política de privacidade</a>
+            <a :href="route('resolution')" class="text-white text-center xl:text-left text-base hover:underline">Resolução de Litígios</a>
         </nav>
 
         <!-- Páginas -->

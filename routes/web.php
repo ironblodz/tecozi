@@ -100,5 +100,13 @@ Route::get('/portfolio', function () {
     return Inertia::render('Portfolio');
 })->name('portfolio');
 
+Route::get('/privacy', function () {
+    return Inertia::render('Privacy');
+})->name('privacy');
+
+Route::get('/resolution', function () {
+    return Inertia::render('Resolution');
+})->name('resolution');
+
 
 require __DIR__.'/auth.php';

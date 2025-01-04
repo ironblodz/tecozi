@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="container mx-auto w-full grid grid-cols-1 justify-center mt-10 xl:mt-20">
+        <div class="container mx-auto w-[95%] grid grid-cols-1 justify-center mt-10 xl:mt-20">
             <img :src="wallpaperkitchen" alt="kitchen" class="absolute transform scale-x-[-1]">
             <div class="bg-gray-100 rounded-lg pt-10 pb-20">
                 <div class="flex flex-col items-center px-4 z-20">
@@ -22,7 +22,7 @@
                         @click="openModal(getImageUrl(project.main_image), project)" />
 
                     <div
-                        class="absolute bottom-4 right-[0rem] bg-primary-default text-white px-4 py-2 rounded-s-3xl text-base xl:text-lg min-w-24">
+                        class="absolute bottom-4 -right-[2rem] bg-primary-default text-white px-4 py-2 rounded-s-3xl text-base xl:text-lg min-w-24 mx-5">
                         <p>{{ project.title }}</p>
                     </div>
                     <p

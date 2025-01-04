@@ -1,7 +1,7 @@
 <template>
     <section>
-        <div class="container mx-auto mt-10 w-4/5 mb-10">
-            <div class="bg-neutral-default rounded-xl p-6 text-left flex flex-col lg:flex-row justify-between items-center">
+        <div class="container mx-auto mt-10 w-[95%] mb-10">
+            <div class="bg-neutral-default rounded-xl p-6 text-left flex flex-col xl:flex-row justify-center items-center">
                 <div class="lg:w-2/3">
                     <h1 class="text-secondary-default text-xl xl:text-3xl">{{ $t('contact.title') }}</h1>
                     <p class="text-base xl:text-lg mt-4" v-html="$t('contact.description')"></p>
@@ -17,11 +17,6 @@
                 </div>
             </div>
         </div>
-
-        <blockquote class="text-center mb-10">
-            <p class="font-bold text-base xl:text-lg">{{ $t('quote.text') }}</p>
-            <cite>{{ $t('quote.author') }}</cite>
-        </blockquote>
     </section>
 </template>
 
