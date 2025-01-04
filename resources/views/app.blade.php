@@ -59,7 +59,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script>
-
         const scrollToTopButton = document.getElementById('scrollToTopButton');
         const scrollToTopImage = document.getElementById('scrollToTopImage');
 
@@ -77,14 +76,18 @@
         scrollToTopButton.addEventListener('click', scrollToTop);
 
         function checkScrollPosition() {
-            const scrollThreshold = document.body.scrollHeight * 0.6;
+            const footer = document.querySelector('footer'); // Seleciona o rodapé
+            const footerPosition = footer ? footer.offsetTop : document.body.scrollHeight;
+            const scrollThreshold = footerPosition - window.innerHeight;
 
+            // Verifica se o scroll atingiu ou passou o rodapé
             if (window.scrollY > scrollThreshold) {
-                scrollToTopImage.src = whiteImageSrc;
+                scrollToTopImage.src = whiteImageSrc; // Muda para a imagem branca
             } else {
-                scrollToTopImage.src = originalImageSrc;
+                scrollToTopImage.src = originalImageSrc; // Retorna à imagem original
             }
 
+            // Exibe o botão de "scroll to top" quando o scroll passar de 300px
             if (window.scrollY > 300) {
                 scrollToTopButton.style.display = 'block';
             } else {
@@ -98,6 +101,7 @@
 
         checkScrollPosition();
     </script>
+
 
 </body>
 

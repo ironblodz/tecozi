@@ -20,17 +20,25 @@
         <ul v-if="menuOpen || screenIsLarge"
             class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-8 lg:ml-44 lg:items-center lg:justify-center"
             :class="{ 'absolute bg-primary-default top-20 left-0 w-full p-8 lg:p-0 lg:bg-transparent lg:static': !screenIsLarge }">
-            <li><a href="/about" class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Sobre Nós</a></li>
-            <li><a href="/services" class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Serviços</a></li>
-            <li><a href="/materials" class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Materiais</a></li>
-            <li><a href="/portfolio" class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Portfólio</a></li>
+            <li><a href="/about"
+                    class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Sobre
+                    Nós</a></li>
+            <li><a href="/services"
+                    class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Serviços</a>
+            </li>
+            <li><a href="/materials"
+                    class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Materiais</a>
+            </li>
+            <li><a href="/portfolio"
+                    class="text-white text-base xl:text-lg hover:bg-gray-500 hover:pt-[40px] hover:pb-[39px] hover:px-1">Portfólio</a>
+            </li>
 
             <!-- Dropdown de Idioma -->
             <li class="relative px-12">
                 <!-- Botão com o idioma selecionado -->
                 <button @click="toggleLanguageMenu" class="flex items-center space-x-2">
-                    <svg width="40" height="40" class="h-6 w-6 transition-transform duration-200" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <svg width="40" height="40" class="h-6 w-6 transition-transform duration-200" viewBox="0 0 40 40"
+                        fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <rect width="40" height="40" fill="url(#pattern0_570_664)" />
                         <defs>
                             <pattern id="pattern0_570_664" patternContentUnits="objectBoundingBox" width="1" height="1">
@@ -102,7 +110,7 @@ export default {
             enFlag,
             menuOpen: false,
             screenIsLarge: window.innerWidth >= 1024,
-            currentLanguage: 'Select Language',
+            currentLanguage: this.getCurrentLanguage(),
             languageMenuOpen: false,
         };
     },
@@ -131,6 +139,17 @@ export default {
                 this.$i18n.locale = 'en';
             }
             this.languageMenuOpen = false;
+        },
+        getCurrentLanguage() {
+            // Retorne o idioma atual conforme a configuração do i18n
+            const currentLang = this.$i18n.locale;
+            if (currentLang === 'pt') {
+                return 'Português';
+            } else if (currentLang === 'fr') {
+                return 'Français';
+            } else {
+                return 'English';
+            }
         },
     },
     mounted() {
