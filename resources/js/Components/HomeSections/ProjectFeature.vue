@@ -1,9 +1,9 @@
 <template>
     <section>
         <div class="container mx-auto w-[85%] grid grid-cols-1 justify-center mt-10 xl:mt-20">
-            <img :src="wallpaperkitchen" alt="kitchen" class="absolute transform scale-x-[-1]">
-            <div class="bg-gray-100 rounded-lg pt-10 pb-20">
-                <div class="flex flex-col items-center px-4 z-20">
+            <img :src="wallpaperkitchen" alt="kitchen" class="absolute transform scale-x-[-1] w-72">
+            <div class="bg-gray-100 rounded-lg pt-10 pb-20 ">
+                <div class="flex flex-col items-center px-4">
                     <h1 class="text-xl xl:text-3xl text-center text-primary-default z-20">
                         {{ $t('projectsfeactures.projects') }}
                         <span class="text-secondary-default text-xl xl:text-3xl z-20">
