@@ -1,7 +1,7 @@
 <template>
     <nav :class="[
         'fixed top-0 left-0 w-full bg-opacity-90 z-30 p-4 flex justify-between items-center',
-        isHome ? 'bg-primary-default' : 'bg-gray-100'
+        isHome ? 'bg-primary-default' : 'bg-gray-200'
     ]">
         <!-- Logo à esquerda -->
         <a href="/">
@@ -30,7 +30,7 @@
             :class="{
                 'absolute bg-primary-default top-20 left-0 w-full p-8 lg:p-0 lg:bg-transparent lg:static': !screenIsLarge
             }">
-            <!-- Cada link, text-white se for home, text-black se não -->
+            <!-- Cada link, text-white se for home (ou materials), text-black se não -->
             <li>
                 <a href="/about" :class="[isHome ? 'text-white' : 'text-black', 'text-base xl:text-lg']">
                     Sobre Nós
@@ -114,6 +114,7 @@
         <!-- Botão à direita -->
         <div v-if="screenIsLarge || menuOpen" class="mt-4 lg:mt-0">
             <!-- Botão: se está em '/', BG secundária e texto branco;
+                 se está em '/materials', idem;
                  caso contrário, outra classe -->
             <button :class="[
                 'rounded-full py-2 px-6 text-lg hover:bg-secondary-light',
@@ -125,7 +126,6 @@
     </nav>
 </template>
 
-```javascript
 <script>
 import logo from '@/assets/images/logo/logotipo.svg';
 import logoOther from '@/assets/images/logo/LOGO.svg';
@@ -137,8 +137,8 @@ export default {
     name: 'Navbar',
     data() {
         return {
-            logo,       // Logotipo para a home
-            logoOther,  // Logotipo para as outras rotas
+            logo,
+            logoOther,
             ptFlag,
             frFlag,
             enFlag,
@@ -149,8 +149,9 @@ export default {
         };
     },
     computed: {
+        // Agora, tanto "/" quanto "/materials" serão tratados como "Home".
         isHome() {
-            return window.location.pathname === '/';
+            return window.location.pathname === '/' || window.location.pathname === '/materials';
         },
     },
     methods: {
