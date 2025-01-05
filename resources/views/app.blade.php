@@ -29,6 +29,8 @@
     <link rel="icon" href="{{ asset('assets/images/home/favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ asset('assets/images/home/favicon.png') }}" type="image/png">
 
+    <link rel="canonical" href="{{ $canonicalUrl ?? url()->current() }}">
+
     <title inertia>{{ config('app.name', 'Tecozi') }}</title>
 
 

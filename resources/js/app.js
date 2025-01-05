@@ -7,7 +7,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import i18n from './i18n';
 import { createVuetify } from 'vuetify';
-import MaintenancePage from '@/Components/errors/MaintenancePage.vue'; // Importa a página de manutenção
+import MaintenancePage from '@/Components/errors/MaintenancePage.vue';
+import { createMetaManager } from 'vue-meta';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Tecozi';
 
@@ -18,6 +19,7 @@ if (isMaintenance) {
     // Renderiza a página de manutenção
     const app = createApp(MaintenancePage);
     app.use(createVuetify); // Usa Vuetify, se necessário
+    app.use(createMetaManager()); // Use vue-meta in maintenance page
     app.mount('#app');
 } else {
     // Inicializa o Inertia.js normalmente
@@ -31,6 +33,7 @@ if (isMaintenance) {
             app.use(ZiggyVue);
             app.use(i18n);
             app.use(createVuetify);
+            app.use(createMetaManager()); // Use vue-meta
 
             app.mount(el);
         },

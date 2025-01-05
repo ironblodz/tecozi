@@ -5,8 +5,11 @@ import vue from '@vitejs/plugin-vue';
 // Definindo a configuração do Vite
 export default defineConfig({
     server: {
-    cors: true,  // Habilita o CORS para todos os domínios
+    cors: true,
   },
+  optimizeDeps: {
+        include: ['vue-meta'],
+    },
     plugins: [
         laravel({
             input: [

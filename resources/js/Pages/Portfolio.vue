@@ -2,24 +2,72 @@
     <Navbar />
     <Portfolio />
     <Footer />
-    </template>
+  </template>
 
-    <script>
-    import Navbar from '@/Components/Header/Navbar.vue';
-    import Portfolio from '@/Components/PortfolioSections/Portfolios.vue';
-    import Footer from '@/Components/Footer/Footer.vue';
+  <script>
+  import Navbar from '@/Components/Header/Navbar.vue';
+  import Portfolio from '@/Components/PortfolioSections/Portfolios.vue';
+  import Footer from '@/Components/Footer/Footer.vue';
+  import { onMounted } from 'vue';
+  import { useMeta } from 'vue-meta';
 
-    export default {
-        name: "Projects",
-        components: {
-            Navbar,
-            Portfolio,
-            Footer
-        },
-        data(){
-            return {
-
-            }
+  export default {
+    name: "Projects",
+    components: {
+      Navbar,
+      Portfolio,
+      Footer
+    },
+    setup() {
+      // Definir as meta tags dinâmicas e o link canonical
+      useMeta({
+        title: 'Projetos - Tecozi', // Título da página
+        meta: [
+          {
+            name: 'description',
+            content: 'Explore o portfólio de projetos realizados pela Tecozi, com móveis planejados e soluções personalizadas para cada cliente.'
+          },
+          {
+            name: 'keywords',
+            content: 'projetos, móveis planejados, portfólio, cozinhas, armários, Tecozi'
+          },
+          {
+            property: 'og:title',
+            content: 'Projetos - Tecozi'
+          },
+          {
+            property: 'og:description',
+            content: 'Explore o portfólio de projetos realizados pela Tecozi, com móveis planejados e soluções personalizadas para cada cliente.'
+          },
+          {
+            property: 'og:type',
+            content: 'website'
+          },
+          {
+            property: 'og:url',
+            content: window.location.href
+          },
+          {
+            name: 'twitter:title',
+            content: 'Projetos - Tecozi'
+          },
+          {
+            name: 'twitter:description',
+            content: 'Explore o portfólio de projetos realizados pela Tecozi, com móveis planejados e soluções personalizadas para cada cliente.'
+          }
+        ]
+      });
+      onMounted(() => {
+        const canonicalLink = document.querySelector('link[rel="canonical"]');
+        if (canonicalLink) {
+          canonicalLink.href = window.location.href;
+        } else {
+          const link = document.createElement('link');
+          link.rel = 'canonical';
+          link.href = window.location.href;
+          document.head.appendChild(link);
         }
+      });
     }
-    </script>
+  };
+  </script>
