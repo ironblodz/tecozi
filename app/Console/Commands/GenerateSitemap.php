@@ -20,8 +20,9 @@ class GenerateSitemap extends Command
 
     public function handle()
     {
-        // Força o uso de HTTPS
+        // Força o uso de HTTPS e do domínio correto
         URL::forceScheme('https');
+        URL::forceRootUrl(config('app.url'));
 
         $sitemap = Sitemap::create();
 
