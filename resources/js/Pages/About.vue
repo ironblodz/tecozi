@@ -11,7 +11,7 @@
   import History from "@/Components/AboutSections/History.vue";
   import Footer from "@/Components/Footer/Footer.vue";
   import { onMounted } from "vue";
-  import { useMeta } from "vue-meta"; // Importando vue-meta para gerenciar as meta tags
+  import { useMeta } from "vue-meta";
 
   export default {
     name: "Home",
@@ -21,9 +21,8 @@
       Footer
     },
     setup() {
-      // Configuração das meta tags dinâmicas usando vue-meta
       useMeta({
-        title: "História - Tecozi", // Título da página
+        title: "História - Tecozi",
         meta: [
           {
             name: "description",
@@ -36,7 +35,7 @@
           },
           {
             property: "og:title",
-            content: "História - Tecozi", // Título Open Graph
+            content: "História - Tecozi",
           },
           {
             property: "og:description",
@@ -53,7 +52,7 @@
           },
           {
             name: "twitter:title",
-            content: "História - Tecozi", // Título Twitter Card
+            content: "História - Tecozi",
           },
           {
             name: "twitter:description",
@@ -63,7 +62,6 @@
         ],
       });
 
-      // Adicionando o link canônico dinamicamente
       onMounted(() => {
         const canonicalLink = document.querySelector("link[rel='canonical']");
         if (canonicalLink) {

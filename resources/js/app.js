@@ -18,8 +18,8 @@ const isMaintenance = document.querySelector('meta[name="maintenance-mode"]')?.c
 if (isMaintenance) {
     // Renderiza a página de manutenção
     const app = createApp(MaintenancePage);
-    app.use(createVuetify); // Usa Vuetify, se necessário
-    app.use(createMetaManager()); // Use vue-meta in maintenance page
+    app.use(createVuetify);
+    app.use(createMetaManager());
     app.mount('#app');
 } else {
     // Inicializa o Inertia.js normalmente

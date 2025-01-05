@@ -14,7 +14,7 @@
             <div class="flex flex-col mx-5 justify-center items-center xl:items-start">
                 <h1 class="text-primary-default text-2xl xl:text-3xl text-center mb-5 z-20">
                     Trabalhamos com as <span class="text-secondary-default text-2xl xl:text-3xl">melhores marcas</span>
-                    do mundo
+                    do mercado
                 </h1>
                 <p class="text-base xl:text-lg text-center xl:text-left mb-10 z-50">
                     Trabalho de qualidade acompanhado dos melhores materiais em cada
