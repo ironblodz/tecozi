@@ -1,8 +1,8 @@
 <template>
     <section>
         <div class="flex flex-col z-20 mt-20 mb-2">
-                <h1 class="text-2xl xl:text-3xl text-left text-primary-default mt-16 mx-16">Portfólio de <span
-                        class="text-secondary-default text-2xl xl:text-3xl">Projetos realizados</span></h1>
+            <h1 class="text-2xl xl:text-3xl text-left text-primary-default mt-16 mx-16">Portfólio de <span
+                    class="text-secondary-default text-2xl xl:text-3xl">Projetos realizados</span></h1>
         </div>
         <div class="container mx-auto xl:max-w-6xl">
             <div class="flex flex-col xl:flex-row justify-center">
@@ -171,23 +171,30 @@ export default {
 
         // Método para buscar os projetos e categorias
         const fetchProjectsAndCategories = async () => {
-            try {
-                isLoading.value = true; // Inicia o carregamento
+    try {
+        isLoading.value = true;
 
-                // Requisição para pegar os projetos
-                const projectResponse = await axios.get('/api/portfolios');
-                const categoryResponse = await axios.get('/api/categories');
+        // Requisição para projetos
+        const projectResponse = await axios.get('/api/portfolios');
 
-                projects.value = projectResponse.data || [];
-                filteredProjects.value = [...projects.value]; // Inicializa com todos os projetos
-                categories.value = categoryResponse.data || []; // Atualiza as categorias
+        // Requisição para categorias visíveis no portfólio
+        const categoryResponse = await axios.get('/backoffice/portfolios/categories', {
+            params: { visible_on_portfolio: true }
+        });
 
-                isLoading.value = false; // Finaliza o carregamento
-            } catch (err) {
-                error.value = err.message || 'Erro desconhecido';
-                isLoading.value = false; // Finaliza o carregamento em caso de erro
-            }
-        };
+        projects.value = projectResponse.data || [];
+        filteredProjects.value = [...projects.value];
+        categories.value = categoryResponse.data || [];
+
+        console.log('Categorias recebidas:', categories.value);
+
+        isLoading.value = false;
+    } catch (err) {
+        error.value = err.message || 'Erro desconhecido';
+        isLoading.value = false;
+    }
+};
+
 
         // Carregar os projetos e categorias ao iniciar
         fetchProjectsAndCategories();
@@ -196,11 +203,15 @@ export default {
         const sortedCategories = computed(() => {
             const order = ['cozinhas', 'roupeiros', 'closets', 'acessórios'];
 
-            const sortedList = [...categories.value];
+            // Filtrar categorias não arquivadas
+            const activeCategories = categories.value.filter(category => !category.archived);
+
+            const sortedList = [...activeCategories];
             return sortedList.sort((a, b) => {
                 return order.indexOf(a.name) - order.indexOf(b.name);
             });
         });
+
 
 
         const totalPages = computed(() => {
@@ -230,16 +241,17 @@ export default {
         };
 
         const filterByCategory = (categoryId) => {
-            selectedCategory.value = categoryId;
-            if (categoryId === null) {
-                filteredProjects.value = [...projects.value];
-            } else {
-                filteredProjects.value = projects.value.filter(
-                    project => project.category_id === categoryId
-                );
-            }
-            currentPage.value = 1;
-        };
+    selectedCategory.value = categoryId;
+    if (categoryId === null) {
+        filteredProjects.value = [...projects.value];
+    } else {
+        filteredProjects.value = projects.value.filter(
+            project => project.category_id === categoryId
+        );
+    }
+    currentPage.value = 1;
+};
+
 
 
         const openModal = (project) => {

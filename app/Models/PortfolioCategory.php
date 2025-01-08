@@ -13,11 +13,23 @@ class PortfolioCategory extends Model
 
     protected $fillable = [
         'name',
-        'img'
+        'img',
+        'subtitle',
+        'description',
+        'archived',
+        'visible_in_materials',
+        'visible_on_portfolio',
     ];
 
     public function portfolios()
     {
         return $this->hasMany(Portfolio::class);
     }
+
+    public function photos()
+{
+    return $this->hasMany(CategoryPhoto::class, 'category_id');
+}
+
+
 }
