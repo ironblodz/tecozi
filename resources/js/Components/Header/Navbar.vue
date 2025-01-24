@@ -151,7 +151,7 @@ export default {
     computed: {
         // Agora, tanto "/" quanto "/materials" serão tratados como "Home".
         isHome() {
-            return window.location.pathname === '/' || window.location.pathname === '/materials';
+            return window.location.pathname === '/' ;
         },
     },
     methods: {

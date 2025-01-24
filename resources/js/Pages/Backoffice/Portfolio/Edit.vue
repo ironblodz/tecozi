@@ -143,7 +143,7 @@ onMounted(() => {
         </template>
 
         <div class="py-8">
-            <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">~
+            <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
                 <div class="bg-primary-default text-white py-4 px-6 rounded-lg shadow-md mb-6">
                     <h2 class="text-lg font-semibold">Edite as informações deste projeto</h2>
                 </div>

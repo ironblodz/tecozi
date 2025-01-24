@@ -15,6 +15,8 @@ class PortfolioCategory extends Model
         'name',
         'img',
         'subtitle',
+        'reference',
+        'label',
         'description',
         'archived',
         'visible_in_materials',

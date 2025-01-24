@@ -10,10 +10,8 @@
         <div class="py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center mb-4">
-                    <a
-                        :href="route('portfolio.categories.create')"
-                        class="bg-secondary-default text-white px-4 py-2 rounded shadow"
-                    >
+                    <a :href="route('portfolio.categories.create')"
+                        class="bg-secondary-default text-white px-4 py-2 rounded shadow">
                         Adicionar Categoria
                     </a>
                 </div>
@@ -37,13 +35,7 @@
                             fill="none"
                             stroke="currentColor"
                         >
-                            <circle
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                stroke-width="4"
-                            ></circle>
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path d="M4 12a8 8 0 1 1 8 8V12h-8z"></path>
                         </svg>
                     </div>
@@ -57,7 +49,7 @@
                     Não há categorias disponíveis
                 </div>
 
-                <!-- Tabela de dados -->
+                <!-- Tabela de dados com Draggable -->
                 <div
                     v-if="!loading && filteredCategories.length > 0"
                     class="overflow-x-auto bg-white shadow-md rounded-lg"
@@ -65,6 +57,11 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-100">
                             <tr>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                >
+                                    Ordem
+                                </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
@@ -83,208 +80,191 @@
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
-                                    Descrição
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                >
                                     Ações
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr
-                                v-for="item in filteredCategories"
-                                :key="item.id"
-                            >
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <img
-                                        v-if="item.img"
-                                        :src="`/storage/` + item.img"
-                                        alt="Imagem da categoria"
-                                        class="w-16 h-16 object-cover rounded-md"
-                                    />
-                                    <span v-else class="text-gray-500 italic"
-                                        >Sem imagem</span
-                                    >
-                                </td>
 
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ item.name }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ item.subtitle }}
-                                </td>
-                                <td
-                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium"
-                                >
-                                    <div class="flex items-center space-x-4">
-                                        <!-- Botão Editar -->
-                                        <a
-                                            :href="`/backoffice/portfolios/categories/edit/${item.id}`"
-                                            class="text-primary-default flex items-center space-x-1"
-                                        >
-                                            <svg
-                                                class="w-5 h-5"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
+                        <!-- DRAGGABLE -->
+                        <!-- Usamos v-model="categoriesLocal" (a lista "oficial") -->
+                        <!-- e :list="filteredCategories" para exibir apenas as filtradas -->
+                        <Draggable
+                            tag="tbody"
+                            v-model="categoriesLocal"
+                            :list="filteredCategories"
+                            itemKey="id"
+                            @end="onDragEnd"
+                            handle=".drag-handle"
+                            :disabled="loading"
+                        >
+                            <template #item="{ element }">
+                                <tr :key="element.id">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="cursor-move drag-handle text-gray-500">
+                                            &#x2630;
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <img
+                                            v-if="element.img"
+                                            :src="`/storage/` + element.img"
+                                            alt="Imagem da categoria"
+                                            class="w-16 h-16 object-cover rounded-md"
+                                        />
+                                        <span v-else class="text-gray-500 italic">Sem imagem</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {{ element.name }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {{ element.subtitle }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div class="flex items-center space-x-4">
+                                            <!-- Botão Editar -->
+                                            <a
+                                                :href="`/backoffice/portfolios/categories/edit/${element.id}`"
+                                                class="text-primary-default flex items-center space-x-1"
                                             >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M5 13l4 4L19 7M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
-                                                ></path>
-                                            </svg>
-                                            <span>Editar</span>
-                                        </a>
+                                                <svg
+                                                    class="w-5 h-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M5 13l4 4L19 7M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                                                    />
+                                                </svg>
+                                                <span>Editar</span>
+                                            </a>
 
-                                        <!-- Botão Eliminar -->
-                                        <button
-                                            @click.prevent="
-                                                confirmDelete(item.id)
-                                            "
-                                            class="text-secondary-default flex items-center space-x-1"
-                                        >
-                                            <svg
-                                                class="w-5 h-5"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
+                                            <!-- Botão Eliminar -->
+                                            <button
+                                                @click.prevent="confirmDelete(element.id)"
+                                                class="text-secondary-default flex items-center space-x-1"
                                             >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M6 18L18 6M6 6l12 12"
-                                                ></path>
-                                            </svg>
-                                            <span>Eliminar</span>
-                                        </button>
+                                                <svg
+                                                    class="w-5 h-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M6 18L18 6M6 6l12 12"
+                                                    />
+                                                </svg>
+                                                <span>Eliminar</span>
+                                            </button>
 
-                                        <!-- Botão Arquivar/Desarquivar -->
-                                        <button
-                                            @click.prevent="toggleArchive(item)"
-                                            :class="
-                                                item.archived
-                                                    ? 'text-green-500'
-                                                    : 'text-yellow-500'
-                                            "
-                                            class="flex items-center space-x-1"
-                                        >
-                                            <svg
-                                                class="w-5 h-5"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
+                                            <!-- Botão Arquivar/Desarquivar -->
+                                            <button
+                                                @click.prevent="toggleArchive(element)"
+                                                :class="element.archived ? 'text-green-500' : 'text-yellow-500'"
+                                                class="flex items-center space-x-1"
                                             >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    :d="
-                                                        item.archived
+                                                <svg
+                                                    class="w-5 h-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        :d="element.archived
                                                             ? 'M3 12l2-2m0 0l7-7 7 7M13 5v6h6'
-                                                            : 'M12 4v16m8-8H4'
-                                                    "
-                                                ></path>
-                                            </svg>
-                                            <span>{{
-                                                item.archived
-                                                    ? "Desarquivar"
-                                                    : "Arquivar"
-                                            }}</span>
-                                        </button>
+                                                            : 'M12 4v16m8-8H4'"
+                                                    />
+                                                </svg>
+                                                <span>
+                                                    {{ element.archived ? "Desarquivar" : "Arquivar" }}
+                                                </span>
+                                            </button>
 
-                                        <!-- Botão Alternar Visibilidade na Página de Materiais -->
-                                        <button
-                                            @click.prevent="
-                                                toggleVisibility(item)
-                                            "
-                                            :class="
-                                                item.visible_in_materials
-                                                    ? 'text-blue-500'
-                                                    : 'text-gray-500'
-                                            "
-                                            class="flex items-center space-x-1"
-                                        >
-                                            <svg
-                                                class="w-5 h-5"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
+                                            <!-- Botão Alternar Visibilidade na Página de Materiais -->
+                                            <button
+                                                @click.prevent="toggleVisibility(element)"
+                                                :class="element.visible_in_materials ? 'text-blue-500' : 'text-gray-500'"
+                                                class="flex items-center space-x-1"
                                             >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    :d="
-                                                        item.visible_in_materials
+                                                <svg
+                                                    class="w-5 h-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        :d="element.visible_in_materials
                                                             ? 'M13 10V3L4 14h7v7l9-11h-7z'
-                                                            : 'M13 10V3L4 14h7v7l9-11h-7z'
-                                                    "
-                                                ></path>
-                                            </svg>
-                                            <span>{{
-                                                item.visible_in_materials
-                                                    ? "Ocultar na Materiais"
-                                                    : "Mostrar na Materiais"
-                                            }}</span>
-                                        </button>
-                                        <button
-                                            @click.prevent="
-                                                togglePortfolioVisibility(item)
-                                            "
-                                            :class="
-                                                item.visible_on_portfolio
-                                                    ? 'text-purple-500'
-                                                    : 'text-gray-500'
-                                            "
-                                            class="flex items-center space-x-1"
-                                        >
-                                            <svg
-                                                class="w-5 h-5"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
+                                                            : 'M13 10V3L4 14h7v7l9-11h-7z'"
+                                                    />
+                                                </svg>
+                                                <span>
+                                                    {{
+                                                        element.visible_in_materials
+                                                            ? "Ocultar na Materiais"
+                                                            : "Mostrar na Materiais"
+                                                    }}
+                                                </span>
+                                            </button>
+
+                                            <!-- Botão Alternar Visibilidade no Portfólio -->
+                                            <button
+                                                @click.prevent="togglePortfolioVisibility(element)"
+                                                :class="element.visible_on_portfolio ? 'text-purple-500' : 'text-gray-500'"
+                                                class="flex items-center space-x-1"
                                             >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    :d="
-                                                        item.visible_on_portfolio
+                                                <svg
+                                                    class="w-5 h-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        :d="element.visible_on_portfolio
                                                             ? 'M9 12l2 2l4-4'
-                                                            : 'M4 6h16M4 12h16m-7 6h7'
-                                                    "
-                                                ></path>
-                                            </svg>
-                                            <span>{{
-                                                item.visible_on_portfolio
-                                                    ? "Ocultar no Portfólio"
-                                                    : "Mostrar no Portfólio"
-                                            }}</span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                                                            : 'M4 6h16M4 12h16m-7 6h7'"
+                                                    />
+                                                </svg>
+                                                <span>
+                                                    {{
+                                                        element.visible_on_portfolio
+                                                            ? "Ocultar no Portfólio"
+                                                            : "Mostrar no Portfólio"
+                                                    }}
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </Draggable>
                     </table>
                 </div>
             </div>
         </div>
 
         <!-- Modal de Confirmação de Exclusão -->
-        <div
-            v-if="showModal"
-            class="fixed inset-0 flex items-center justify-center z-50"
-        >
+        <div v-if="showModal" class="fixed inset-0 flex items-center justify-center z-50">
             <div class="bg-gray-500 bg-opacity-75 absolute inset-0"></div>
             <div class="bg-white rounded-lg shadow-lg p-6 relative z-10">
                 <h3 class="text-lg font-semibold text-gray-900">
@@ -320,167 +300,168 @@ import axios from "axios";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
+import Draggable from "vuedraggable";
 
-// Página e props
 const page = usePage();
 const props = ref(page.props);
 
-// Definições da tabela (se ainda não estiver sendo usado, pode ser removido)
-const headers = [
-    { text: "Name", value: "name", align: "center" },
-    { text: "Actions", value: "actions", align: "center", sortable: false },
-];
+// === 1) ARRAY REATIVO LOCAL (onde Draggable atua) ===
+const categoriesLocal = ref([]);
 
-// Estado e dados
-const categories = computed(() => props.value?.categories || []);
+// === 2) OUTROS ESTADOS ===
 const search = ref("");
 const loading = ref(false);
 const showModal = ref(false);
 const categoryToDelete = ref(null);
 
-// Filtrar categorias com base na pesquisa
-const filteredCategories = computed(() => {
-    if (!search.value.trim()) {
-        return categories.value;
-    } else {
-        return categories.value.filter((item) =>
-            item.name.toLowerCase().includes(search.value.trim().toLowerCase())
-        );
-    }
+// === 3) COPIA CATEGORIAS DAS PROPS AO MONTAR ===
+onMounted(() => {
+    categoriesLocal.value = props.value.categories || [];
+    console.log("Current categories:", categoriesLocal.value);
 });
 
-// Confirmar exclusão
+// === 4) FILTRO SOMENTE PARA EXIBIR (não é v-model do Draggable) ===
+const filteredCategories = computed(() => {
+    if (!search.value.trim()) {
+        return categoriesLocal.value;
+    }
+    return categoriesLocal.value.filter((item) =>
+        item.name.toLowerCase().includes(search.value.toLowerCase())
+    );
+});
+
+// === 5) EXCLUSÃO / MODAL ===
 const confirmDelete = (categoryId) => {
     categoryToDelete.value = categoryId;
     showModal.value = true;
 };
 
-// Fechar modal
 const closeModal = () => {
     showModal.value = false;
     categoryToDelete.value = null;
 };
 
-// Confirmar exclusão da categoria
 const deleteCategory = async () => {
-    if (categoryToDelete.value) {
-        loading.value = true;
-        try {
-            await axios.post("/backoffice/portfolios/categories/delete/", {
-                id: categoryToDelete.value,
-            });
-            console.log("Category deleted");
-            Toastify({
-                text: "Categoria excluída com sucesso!",
-                backgroundColor: "#28a745",
-                className: "info",
-            }).showToast();
-            // Remover a categoria excluída da lista local
-            props.value.categories = props.value.categories.filter(
-                (category) => category.id !== categoryToDelete.value
-            );
-        } catch (error) {
-            console.error("Error deleting category:", error);
-            Toastify({
-                text: "Erro ao excluir a categoria: " + error.message,
-                backgroundColor: "#dc3545",
-                className: "error",
-            }).showToast();
-        } finally {
-            loading.value = false;
-            closeModal();
-        }
+    if (!categoryToDelete.value) return;
+    loading.value = true;
+    try {
+        await axios.post("/backoffice/portfolios/categories/delete/", {
+            id: categoryToDelete.value,
+        });
+        Toastify({
+            text: "Categoria excluída com sucesso!",
+            backgroundColor: "#28a745",
+        }).showToast();
+
+        // Remover localmente
+        categoriesLocal.value = categoriesLocal.value.filter(
+            (cat) => cat.id !== categoryToDelete.value
+        );
+    } catch (error) {
+        Toastify({
+            text: "Erro ao excluir a categoria: " + error.message,
+            backgroundColor: "#dc3545",
+        }).showToast();
+    } finally {
+        loading.value = false;
+        closeModal();
     }
 };
 
-// Método para alternar o status de arquivamento
+// === 6) TOGGLE ARCHIVE ===
 const toggleArchive = async (category) => {
     loading.value = true;
     try {
-        await axios.post(
-            `/backoffice/portfolios/categories/${category.id}/toggle-archive`
-        );
-        // Atualizar o status localmente
+        await axios.post(`/backoffice/portfolios/categories/${category.id}/toggle-archive`);
         category.archived = !category.archived;
+
         Toastify({
             text: category.archived
                 ? "Categoria arquivada com sucesso!"
                 : "Categoria desarquivada com sucesso!",
             backgroundColor: category.archived ? "#ffc107" : "#28a745",
-            className: "info",
         }).showToast();
     } catch (error) {
-        console.error("Erro ao alternar arquivamento:", error);
         Toastify({
             text: "Erro ao atualizar o status de arquivamento.",
             backgroundColor: "#dc3545",
-            className: "error",
         }).showToast();
     } finally {
         loading.value = false;
     }
 };
 
-// Método para alternar a visibilidade na página de materiais
+// === 7) TOGGLE VISIBILITY (MATERIAIS) ===
 const toggleVisibility = async (category) => {
     loading.value = true;
     try {
-        await axios.post(
-            `/backoffice/portfolios/categories/${category.id}/toggle-visibility`
-        );
-        // Atualizar a visibilidade localmente
+        await axios.post(`/backoffice/portfolios/categories/${category.id}/toggle-visibility`);
         category.visible_in_materials = !category.visible_in_materials;
+
         Toastify({
             text: category.visible_in_materials
                 ? "Categoria agora visível na página de Materiais!"
                 : "Categoria agora oculta na página de Materiais!",
-            backgroundColor: category.visible_in_materials
-                ? "#007bff"
-                : "#6c757d",
-            className: "info",
+            backgroundColor: category.visible_in_materials ? "#007bff" : "#6c757d",
         }).showToast();
     } catch (error) {
-        console.error("Erro ao alternar visibilidade:", error);
         Toastify({
             text: "Erro ao atualizar a visibilidade da categoria.",
             backgroundColor: "#dc3545",
-            className: "error",
         }).showToast();
     } finally {
         loading.value = false;
     }
 };
 
+// === 8) TOGGLE VISIBILITY (PORTFOLIO) ===
 const togglePortfolioVisibility = async (category) => {
     loading.value = true;
     try {
         await axios.post(
             `/backoffice/portfolios/categories/${category.id}/toggle-visibility-on-portfolio`
         );
-        // Atualizar a visibilidade localmente
         category.visible_on_portfolio = !category.visible_on_portfolio;
+
         Toastify({
             text: category.visible_on_portfolio
                 ? "Categoria agora visível no portfólio!"
                 : "Categoria agora oculta no portfólio!",
-            backgroundColor: category.visible_on_portfolio
-                ? "#6a1b9a"
-                : "#9e9e9e",
-            className: "info",
+            backgroundColor: category.visible_on_portfolio ? "#6a1b9a" : "#9e9e9e",
         }).showToast();
     } catch (error) {
-        console.error("Erro ao alternar visibilidade no portfólio:", error);
         Toastify({
             text: "Erro ao atualizar a visibilidade no portfólio.",
             backgroundColor: "#dc3545",
-            className: "error",
         }).showToast();
     } finally {
         loading.value = false;
     }
 };
 
-onMounted(() => {
-    console.log("Current categories:", categories.value);
-});
+// === 9) DRAG & DROP (onDragEnd) ===
+const onDragEnd = async () => {
+    // Pegamos a nova ordem de 'categoriesLocal'
+    const orderedIds = categoriesLocal.value.map((cat) => cat.id);
+
+    loading.value = true;
+    try {
+        // Enviar a nova ordem pro back-end
+        await axios.post("/backoffice/portfolios/categories/reorder", {
+            orderedIds,
+        });
+
+        Toastify({
+            text: "Ordem das categorias atualizada com sucesso!",
+            backgroundColor: "#28a745",
+        }).showToast();
+    } catch (error) {
+        Toastify({
+            text: "Erro ao atualizar a ordem das categorias.",
+            backgroundColor: "#dc3545",
+        }).showToast();
+    } finally {
+        loading.value = false;
+    }
+};
 </script>

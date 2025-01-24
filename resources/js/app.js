@@ -9,6 +9,8 @@ import i18n from './i18n';
 import { createVuetify } from 'vuetify';
 import MaintenancePage from '@/Components/errors/MaintenancePage.vue';
 import { createMetaManager } from 'vue-meta';
+import { plugin as VueTippy } from 'vue-tippy';
+import 'tippy.js/dist/tippy.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Tecozi';
 
@@ -18,7 +20,7 @@ const isMaintenance = document.querySelector('meta[name="maintenance-mode"]')?.c
 if (isMaintenance) {
     // Renderiza a página de manutenção
     const app = createApp(MaintenancePage);
-    app.use(createVuetify);
+    app.use(createVuetify());
     app.use(createMetaManager());
     app.mount('#app');
 } else {
@@ -30,9 +32,21 @@ if (isMaintenance) {
             const app = createApp({ render: () => h(App, props) });
 
             app.use(plugin);
+            app.use(
+                VueTippy,
+                {
+                  directive: 'tippy', // => v-tippy
+                  component: 'tippy', // => <tippy/>
+                  componentSingleton: 'tippy-singleton', // => <tippy-singleton/>,
+                  defaultProps: {
+                    placement: 'auto-end',
+                    allowHTML: true,
+                  },
+                }
+              )
             app.use(ZiggyVue);
             app.use(i18n);
-            app.use(createVuetify);
+            app.use(createVuetify());
             app.use(createMetaManager()); // Use vue-meta
 
             app.mount(el);

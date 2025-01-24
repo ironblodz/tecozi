@@ -1,10 +1,12 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { usePage, Head } from '@inertiajs/vue3';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import axios from 'axios';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
+import Dropzone from 'dropzone';
+import 'dropzone/dist/dropzone.css';
 
 const { props } = usePage();
 
@@ -20,6 +22,10 @@ const category = ref({
 const galleryPreview = ref([]);
 const errors = ref({});
 const previewImage = ref(null);
+
+// Referência para o elemento Dropzone
+const galleryDropzone = ref(null);
+let myDropzone = null;
 
 // Função para limpar o formulário
 const cancel = () => {
@@ -45,19 +51,6 @@ const handleImageChange = (event) => {
         category.value.img = file;
         previewImage.value = URL.createObjectURL(file);
     }
-};
-
-const handleGalleryChange = (event) => {
-    const files = Array.from(event.target.files);
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
-    const validFiles = files.filter((file) => allowedTypes.includes(file.type));
-
-    if (validFiles.length < files.length) {
-        alert('Alguns arquivos não são suportados e foram ignorados.');
-    }
-
-    category.value.gallery.push(...validFiles);
-    galleryPreview.value.push(...validFiles.map((file) => URL.createObjectURL(file)));
 };
 
 // Função para criar a categoria
@@ -122,6 +115,42 @@ onMounted(() => {
             ? props.category.photos.map(photo => `/storage/${photo.photo_path}`)
             : [];
     }
+
+    // Configuração do Dropzone
+    Dropzone.autoDiscover = false; // Evita que Dropzone automaticamente inicialize
+
+    myDropzone = new Dropzone(galleryDropzone.value, {
+        url: "/fake-url", // URL falsa já que vamos gerenciar o upload manualmente
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 10,
+        maxFilesize: 5, // em MB
+        acceptedFiles: 'image/*',
+        addRemoveLinks: true,
+        dictDefaultMessage: "Arraste e solte as imagens aqui ou clique para selecionar.",
+    });
+
+    // Evento quando um arquivo é adicionado
+    myDropzone.on("addedfile", (file) => {
+        category.value.gallery.push(file);
+        galleryPreview.value.push(URL.createObjectURL(file));
+    });
+
+    // Evento quando um arquivo é removido
+    myDropzone.on("removedfile", (file) => {
+        const index = category.value.gallery.indexOf(file);
+        if (index > -1) {
+            category.value.gallery.splice(index, 1);
+            galleryPreview.value.splice(index, 1);
+        }
+    });
+});
+
+// Limpeza ao desmontar o componente
+onBeforeUnmount(() => {
+    if (myDropzone) {
+        myDropzone.destroy();
+    }
 });
 </script>
 
@@ -180,11 +209,10 @@ onMounted(() => {
                         <div>
                             <label for="gallery" class="block text-sm font-medium text-gray-700">Galeria de
                                 Imagens</label>
-                            <input id="gallery" type="file" multiple @change="handleGalleryChange"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm">
-                            <div class="grid grid-cols-3 gap-4 mt-4">
-                                <div v-for="(image, index) in galleryPreview" :key="index" class="relative">
-                                    <img :src="image" alt="Preview" class="w-32 h-32 object-cover rounded-md shadow">
+                            <div id="gallery-dropzone" ref="galleryDropzone"
+                                class="dropzone mt-1 border-2 border-dashed border-gray-300 rounded-md p-4">
+                                <div class="dz-message">
+                                    Arraste e solte as imagens aqui ou clique para selecionar.
                                 </div>
                             </div>
                         </div>

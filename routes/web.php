@@ -4,6 +4,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Portfolio\CategoriesController as PortfolioCategoriesController;
 use App\Http\Controllers\Portfolio\ImagesController as PortfolioImagesController;
 use App\Http\Controllers\Portfolio\PortfolioController;
+use App\Http\Controllers\Portfolio\CategoriesController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -59,7 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/backoffice/portfolios/categories/create', [PortfolioCategoriesController::class, 'create'])->name('portfolio.categories.create');
     Route::post('/backoffice/portfolios/categories/store', [PortfolioCategoriesController::class, 'store'])->name('portfolio.categories.store');
     Route::get('/backoffice/portfolios/categories/edit/{id}', [PortfolioCategoriesController::class, 'edit'])->name('portfolio.categories.edit');
-    Route::post('/backoffice/portfolios/categories/update', [PortfolioCategoriesController::class, 'update'])->name('portfolio.categories.update');
+    Route::put('/backoffice/portfolios/categories/update/{id}', [PortfolioCategoriesController::class, 'update'])->name('portfolio.categories.update');
     Route::post('/backoffice/portfolios/categories/delete/', [PortfolioCategoriesController::class, 'destroy'])->name('portfolio.categories.destroy');
     Route::post('/backoffice/portfolios/categories/{category}/toggle-archive', [PortfolioCategoriesController::class, 'toggleArchive'])->name('categories.toggleArchive');
     Route::post('/backoffice/portfolios/categories/{category}/toggle-visibility', [PortfolioCategoriesController::class, 'toggleVisibility'])->name('categories.toggleVisibility');
@@ -68,9 +69,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/categories/visible-in-materials', [PortfolioCategoriesController::class, 'getVisibleInMaterialsCategories'])
     ->name('categories.visible-in-materials');
     Route::post('Backoffice/Portfolio/Categories/Edit', [PortfolioCategoriesController::class, 'deleteGalleryImage']);
-
     Route::post('/backoffice/portfolios/upload-image', [PortfolioImagesController::class, 'store'])->name('portfolio.images.store');
     Route::post('/backoffice/portfolios/remove-image', [PortfolioImagesController::class, 'remove'])->name('portfolio.images.remove');
+
+    Route::post('/backoffice/portfolios/categories/reorder', [CategoriesController::class, 'reorder'])->middleware('auth');
 });
 
 Route::get('/api/portfolios', [PortfolioController::class, 'getPortfolios'])->name('portfolio.api');

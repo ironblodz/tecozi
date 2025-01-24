@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Portfolio;
 
+use App\Models\CategoryPhoto;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\PortfolioCategory;
@@ -17,6 +18,8 @@ class CategoriesController extends Controller
             'name' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'reference' => 'nullable|string',
+            'label' => 'nullable|string',
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ], [
@@ -29,14 +32,13 @@ class CategoriesController extends Controller
 
     public function index(Request $request)
     {
-        $query = PortfolioCategory::latest();
+        $query = PortfolioCategory::orderBy('order'); // Ordenar pelo campo 'order'
 
-        // Aplicar filtro de 'visible_on_portfolio' se necessário
+        // Aplicar filtros se necessário
         if ($request->input('visible_on_portfolio', false)) {
             $query->where('visible_on_portfolio', true);
         }
 
-        // Aplicar filtro de 'visible_in_materials' se necessário
         if ($request->input('visible_in_materials', false)) {
             $query->where('visible_in_materials', true);
         }
@@ -52,12 +54,27 @@ class CategoriesController extends Controller
         ]);
     }
 
+    public function reorder(Request $request)
+{
+    $orderedIds = $request->input('orderedIds');
+
+    foreach ($orderedIds as $index => $id) {
+        PortfolioCategory::where('id', $id)->update(['order' => $index + 1]);
+    }
+
+    return response()->json(['message' => 'Ordem atualizada com sucesso.'], 200);
+}
+
+
     public function getVisibleInMaterialsCategories(Request $request)
     {
-        $categories = PortfolioCategory::where('visible_in_materials', true)->get();
+        $categories = PortfolioCategory::where('visible_in_materials', true)
+            ->with('photos') // Carrega as fotos relacionadas
+            ->get();
 
         return response()->json($categories);
     }
+
 
 
 
@@ -84,8 +101,6 @@ class CategoriesController extends Controller
 
         return response()->json(['message' => 'Visibilidade no portfólio atualizada com sucesso.']);
     }
-
-
 
 
     public function getCategories(Request $request)
@@ -131,81 +146,107 @@ class CategoriesController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
-        ]);
-
-        try {
-            // Salvar imagem de capa
-            $imagePath = null;
-            if ($request->hasFile('img')) {
-                $imagePath = $request->file('img')->store('categories', 'public');
-            }
-
-            // Criar a categoria
-            $category = PortfolioCategory::create([
+        // Criação ou atualização da categoria
+        $category = PortfolioCategory::updateOrCreate(
+            ['id' => $request->id],
+            [
                 'name' => $request->name,
                 'subtitle' => $request->subtitle,
                 'description' => $request->description,
-                'img' => $imagePath,
+                'img' => $request->hasFile('img') ? $request->file('img')->store('images') : (isset($category) ? $category->img : null),
+            ]
+        );
+
+        // Remover imagens existentes se necessário
+        if ($request->filled('removedGallery')) {
+            $removedIds = json_decode($request->removedGallery, true);
+            foreach ($removedIds as $id) {
+                $photo = CategoryPhoto::find($id);
+                if ($photo) {
+                    Storage::delete($photo->photo_path);
+                    $photo->delete();
+                }
+            }
+        }
+
+        // Adicionar novas imagens à galeria
+        if ($request->hasFile('newGallery')) {
+            foreach ($request->file('newGallery') as $file) {
+                $path = $file->store('gallery');
+                $category->photos()->create(['photo_path' => $path]);
+            }
+        }
+
+        return redirect()->route('portfolio.categories.index')->with('success', 'Categoria salva com sucesso!');
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            // Encontrar a categoria existente
+            $category = PortfolioCategory::findOrFail($id);
+
+            // Validação dos dados recebidos
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'subtitle' => 'nullable|string|max:255',
+                'description' => 'nullable|string',
+                'reference' => 'nullable|string',
+                'label' => 'nullable|string',
+                'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'new_gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'removedGallery' => 'nullable|json', // Atualizado para corresponder ao frontend
             ]);
 
-            // Salvar imagens da galeria
-            if ($request->hasFile('gallery')) {
-                foreach ($request->file('gallery') as $galleryImage) {
-                    $galleryPath = $galleryImage->store('categories/gallery', 'public');
-                    $category->photos()->create(['photo_path' => $galleryPath]);
-                }
-            }
+            // Atualizar campos básicos
+            $category->name = $validated['name'];
+            $category->subtitle = $validated['subtitle'];
+            $category->description = $validated['description'];
 
-            return response()->json(['success' => true, 'message' => 'Categoria criada com sucesso!']);
-        } catch (\Exception $e) {
-            \Log::error('Erro ao criar categoria: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Erro ao criar categoria!'], 500);
-        }
-    }
-
-    public function update(Request $request, PortfolioCategory $category)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
-        ]);
-
-        try {
-            // Atualizar imagem de capa, se houver
+            // Atualizar imagem principal, se fornecida
             if ($request->hasFile('img')) {
+                // Remover imagem antiga, se existir
                 if ($category->img) {
-                    Storage::disk('public')->delete($category->img);
+                    Storage::delete('public/' . $category->img);
                 }
-                $imagePath = $request->file('img')->store('categories', 'public');
-                $category->img = $imagePath;
+                // Armazenar a nova imagem
+                $path = $request->file('img')->store('categories', 'public');
+                $category->img = $path;
             }
 
-            $category->update($request->only(['name', 'subtitle', 'description']));
+            $category->save();
+
+            // Processar imagens existentes que devem ser removidas
+            if ($request->filled('removedGallery')) {
+                $removedIds = json_decode($request->removedGallery, true);
+                if (is_array($removedIds)) {
+                    foreach ($removedIds as $photoId) {
+                        $photo = CategoryPhoto::find($photoId);
+                        if ($photo) {
+                            Storage::delete('public/' . $photo->photo_path);
+                            $photo->delete();
+                        }
+                    }
+                }
+            }
 
             // Adicionar novas imagens à galeria
-            if ($request->hasFile('gallery')) {
-                foreach ($request->file('gallery') as $galleryImage) {
-                    $galleryPath = $galleryImage->store('categories/gallery', 'public');
-                    $category->photos()->create(['photo_path' => $galleryPath]);
+            if ($request->hasFile('new_gallery')) {
+                foreach ($request->file('new_gallery') as $file) {
+                    $path = $file->store('categories/gallery', 'public');
+                    $category->photos()->create(['photo_path' => $path]);
                 }
             }
 
-            return response()->json(['success' => true, 'message' => 'Categoria atualizada com sucesso!']);
+            return response()->json(['success' => 'Categoria atualizada com sucesso!'], 200);
         } catch (\Exception $e) {
+            // Registrar o erro nos logs
             \Log::error('Erro ao atualizar categoria: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Erro ao atualizar categoria!'], 500);
+
+            // Retornar resposta de erro
+            return response()->json(['error' => 'Erro interno do servidor.'], 500);
         }
     }
-
 
     public function destroy(Request $request)
     {

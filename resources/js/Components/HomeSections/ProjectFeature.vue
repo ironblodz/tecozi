@@ -84,6 +84,7 @@ export default {
             try {
                 const response = await axios.get('/api/featured-portfolios');
                 this.featuredProjects = response.data;
+                console.log('Projetos Destacados:', this.featuredProjects);
             } catch (error) {
                 console.error('Erro ao buscar os projetos:', error);
             }
@@ -92,6 +93,7 @@ export default {
             try {
                 const response = await axios.get('/api/categories');
                 this.categories = response.data;
+                console.log('Categorias:', this.categories);
             } catch (error) {
                 console.error('Erro ao trazer as categorias:', error);
             }
@@ -100,7 +102,10 @@ export default {
             return `/storage/${imagePath}`;
         },
         getCategoryName(categoryId) {
-            const category = this.categories.find(cat => cat.id === categoryId);
+            const category = this.categories.find(cat => Number(cat.id) === Number(categoryId));
+            if (!category) {
+                console.warn(`Categoria com ID ${categoryId} não encontrada.`);
+            }
             return category ? category.name : 'Categoria desconhecida';
         },
         openModal(imageUrl, project) {
