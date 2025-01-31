@@ -58,7 +58,7 @@
             <!-- Modal com Swiper -->
             <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
                 @click="closeModal">
-                <div class="relative group w-[90%] md:w-[60%] xl:w-[50%] bg-white p-6 rounded-lg shadow-lg" @click.stop>
+                <div class="relative group w-[90%] md:w-[60%] xl:w-[50%] bg-gray-200 p-6 rounded-lg shadow-lg" @click.stop>
                     <button @click="closeModal"
                         class="absolute top-4 right-4 bg-gray-200 text-black rounded-lg p-2 text-xl z-50">✕</button>
 
@@ -178,5 +178,20 @@ onMounted(fetchProjectsAndCategories);
     justify-content: center;
     align-items: center;
     z-index: 1000;
+}
+
+:deep(.swiper-button-next),
+:deep(.swiper-button-prev) {
+    color: #3D4877 !important; /* Altere para a cor desejada */
+}
+
+/* Mudar a cor das bolinhas da paginação */
+:deep(.swiper-pagination-bullet) {
+    background-color: #3D4877 !important; /* Cor das bolinhas */
+    opacity: 1;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+    background-color: #BF0404 !important; /* Cor da bolinha ativa */
 }
 </style>

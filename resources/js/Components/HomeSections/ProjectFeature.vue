@@ -186,4 +186,19 @@ onMounted(() => {
     width: 100vw;
     height: 100vh;
 }
+
+:deep(.swiper-button-next),
+:deep(.swiper-button-prev) {
+    color: #3D4877 !important; /* Altere para a cor desejada */
+}
+
+/* Mudar a cor das bolinhas da paginação */
+:deep(.swiper-pagination-bullet) {
+    background-color: #3D4877 !important; /* Cor das bolinhas */
+    opacity: 1;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+    background-color: #BF0404 !important; /* Cor da bolinha ativa */
+}
 </style>
