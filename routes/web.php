@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/backoffice/portfolios/categories/create', [PortfolioCategoriesController::class, 'create'])->name('portfolio.categories.create');
     Route::post('/backoffice/portfolios/categories/store', [PortfolioCategoriesController::class, 'store'])->name('portfolio.categories.store');
     Route::get('/backoffice/portfolios/categories/edit/{id}', [PortfolioCategoriesController::class, 'edit'])->name('portfolio.categories.edit');
-    Route::put('/backoffice/portfolios/categories/update/{id}', [PortfolioCategoriesController::class, 'update'])->name('portfolio.categories.update');
+    Route::post('/backoffice/portfolios/categories/update', [PortfolioCategoriesController::class, 'update'])->name('portfolio.categories.update');
     Route::post('/backoffice/portfolios/categories/delete/', [PortfolioCategoriesController::class, 'destroy'])->name('portfolio.categories.destroy');
     Route::post('/backoffice/portfolios/categories/{category}/toggle-archive', [PortfolioCategoriesController::class, 'toggleArchive'])->name('categories.toggleArchive');
     Route::post('/backoffice/portfolios/categories/{category}/toggle-visibility', [PortfolioCategoriesController::class, 'toggleVisibility'])->name('categories.toggleVisibility');
@@ -77,11 +77,16 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/api/portfolios', [PortfolioController::class, 'getPortfolios'])->name('portfolio.api');
 Route::get('/api/categories', [PortfolioCategoriesController::class, 'getCategories'])->name('categories.api');
+
 Route::get('/api/featured-portfolios', function () {
-    // Supondo que você tenha uma coluna 'highlighted' no modelo Portfolio
-    $featuredPortfolios = Portfolio::where('highlighted', true)->get();
+    // ✅ Agora carrega os portfólios junto com as imagens da galeria
+    $featuredPortfolios = Portfolio::with('images') // 🔥 Adiciona as imagens associadas
+        ->where('highlighted', true)
+        ->get();
+
     return response()->json($featuredPortfolios);
 });
+
 
 
 Route::get('/', function () {

@@ -1,4 +1,5 @@
 <template>
+
     <Head title="Categorias" />
     <AuthenticatedLayout>
         <template #header>
@@ -18,23 +19,15 @@
 
                 <!-- Campo de pesquisa -->
                 <div class="mb-4">
-                    <input
-                        v-model="search"
-                        type="text"
-                        placeholder="Pesquisar"
-                        class="border border-gray-300 rounded px-4 py-2 w-full"
-                    />
+                    <input v-model="search" type="text" placeholder="Pesquisar"
+                        class="border border-gray-300 rounded px-4 py-2 w-full" />
                 </div>
 
                 <!-- Loader -->
                 <div v-if="loading" class="flex justify-center">
                     <div class="relative">
-                        <svg
-                            class="animate-spin h-8 w-8 text-blue-700"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                        >
+                        <svg class="animate-spin h-8 w-8 text-blue-700" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor">
                             <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path d="M4 12a8 8 0 1 1 8 8V12h-8z"></path>
                         </svg>
@@ -42,44 +35,31 @@
                 </div>
 
                 <!-- Mensagem de erro se não houver categorias -->
-                <div
-                    v-if="!loading && filteredCategories.length === 0"
-                    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-                >
+                <div v-if="!loading && filteredCategories.length === 0"
+                    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
                     Não há categorias disponíveis
                 </div>
 
                 <!-- Tabela de dados com Draggable -->
-                <div
-                    v-if="!loading && filteredCategories.length > 0"
-                    class="overflow-x-auto bg-white shadow-md rounded-lg"
-                >
+                <div v-if="!loading && filteredCategories.length > 0"
+                    class="overflow-x-auto bg-white shadow-md rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-100">
                             <tr>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                >
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Ordem
                                 </th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                >
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Imagem
                                 </th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                >
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Nome
                                 </th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                >
-                                    Subtitulo
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                >
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Ações
                                 </th>
                             </tr>
@@ -88,30 +68,14 @@
                         <!-- DRAGGABLE -->
                         <!-- Usamos v-model="categoriesLocal" (a lista "oficial") -->
                         <!-- e :list="filteredCategories" para exibir apenas as filtradas -->
-                        <Draggable
-                            tag="tbody"
-                            v-model="categoriesLocal"
-                            :list="filteredCategories"
-                            itemKey="id"
-                            @end="onDragEnd"
-                            handle=".drag-handle"
-                            :disabled="loading"
-                        >
+                        <Draggable tag="tbody" v-model="categoriesLocal" :list="filteredCategories" itemKey="id"
+                            @end="onDragEnd" handle=".drag-handle" :disabled="loading">
                             <template #item="{ element }">
                                 <tr :key="element.id">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="cursor-move drag-handle text-gray-500">
                                             &#x2630;
                                         </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <img
-                                            v-if="element.img"
-                                            :src="`/storage/` + element.img"
-                                            alt="Imagem da categoria"
-                                            class="w-16 h-16 object-cover rounded-md"
-                                        />
-                                        <span v-else class="text-gray-500 italic">Sem imagem</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ element.name }}
@@ -122,70 +86,38 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex items-center space-x-4">
                                             <!-- Botão Editar -->
-                                            <a
-                                                :href="`/backoffice/portfolios/categories/edit/${element.id}`"
-                                                class="text-primary-default flex items-center space-x-1"
-                                            >
-                                                <svg
-                                                    class="w-5 h-5"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
+                                            <a :href="`/backoffice/portfolios/categories/edit/${element.id}`"
+                                                class="text-primary-default flex items-center space-x-1">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
                                                         stroke-width="2"
-                                                        d="M5 13l4 4L19 7M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
-                                                    />
+                                                        d="M5 13l4 4L19 7M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
                                                 </svg>
                                                 <span>Editar</span>
                                             </a>
 
                                             <!-- Botão Eliminar -->
-                                            <button
-                                                @click.prevent="confirmDelete(element.id)"
-                                                class="text-secondary-default flex items-center space-x-1"
-                                            >
-                                                <svg
-                                                    class="w-5 h-5"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M6 18L18 6M6 6l12 12"
-                                                    />
+                                            <button @click.prevent="confirmDelete(element.id)"
+                                                class="text-secondary-default flex items-center space-x-1">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                                 </svg>
                                                 <span>Eliminar</span>
                                             </button>
 
                                             <!-- Botão Arquivar/Desarquivar -->
-                                            <button
-                                                @click.prevent="toggleArchive(element)"
+                                            <button @click.prevent="toggleArchive(element)"
                                                 :class="element.archived ? 'text-green-500' : 'text-yellow-500'"
-                                                class="flex items-center space-x-1"
-                                            >
-                                                <svg
-                                                    class="w-5 h-5"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        :d="element.archived
+                                                class="flex items-center space-x-1">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" :d="element.archived
                                                             ? 'M3 12l2-2m0 0l7-7 7 7M13 5v6h6'
-                                                            : 'M12 4v16m8-8H4'"
-                                                    />
+                                                            : 'M12 4v16m8-8H4'" />
                                                 </svg>
                                                 <span>
                                                     {{ element.archived ? "Desarquivar" : "Arquivar" }}
@@ -193,26 +125,15 @@
                                             </button>
 
                                             <!-- Botão Alternar Visibilidade na Página de Materiais -->
-                                            <button
-                                                @click.prevent="toggleVisibility(element)"
+                                            <button @click.prevent="toggleVisibility(element)"
                                                 :class="element.visible_in_materials ? 'text-blue-500' : 'text-gray-500'"
-                                                class="flex items-center space-x-1"
-                                            >
-                                                <svg
-                                                    class="w-5 h-5"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        :d="element.visible_in_materials
+                                                class="flex items-center space-x-1">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" :d="element.visible_in_materials
                                                             ? 'M13 10V3L4 14h7v7l9-11h-7z'
-                                                            : 'M13 10V3L4 14h7v7l9-11h-7z'"
-                                                    />
+                                                            : 'M13 10V3L4 14h7v7l9-11h-7z'" />
                                                 </svg>
                                                 <span>
                                                     {{
@@ -224,26 +145,15 @@
                                             </button>
 
                                             <!-- Botão Alternar Visibilidade no Portfólio -->
-                                            <button
-                                                @click.prevent="togglePortfolioVisibility(element)"
+                                            <button @click.prevent="togglePortfolioVisibility(element)"
                                                 :class="element.visible_on_portfolio ? 'text-purple-500' : 'text-gray-500'"
-                                                class="flex items-center space-x-1"
-                                            >
-                                                <svg
-                                                    class="w-5 h-5"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        :d="element.visible_on_portfolio
+                                                class="flex items-center space-x-1">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" :d="element.visible_on_portfolio
                                                             ? 'M9 12l2 2l4-4'
-                                                            : 'M4 6h16M4 12h16m-7 6h7'"
-                                                    />
+                                                            : 'M4 6h16M4 12h16m-7 6h7'" />
                                                 </svg>
                                                 <span>
                                                     {{
@@ -275,16 +185,11 @@
                     não pode ser desfeita.
                 </p>
                 <div class="mt-4 flex justify-end space-x-4">
-                    <button
-                        @click="deleteCategory"
-                        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-                    >
+                    <button @click="deleteCategory" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700">
                         Eliminar
                     </button>
-                    <button
-                        @click="closeModal"
-                        class="bg-gray-200 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-300"
-                    >
+                    <button @click="closeModal"
+                        class="bg-gray-200 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-300">
                         Cancelar
                     </button>
                 </div>

@@ -14,27 +14,37 @@ class ImagesController extends Controller
     //
 
     public function store(Request $request)
-    {
-        // Valida se a requisição possui uma imagem válida
-        $validatedData = $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+{
+    // Validação
+    $validatedData = $request->validate([
+        'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'portfolioId' => 'required|integer'
+    ]);
+
+    try {
+        // Salva o arquivo no disco 'public' dentro da pasta 'portfolios'
+        $imagePath = $request->file('file')->store('portfolios', 'public');
+
+        // Cria o registro no banco
+        PortfolioImage::create([
+            'portfolio_id' => $request->portfolioId,
+            'path'         => $imagePath,
         ]);
 
-        try {
-            $imagePath = $request->file('file')->store('portfolios', 'public');
-            $portfolioImage = PortfolioImage::create([
-                'portfolio_id' => $request->portfolioId,
-                'path' => $imagePath,
-            ]);
+        // Carrega todas as imagens do mesmo portfolio
+        // (para retornar a lista completa após cada upload)
+        $portfolioImages = PortfolioImage::where('portfolio_id', $request->portfolioId)->get();
 
-            // Retorna o ID da imagem como 'imageId'
-            return response()->json([
-                'imageId' => $portfolioImage->id,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        // Retorna todas as imagens desse portfolio
+        return response()->json([
+            'images' => $portfolioImages
+        ], 201);
+
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
+
 
     public function deleteGalleryImage(Request $request)
 {

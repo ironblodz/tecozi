@@ -18,7 +18,7 @@
                     </p>
                 </div>
                 <div class="absolute xl:top-28 xl:right-2 right-4 hidden xl:block">
-                    <img :src="KitchenWallpaper" alt="kitchen" class="w-full h-auto object-cover" />
+                    <img :src="KitchenWallpaper" alt="kitchen" class="w-[600px] h-auto object-cover" />
                 </div>
             </div>
             <div class="flex flex-col items-start mx-10">
@@ -211,7 +211,7 @@ import Client from "@/assets/images/about/Client_Management.svg";
 import HandShake from "@/assets/images/about/Handshake.svg";
 import Guarantee from "@/assets/images/about/Guarantee.svg";
 import Business from "@/assets/images/about/Business.svg";
-import KitchenWallpaper from "@/assets/images/about/kitchen_wallpaper.svg";
+import KitchenWallpaper from "@/assets/images/about/cozinhas_tecozi_refeito.png";
 
 export default {
     data() {

@@ -23,41 +23,29 @@ class PortfolioController extends Controller
 
     public function index(Request $request)
     {
-        // Verifica se a requisição tem o parâmetro 'show_archived' e filtra accordingly
         $showArchived = $request->get('show_archived', false);
 
-        $portfolios = Portfolio::when(!$showArchived, function ($query) {
-            // Se não for para mostrar arquivados, filtra para mostrar apenas portfólios não arquivados
+        $portfolios = Portfolio::with('images')->when(!$showArchived, function ($query) {
             $query->where('archived', false);
         })->latest()->get();
 
-        if ($portfolios) {
-            return Inertia::render('Backoffice/Portfolio/Index', [
-                'portfolios' => $portfolios
-            ]);
-        }
-
-        $this->returnError($request, 'Algo deu errado!');
+        return Inertia::render('Backoffice/Portfolio/Index', [
+            'portfolios' => $portfolios
+        ]);
     }
 
 
     public function getPortfolios(Request $request)
-{
-    // Verifica se a requisição tem o parâmetro 'show_archived' e filtra accordingly
-    $showArchived = $request->get('show_archived', false);
+    {
+        $showArchived = $request->get('show_archived', false);
 
-    $portfolios = Portfolio::when(!$showArchived, function ($query) {
-        // Se não for para mostrar arquivados, filtra para mostrar apenas portfólios não arquivados
-        $query->where('archived', false);
-    })->latest()->get();
+        $portfolios = Portfolio::with('images')->when(!$showArchived, function ($query) {
+            $query->where('archived', false);
+        })->latest()->get();
 
-    // Retorna os dados como JSON
-    if ($portfolios) {
         return response()->json($portfolios);
     }
 
-    return response()->json(['error' => 'Algo deu errado!'], 500);
-}
 
 
     public function toggleHighlight(Request $request)
@@ -123,7 +111,7 @@ class PortfolioController extends Controller
     $validatedData = $this->validateData($request);
 
     try {
-        // Verifica se a imagem foi enviada e faz o upload
+        // Upload da imagem principal
         if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
             $path = $request->file('main_image')->store('portfolios', 'public');
             $validatedData['main_image'] = $path;
@@ -131,10 +119,18 @@ class PortfolioController extends Controller
 
         $portfolio = Portfolio::create($validatedData);
 
+        // Upload das imagens da galeria
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $image) {
+                $imagePath = $image->store('portfolios/gallery', 'public');
+                $portfolio->images()->create(['path' => $imagePath]);
+            }
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Portfólio criado com sucesso.',
-            'data' => $portfolio,
+            'data' => $portfolio->load('images'), // Carrega as imagens também
         ]);
 
     } catch (\Exception $e) {
@@ -143,54 +139,88 @@ class PortfolioController extends Controller
 }
 
 
-    public function edit($id)
-    {
-        $portfolio = Portfolio::with('images')->findOrFail($id);
 
-        return Inertia::render('Backoffice/Portfolio/Edit', [
-            'portfolio' => $portfolio
-        ]);
-    }
+public function edit($id)
+{
+    $portfolio = Portfolio::with('images')->findOrFail($id);
 
-    public function update(Request $request)
-    {
-        $portfolio = Portfolio::findOrFail($request->id); // Buscar portfolio pelo ID
-        $validatedData = $this->validateData($request);
+    return Inertia::render('Backoffice/Portfolio/Edit', [
+        'portfolio' => $portfolio
+    ]);
+}
 
-        try {
-            // Verificar se uma nova imagem foi enviada e é válida
-            if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
-                // Excluir a imagem antiga, se existir
-                if ($portfolio->main_image && Storage::disk('public')->exists($portfolio->main_image)) {
-                    Storage::disk('public')->delete($portfolio->main_image);
-                }
 
-                // Armazenar a nova imagem e atualizar o caminho no banco de dados
-                $path = $request->file('main_image')->store('portfolios', 'public');
-                $validatedData['main_image'] = $path;
+public function update(Request $request)
+{
+    $portfolio = Portfolio::findOrFail($request->id);
+    $validatedData = $this->validateData($request);
+
+    try {
+        // Atualiza a imagem principal, se necessário
+        if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
+            if ($portfolio->main_image && Storage::disk('public')->exists($portfolio->main_image)) {
+                Storage::disk('public')->delete($portfolio->main_image);
             }
-
-            // Atualizar o registro existente no banco de dados
-            $portfolio->update($validatedData);
-
-            $this->returnSuccess('Portfólio atualizado com sucesso.');
-
-        } catch (\Exception $e) {
-            $this->returnError('Erro ao atualizar portfólio: ' . $e->getMessage());
+            $path = $request->file('main_image')->store('portfolios', 'public');
+            $validatedData['main_image'] = $path;
         }
-    }
 
-    public function destroy(Request $request)
-    {
-        try {
-
-            Portfolio::where('id', $request->id)->delete();
-            $this->returnSuccess ($request, 'Portfolio excluido com sucesso.');
-
-        } catch (\Exception $e) {
-
-            $this->returnError ($request, 'Erro ao excluir portfolio: ' . $e->getMessage());
-
+        // Adiciona novas imagens à galeria
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $image) {
+                $imagePath = $image->store('portfolios/gallery', 'public');
+                $portfolio->images()->create(['path' => $imagePath]);
+            }
         }
+
+        $portfolio->update($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Portfólio atualizado com sucesso.',
+            'data' => $portfolio->load('images'),
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Erro ao atualizar portfólio: ' . $e->getMessage()], 500);
     }
+}
+
+public function getFeaturedPortfolios()
+{
+    $portfolios = Portfolio::with('images') // ✅ Carrega a galeria de imagens
+        ->where('highlighted', true)
+        ->latest()
+        ->get();
+
+    return response()->json($portfolios);
+}
+
+public function destroy(Request $request)
+{
+    try {
+        $portfolio = Portfolio::findOrFail($request->id);
+
+        // Remover as imagens da galeria do storage
+        foreach ($portfolio->images as $image) {
+            if (Storage::disk('public')->exists($image->path)) {
+                Storage::disk('public')->delete($image->path);
+            }
+            $image->delete();
+        }
+
+        // Remover a imagem principal
+        if ($portfolio->main_image && Storage::disk('public')->exists($portfolio->main_image)) {
+            Storage::disk('public')->delete($portfolio->main_image);
+        }
+
+        $portfolio->delete();
+
+        return response()->json(['success' => true, 'message' => 'Portfólio excluído com sucesso.']);
+
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Erro ao excluir portfólio: ' . $e->getMessage()], 500);
+    }
+}
+
 }

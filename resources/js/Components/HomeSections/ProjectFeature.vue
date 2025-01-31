@@ -2,7 +2,7 @@
     <section>
         <div class="container mx-auto w-[85%] grid grid-cols-1 justify-center mt-10 xl:mt-20">
             <img :src="wallpaperkitchen" alt="kitchen" class="absolute transform scale-x-[-1] w-72">
-            <div class="bg-gray-100 rounded-lg pt-10 pb-20 ">
+            <div class="bg-gray-100 rounded-lg pt-10 pb-20">
                 <div class="flex flex-col items-center px-4">
                     <h1 class="text-xl xl:text-3xl text-center text-primary-default z-20">
                         {{ $t('projectsfeactures.projects') }}
@@ -13,14 +13,15 @@
                     <p class="text-base xl:text-lg mt-8 text-center z-20" v-html="$t('projectsfeactures.projectsp')">
                     </p>
                 </div>
-                <!-- Iterando sobre os projetos destacados -->
+
+                <!-- Exibição dos projetos destacados -->
                 <div v-if="featuredProjects.length > 0"
                     class="flex flex-col xl:flex-row gap-4 items-center justify-center mt-10">
-                    <div v-for="(project, index) in featuredProjects" :key="project.id"
+                    <div v-for="project in featuredProjects" :key="project.id"
                         class="card w-72 h-80 xl:h-96 relative overflow-hidden border-4 border-primary-default">
                         <img :src="getImageUrl(project.main_image)" :alt="project.title"
                             class="absolute inset-0 w-full h-full object-cover cursor-pointer"
-                            @click="openModal(getImageUrl(project.main_image), project)" />
+                            @click="openModal(project)" />
 
                         <div
                             class="absolute bottom-4 -right-[2rem] bg-primary-default text-white px-4 py-2 rounded-s-3xl text-base xl:text-lg min-w-24 mx-5">
@@ -32,98 +33,130 @@
                         </p>
                     </div>
                 </div>
-                <p class="text-center text-primary-default text-bold text-base xl:text-lg mt-7" v-else>Carregando
-                    projetos
-                    ou nenhum projeto encontrado.</p>
+                <p class="text-center text-primary-default text-bold text-base xl:text-lg mt-7" v-else>
+                    Carregando projetos ou nenhum projeto encontrado.
+                </p>
             </div>
         </div>
 
-        <!-- Modal para exibir a imagem em tamanho grande -->
+        <!-- Modal com Swiper -->
+        <!-- Modal com Swiper -->
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[9999]"
             @click="closeModal">
-            <div class="relative group" @click.stop>
-                <img :src="selectedImage" alt="Imagem do projeto"
-                    class="rounded-xl transition-all duration-300 ease-in-out"
-                    style="max-width: none; max-height: none;" />
-                <!-- Texto sobreposto -->
+            <div class="relative group w-[90%] md:w-[60%] xl:w-[50%]" @click.stop>
+                <!-- Carrossel Swiper -->
+                <swiper v-if="selectedProject && selectedProject.images && selectedProject.images.length > 0"
+                    :slides-per-view="1" :space-between="10" :modules="[Navigation, Pagination]" navigation pagination
+                    loop class="rounded-xl">
+                    <swiper-slide v-for="(image, index) in selectedProject.images" :key="index">
+                        <img :src="getImageUrl(image.path)" alt="Imagem do projeto"
+                            class="w-full h-auto object-cover rounded-xl" />
+                    </swiper-slide>
+                </swiper>
+
+                <!-- Título e descrição -->
                 <div
-                    class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h2 class="xl:text-2xl text-base font-bold text-center">{{ selectedProject.title }}</h2>
-                    <p class="text-base xl:text-lg mt-4 text-center px-4">{{ selectedProject.description }}</p>
+                    class="absolute bottom-4 left-0 right-0 bg-black bg-opacity-50 text-white p-4 text-center rounded-b-xl">
+                    <h2 class="text-xl font-bold">{{ selectedProject.title }}</h2>
+                    <p class="text-sm mt-2">{{ selectedProject.description }}</p>
                 </div>
-                <!-- Botão de fechamento ajustado -->
+
+                <!-- Botão de fechar -->
                 <button @click="closeModal"
-                    class="fixed top-4 right-4 xl:top-6 xl:right-6 bg-gray-200 text-black rounded-lg p-2 text-xl z-50">✕</button>
+                    class="absolute top-4 right-4 bg-gray-200 text-black rounded-lg p-2 text-xl z-50">✕</button>
             </div>
         </div>
+
     </section>
 </template>
 
-<script>
+
+<script setup>
 import axios from 'axios';
 import wallpaperkitchen from '@/assets/images/services/kitechenwallpapergrey.svg';
 
-export default {
-    name: "ProjectFeature",
-    data() {
-        return {
-            featuredProjects: [],
-            categories: [],
-            showModal: false,
-            selectedImage: null,
-            selectedProject: null,
-            wallpaperkitchen
-        };
-    },
-    mounted() {
-        this.fetchFeaturedProjects();
-        this.fetchCategories();
-    },
-    methods: {
-        async fetchFeaturedProjects() {
-            try {
-                const response = await axios.get('/api/featured-portfolios');
-                this.featuredProjects = response.data;
-                console.log('Projetos Destacados:', this.featuredProjects);
-            } catch (error) {
-                console.error('Erro ao buscar os projetos:', error);
-            }
-        },
-        async fetchCategories() {
-            try {
-                const response = await axios.get('/api/categories');
-                this.categories = response.data;
-                console.log('Categorias:', this.categories);
-            } catch (error) {
-                console.error('Erro ao trazer as categorias:', error);
-            }
-        },
-        getImageUrl(imagePath) {
-            return `/storage/${imagePath}`;
-        },
-        getCategoryName(categoryId) {
-            const category = this.categories.find(cat => Number(cat.id) === Number(categoryId));
-            if (!category) {
-                console.warn(`Categoria com ID ${categoryId} não encontrada.`);
-            }
-            return category ? category.name : 'Categoria desconhecida';
-        },
-        openModal(imageUrl, project) {
-            this.selectedImage = imageUrl;
-            this.selectedProject = project;
-            this.showModal = true;
-            document.body.classList.add('overflow-hidden');
-        },
-        closeModal() {
-            this.showModal = false;
-            this.selectedImage = null;
-            this.selectedProject = null;
-            document.body.classList.remove('overflow-hidden');
-        }
+// Importação correta do Swiper.js
+import { Swiper, SwiperSlide } from 'swiper/vue';
 
+// Importação dos módulos necessários
+import { Navigation, Pagination } from 'swiper/modules';
+
+// Importação dos estilos necessários do Swiper
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Estado reativo (Vue 3 - Composition API)
+import { ref, onMounted } from 'vue';
+
+// Estado do componente
+const featuredProjects = ref([]);
+const categories = ref([]);
+const showModal = ref(false);
+const selectedProject = ref(null);
+
+// Função para obter projetos destacados
+const fetchFeaturedProjects = async () => {
+    try {
+        const response = await axios.get('/api/featured-portfolios');
+        console.log('Projetos destacados:', response.data);
+        featuredProjects.value = response.data;
+    } catch (error) {
+        console.error('Erro ao buscar os projetos:', error);
     }
 };
+
+// Função para obter categorias
+const fetchCategories = async () => {
+    try {
+        const response = await axios.get('/api/categories');
+        categories.value = response.data;
+    } catch (error) {
+        console.error('Erro ao buscar categorias:', error);
+    }
+};
+
+// Função para abrir o modal e exibir o carrossel
+const openModal = (project) => {
+    console.log("Projeto selecionado para o modal:", project);
+
+    selectedProject.value = {
+        ...project,
+        images: project.images && project.images.length > 0 ? project.images : [{ path: project.main_image }]
+    };
+
+    console.log("Imagens carregadas no modal:", selectedProject.value.images);
+
+    showModal.value = true;
+    document.body.classList.add('overflow-hidden');
+};
+
+
+// Fechar modal
+const closeModal = () => {
+    showModal.value = false;
+    selectedProject.value = null;
+    document.body.classList.remove('overflow-hidden');
+};
+
+// Obter URL da imagem corretamente
+const getImageUrl = (imagePath) => {
+    return imagePath ? `/storage/${imagePath}` : '/images/default-placeholder.jpg';
+};
+
+// Obter nome da categoria pelo ID
+const getCategoryName = (categoryId) => {
+    const category = categories.value.find(cat => String(cat.id) === String(categoryId));
+    return category ? category.name : 'Categoria desconhecida';
+};
+
+// Carregar dados ao montar o componente
+onMounted(() => {
+    fetchFeaturedProjects();
+    fetchCategories();
+});
 </script>
+
 
 <style scoped>
 .group:hover .group-hover\:opacity-100 {
