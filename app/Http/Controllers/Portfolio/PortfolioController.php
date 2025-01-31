@@ -188,13 +188,14 @@ public function update(Request $request)
 
 public function getFeaturedPortfolios()
 {
-    $portfolios = Portfolio::with('images') // ✅ Carrega a galeria de imagens
+    $portfolios = Portfolio::with(['images', 'category'])
         ->where('highlighted', true)
         ->latest()
         ->get();
 
     return response()->json($portfolios);
 }
+
 
 public function destroy(Request $request)
 {

@@ -79,15 +79,14 @@ Route::get('/api/portfolios', [PortfolioController::class, 'getPortfolios'])->na
 Route::get('/api/categories', [PortfolioCategoriesController::class, 'getCategories'])->name('categories.api');
 
 Route::get('/api/featured-portfolios', function () {
-    // ✅ Agora carrega os portfólios junto com as imagens da galeria
-    $featuredPortfolios = Portfolio::with('images') // 🔥 Adiciona as imagens associadas
+    // ✅ Inclui a relação com a categoria
+    $featuredPortfolios = Portfolio::with(['images', 'category']) // Carrega imagens e categoria associada
         ->where('highlighted', true)
+        ->latest()
         ->get();
 
     return response()->json($featuredPortfolios);
 });
-
-
 
 Route::get('/', function () {
     return Inertia::render('Home');

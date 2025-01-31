@@ -14,6 +14,10 @@ class Portfolio extends Model
         'title', 'short_description', 'description', 'category_id', 'main_image', 'highlighted','archived',
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(PortfolioCategory::class, 'category_id');
+    }
 
     public function images(): HasMany
     {

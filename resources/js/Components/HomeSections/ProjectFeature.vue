@@ -29,8 +29,9 @@
                         </div>
                         <p
                             class="text-base xl:text-lg mt-4 text-white bg-secondary-default  px-2 rounded-s-3xl w-[35%] relative ml-auto text-right">
-                            {{ getCategoryName(project.category_id) }}
+                            {{ project.category ? project.category.name : 'Categoria desconhecida' }}
                         </p>
+
                     </div>
                 </div>
                 <p class="text-center text-primary-default text-bold text-base xl:text-lg mt-7" v-else>
