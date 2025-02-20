@@ -74,7 +74,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/backoffice/portfolios/categories/reorder', [CategoriesController::class, 'reorder'])->middleware('auth');
 
 
-    Route::resource('materials', controller: MaterialController::class);
+    Route::get('/backoffice/materials', [MaterialController::class, 'index'])->name('materials.index');
+    Route::get('/backoffice/materials/create', [MaterialController::class, 'create'])->name('materials.create');
+    Route::post('/backoffice/materials/store', [MaterialController::class, 'store'])->name('materials.store');
+    Route::get('/backoffice/materials/edit/{id}', [MaterialController::class, 'edit'])->name('materials.edit');
+    Route::put('/backoffice/materials/update/{id}', [MaterialController::class, 'update'])->name('materials.update');
+    Route::delete('/backoffice/materials/{id}', [MaterialController::class, 'destroy'])->name('materials.destroy');
+
 
 });
 
