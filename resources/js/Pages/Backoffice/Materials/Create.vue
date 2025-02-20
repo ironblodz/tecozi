@@ -1,37 +1,52 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { usePage, Head } from '@inertiajs/vue3';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
+import { useDropzone } from "vue3-dropzone";
 
 const { props } = usePage();
 
 const material = ref({
     title: "",
     description: "",
-    photo: null // campo para a foto
+    photo: null // campo para a foto principal
 });
 
 const previewPhoto = ref(null);
+const previewGallery = ref([]);
+const galleryFiles = ref([]); // Armazena os arquivos
+
+const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (acceptedFiles) => {
+        acceptedFiles.forEach(file => {
+            galleryFiles.value.push(file);
+            previewGallery.value.push(URL.createObjectURL(file)); // Gerar URL para pré-visualização
+        });
+    },
+    accept: "image/*",
+    multiple: true
+});
+
+
 
 // Função para limpar o formulário
 const cancel = () => {
     window.location = `/backoffice/materials`
 };
 
-// Função para capturar a foto
+// Função para capturar a foto principal
 const handlePhotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
         material.value.photo = file;
-        console.log("Foto selecionada:", file);
         previewPhoto.value = URL.createObjectURL(file);
-    } else {
-        console.warn("Nenhuma foto selecionada");
     }
 };
+
+
 
 // Função para criar o material
 const createMaterial = async () => {
@@ -40,10 +55,15 @@ const createMaterial = async () => {
         formData.append('title', material.value.title);
         formData.append('description', material.value.description);
 
-        // Adicione a foto ao FormData apenas se ela for fornecida
+        // Adicionar foto principal
         if (material.value.photo) {
             formData.append('photo', material.value.photo);
         }
+
+        // Adicionar fotos da galeria ao FormData
+        galleryFiles.value.forEach((file) => {
+            formData.append('gallery_photos[]', file);
+        });
 
         const response = await axios.post('/backoffice/materials/store', formData, {
             headers: {
@@ -63,13 +83,12 @@ const createMaterial = async () => {
     }
 };
 
-
-onMounted(() => {
-    // Carregar dados necessários, se houver, no momento da montagem
+onUnmounted(() => {
+    previewGallery.value.forEach(url => URL.revokeObjectURL(url));
 });
 </script>
-
 <template>
+
     <Head title="Criar Material" />
     <AuthenticatedLayout>
         <template #header>
@@ -100,19 +119,38 @@ onMounted(() => {
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm"></textarea>
                         </div>
 
-                        <!-- Campo de foto com pré-visualização -->
+                        <!-- Foto principal -->
                         <div class="mb-4">
                             <label for="photo" class="block text-gray-700 text-sm font-bold mb-2">Foto Principal</label>
                             <div class="flex items-center justify-center">
-                                <!-- Pré-visualização da foto -->
                                 <div v-if="previewPhoto" class="w-2/5">
-                                    <p class="text-gray-600 text-sm">Pré-view:</p>
+                                    <p class="text-gray-600 text-sm">Pré-visualização:</p>
                                     <img :src="previewPhoto" alt="Preview"
                                         class="mt-2 w-32 h-32 object-cover rounded-md shadow">
                                 </div>
                                 <input id="photo" type="file" @change="handlePhotoChange"
                                     class="border border-gray-300 rounded-lg px-4 py-2 w-full">
                             </div>
+                        </div>
+
+                        <!-- Dropzone para múltiplas imagens -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Galeria de Fotos</label>
+                            <div v-bind="getRootProps()"
+                                class="p-4 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer text-center bg-gray-100">
+                                <input v-bind="getInputProps()" />
+                                <p v-if="isDragActive" class="text-blue-500">Solte as imagens aqui...</p>
+                                <p v-else class="text-gray-600">Arraste e solte as imagens aqui ou clique para
+                                    selecionar</p>
+                            </div>
+
+                            <!-- Lista de imagens carregadas -->
+                            <div class="mt-4 grid grid-cols-3 gap-2">
+                                <div v-for="(src, index) in previewGallery" :key="index" class="relative">
+                                    <img v-if="src" :src="src" class="w-full h-24 object-cover rounded-md shadow" />
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="flex justify-end space-x-4 mt-6">

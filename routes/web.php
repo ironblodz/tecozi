@@ -73,7 +73,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/backoffice/portfolios/categories/reorder', [CategoriesController::class, 'reorder'])->middleware('auth');
 
-
+    //Backoffice
     Route::get('/backoffice/materials', [MaterialController::class, 'index'])->name('materials.index');
     Route::get('/backoffice/materials/create', [MaterialController::class, 'create'])->name('materials.create');
     Route::post('/backoffice/materials/store', [MaterialController::class, 'store'])->name('materials.store');
@@ -81,8 +81,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/backoffice/materials/update/{id}', [MaterialController::class, 'update'])->name('materials.update');
     Route::delete('/backoffice/materials/{id}', [MaterialController::class, 'destroy'])->name('materials.destroy');
 
-
 });
+
+//Frontoffice
+Route::get('/api/materials', [MaterialController::class, 'getMaterials']);
 
 Route::get('/api/portfolios', [PortfolioController::class, 'getPortfolios'])->name('portfolio.api');
 Route::get('/api/categories', [PortfolioCategoriesController::class, 'getCategories'])->name('categories.api');

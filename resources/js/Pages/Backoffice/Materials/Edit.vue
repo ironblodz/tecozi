@@ -1,44 +1,50 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { usePage, Head } from '@inertiajs/vue3';
-import { ref, onMounted, watch } from 'vue';
+import { ref, watch } from 'vue';
 import axios from 'axios';
 import Toastify from 'toastify-js';
-
 import 'toastify-js/src/toastify.css';
 
 // Propriedades e estado
 const { props } = usePage();
 const material = ref(props.material);
-const previewImage = ref(material.value.photo ? `/storage/${material.value.photo}` : null);
-const dropzoneRef = ref(null); // Referência ao Dropzone
+const previewImage = ref(material.value.photo ? material.value.photo : null);
+const gallery = ref(material.value.gallery || []); // Lista de imagens da galeria
+const galleryFiles = ref([]); // Novas imagens a serem enviadas
 
 // Atualizar imagem principal
 const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
         material.value.photo = file;
-        previewImage.value = URL.createObjectURL(file); // Atualiza a pré-visualização com a nova imagem
+        previewImage.value = URL.createObjectURL(file);
     }
 };
 
+// Adicionar imagens à galeria
+const handleGalleryChange = (event) => {
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+        galleryFiles.value.push(files[i]); // Armazena novos uploads
+        gallery.value.push(URL.createObjectURL(files[i])); // Gera pré-visualização
+    }
+};
+
+// Atualizar material
 const updateMaterial = async () => {
     try {
         const formData = new FormData();
-
-        // Necessário para Laravel interpretar corretamente o PUT via multipart/form-data
         formData.append('_method', 'PUT');
 
-        // Adiciona apenas se existir valor
-        if (material.value.title) {
-            formData.append('title', material.value.title);
-        }
-        if (material.value.description) {
-            formData.append('description', material.value.description);
-        }
-        if (material.value.photo instanceof File) {
-            formData.append('photo', material.value.photo);
-        }
+        if (material.value.title) formData.append('title', material.value.title);
+        if (material.value.description) formData.append('description', material.value.description);
+        if (material.value.photo instanceof File) formData.append('photo', material.value.photo);
+
+        // Adicionar novas imagens da galeria
+        galleryFiles.value.forEach((file, index) => {
+            formData.append(`gallery_photos[${index}]`, file);
+        });
 
         await axios.post(`/backoffice/materials/update/${material.value.id}`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -54,26 +60,13 @@ const updateMaterial = async () => {
     }
 };
 
-
-
-watch(() => material.value.photo, (newPhoto) => {
-    if (newPhoto instanceof File) {
-        previewImage.value = URL.createObjectURL(newPhoto);
-    } else {
-        previewImage.value = newPhoto ? `/storage/${newPhoto}` : null;
-    }
-});
-
-
 // Cancelar e voltar
 const cancel = () => {
     window.location = `/backoffice/materials`;
 };
-
 </script>
 
 <template>
-
     <Head title="Editar Material" />
     <AuthenticatedLayout>
         <template #header>
@@ -92,22 +85,23 @@ const cancel = () => {
                 </div>
                 <form @submit.prevent="updateMaterial" class="p-6">
                     <div class="space-y-4">
+                        <!-- Título -->
                         <div>
                             <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
                             <input id="title" v-model="material.title" type="text"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm">
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
                         </div>
 
+                        <!-- Descrição -->
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea v-model="material.description" id="description"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm"></textarea>
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"></textarea>
                         </div>
 
-                        <!-- Campo de imagem com pré-visualização -->
+                        <!-- Imagem Principal -->
                         <div class="mb-4">
-                            <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Imagem
-                                Principal</label>
+                            <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Imagem Principal</label>
                             <div class="flex items-center justify-center">
                                 <div v-if="previewImage" class="w-2/5">
                                     <p class="text-gray-600 text-sm">Pré-visualização</p>
@@ -118,6 +112,20 @@ const cancel = () => {
                                     class="border border-gray-300 rounded-lg px-4 py-2 w-full">
                             </div>
                         </div>
+
+                        <!-- Galeria de Fotos -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Galeria de Fotos</label>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div v-for="(img, index) in gallery" :key="index" class="relative">
+                                    <img :src="img" class="w-full h-24 object-cover rounded-md shadow">
+                                </div>
+                            </div>
+                            <input type="file" multiple @change="handleGalleryChange"
+                                class="mt-2 border border-gray-300 rounded-lg px-4 py-2 w-full">
+                        </div>
+
+                        <!-- Botões -->
                         <div class="flex justify-end space-x-4 mt-6">
                             <button type="button" @click="cancel"
                                 class="bg-secondary-default text-white px-4 py-2 rounded-md shadow-sm">Voltar</button>

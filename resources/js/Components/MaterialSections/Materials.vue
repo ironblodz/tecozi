@@ -29,7 +29,7 @@
                     'hover:scale-105 hover:shadow-lg',
                     activeMaterial?.id === material.id ? 'border-4 border-[#BF0404] bg-primary-default' : ''
                 ]" @click="setActiveMaterial(material)">
-                    <img :src="`/storage/${material.photo}`" :alt="material.title" class="w-32 h-32 object-contain mb-4" />
+                    <img :src="material.photo" :alt="material.title" class="w-32 h-32 object-contain mb-4 rounded-2xl" />
                     <p class="font-semibold text-lg xl:text-2xl text-center">{{ material.title }}</p>
                 </div>
             </div>
@@ -47,6 +47,15 @@
                     <p class="mb-4 text-gray-700 leading-relaxed">
                         {{ activeMaterial.description }}
                     </p>
+
+                    <!-- Galeria de Imagens -->
+                    <div v-if="activeMaterial.gallery.length" class="mt-4">
+                        <h4 class="text-gray-700 font-semibold mb-2">Galeria de Fotos</h4>
+                        <div class="grid grid-cols-3 justify-items-center gap-2">
+                            <img v-for="(image, index) in activeMaterial.gallery" :key="index" :src="image"
+                                class="w-full h-52 object-cover rounded-md shadow cursor-pointer transition">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,7 +78,7 @@ export default {
     methods: {
         async fetchMaterials() {
             try {
-                const response = await axios.get("/backoffice/materials");
+                const response = await axios.get("/api/materials");
                 this.materials = response.data.materials;
             } catch (error) {
                 console.error("Erro ao buscar materiais:", error);

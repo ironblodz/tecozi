@@ -64,6 +64,7 @@ const deleteMaterial = async () => {
 </script>
 
 <template>
+
     <Head title="Materiais" />
     <AuthenticatedLayout>
         <template #header>
@@ -76,58 +77,97 @@ const deleteMaterial = async () => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Botão de adicionar material -->
                 <div class="flex items-center mb-4">
-                    <a :href="route('materials.create')" class="bg-secondary-default text-white px-4 py-2 rounded shadow">
+                    <a :href="route('materials.create')"
+                        class="bg-secondary-default text-white px-4 py-2 rounded shadow">
                         Adicionar Material
                     </a>
                 </div>
 
                 <!-- Campo de pesquisa -->
                 <div class="mb-4">
-                    <input v-model="search" type="text" placeholder="Pesquisar" class="border border-gray-300 rounded px-4 py-2 w-full">
+                    <input v-model="search" type="text" placeholder="Pesquisar"
+                        class="border border-gray-300 rounded px-4 py-2 w-full">
                 </div>
 
                 <!-- Loader -->
                 <div v-if="loading" class="flex justify-center">
-                    <svg class="animate-spin h-8 w-8 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg class="animate-spin h-8 w-8 text-blue-700" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor">
                         <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path d="M4 12a8 8 0 1 1 8 8V12h-8z"></path>
                     </svg>
                 </div>
 
                 <!-- Mensagem se não houver materiais -->
-                <div v-if="!loading && filteredMaterials.length === 0" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                <div v-if="!loading && filteredMaterials.length === 0"
+                    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
                     Não há materiais disponíveis
                 </div>
 
                 <!-- Tabela de dados -->
-                <div v-if="!loading && filteredMaterials.length > 0" class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <div v-if="!loading && filteredMaterials.length > 0"
+                    class="overflow-x-auto bg-white shadow-md rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-100">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Imagem</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Título</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Imagem</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Galeria</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Título</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Descrição</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Ações
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr v-for="item in filteredMaterials" :key="item.id">
+                                <!-- Imagem principal -->
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <img :src="`/storage/` + item.photo + `?t=${new Date().getTime()}`" alt="Imagem do Material" class="w-16 h-16 object-cover rounded-md">
+                                    <img v-if="item.photo" :src="item.photo" alt="Imagem do Material"
+                                        class="w-16 h-16 object-cover rounded-md">
+                                    <span v-else class="text-gray-500">Sem imagem</span>
                                 </td>
+
+                                <!-- Galeria de imagens -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div v-if="item.gallery && item.gallery.length" class="flex space-x-2">
+                                        <img v-for="(img, index) in item.gallery" :key="index" :src="img"
+                                            class="w-10 h-10 object-cover rounded-md">
+                                    </div>
+                                    <span v-else class="text-gray-500">Sem imagens</span>
+                                </td>
+
+
+                                <!-- Título e Descrição -->
                                 <td class="px-6 py-4 whitespace-nowrap">{{ item.title }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ item.description }}</td>
+
+                                <!-- Ações -->
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex items-center space-x-4">
-                                        <a :href="`/backoffice/materials/edit/${item.id}`" class="text-primary-default flex items-center space-x-1">
+                                        <a :href="`/backoffice/materials/edit/${item.id}`"
+                                            class="text-primary-default flex items-center space-x-1">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7M4 4a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z">
+                                                </path>
                                             </svg>
                                             <span>Editar</span>
                                         </a>
-                                        <button @click.prevent="confirmDelete(item.id)" class="text-secondary-default flex items-center space-x-1">
+                                        <button @click.prevent="confirmDelete(item.id)"
+                                            class="text-secondary-default flex items-center space-x-1">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12"></path>
                                             </svg>
                                             <span>Eliminar</span>
                                         </button>
