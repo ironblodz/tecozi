@@ -4,13 +4,13 @@
             <img :src="wallpaperkitchen" alt="kitchen" class="absolute transform scale-x-[-1] w-72">
             <div class="bg-gray-100 rounded-lg pt-10 pb-20">
                 <div class="flex flex-col items-center px-4">
-                    <h1 class="text-xl xl:text-3xl text-center text-primary-default z-20">
+                    <h1 class="text-xl xl:text-3xl text-center text-primary-default z-10 xl:z-0">
                         {{ $t('projectsfeactures.projects') }}
-                        <span class="text-secondary-default text-xl xl:text-3xl z-20">
+                        <span class="text-secondary-default text-xl xl:text-3xl z-10 xl:z-0">
                             {{ $t('projectsfeactures.projectscc') }}
                         </span>
                     </h1>
-                    <p class="text-base xl:text-lg mt-8 text-center z-20" v-html="$t('projectsfeactures.projectsp')">
+                    <p class="text-base xl:text-lg mt-8 text-center z-10" v-html="$t('projectsfeactures.projectsp')">
                     </p>
                 </div>
 
@@ -41,30 +41,27 @@
         </div>
 
         <!-- Modal com Swiper -->
-        <!-- Modal com Swiper -->
-        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[9999]"
-            @click="closeModal">
-            <div class="relative group w-[90%] md:w-[60%] xl:w-[50%]" @click.stop>
-                <!-- Carrossel Swiper -->
+        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+            <div class="relative w-[95%] md:w-[65%] xl:w-[50%] bg-gradient-to-r from-primary-default to-black rounded-2xl p-10 shadow-2xl transform scale-100  transition duration-300"
+                @click.stop>
                 <swiper v-if="selectedProject && selectedProject.images && selectedProject.images.length > 0"
-                    :slides-per-view="1" :space-between="10" :modules="[Navigation, Pagination]" navigation pagination
-                    loop class="rounded-xl">
+                    :slides-per-view="1" :space-between="10"
+                    :modules="[Navigation, Pagination, Autoplay, EffectCoverflow]" navigation pagination
+                    :autoplay="{ delay: 4000, disableOnInteraction: false }" effect="coverflow" loop
+                    class="rounded-2xl overflow-hidden">
                     <swiper-slide v-for="(image, index) in selectedProject.images" :key="index">
                         <img :src="getImageUrl(image.path)" alt="Imagem do projeto"
-                            class="w-full h-auto object-cover rounded-xl" />
+                            class="w-full h-96 object-cover rounded-2xl shadow-lg transition-transform duration-500 hover:scale-110" />
                     </swiper-slide>
                 </swiper>
 
-                <!-- Título e descrição -->
-                <div
-                    class="absolute bottom-4 left-0 right-0 bg-black bg-opacity-50 text-white p-4 text-center rounded-b-xl">
-                    <h2 class="text-xl font-bold">{{ selectedProject.title }}</h2>
-                    <p class="text-sm mt-2">{{ selectedProject.description }}</p>
+                <div class="text-center mt-6 text-white">
+                    <h2 class="text-4xl font-extrabold text-secondary-default">{{ selectedProject.title }}</h2>
+                    <p class="text-lg text-gray-300 mt-4">{{ selectedProject.description }}</p>
                 </div>
 
-                <!-- Botão de fechar -->
                 <button @click="closeModal"
-                    class="absolute top-4 right-4 bg-gray-200 text-black rounded-lg p-2 text-xl z-50">✕</button>
+                    class="absolute top-6 right-6 bg-red-500 text-white rounded-full p-4 shadow-lg text-xl transition hover:bg-red-700 hover:rotate-90 z-10">✕</button>
             </div>
         </div>
 
@@ -76,11 +73,9 @@
 import axios from 'axios';
 import wallpaperkitchen from '@/assets/images/services/kitechenwallpapergrey.svg';
 
-// Importação correta do Swiper.js
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
 
-// Importação dos módulos necessários
-import { Navigation, Pagination } from 'swiper/modules';
 
 // Importação dos estilos necessários do Swiper
 import 'swiper/css';
@@ -160,6 +155,11 @@ onMounted(() => {
 
 
 <style scoped>
+
+.fixed.inset-0 {
+    z-index: 99999;
+}
+
 .group:hover .group-hover\:opacity-100 {
     opacity: 1;
     border-radius: 5%;
@@ -189,16 +189,19 @@ onMounted(() => {
 
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-    color: #3D4877 !important; /* Altere para a cor desejada */
+    color: #3D4877 !important;
+    /* Altere para a cor desejada */
 }
 
 /* Mudar a cor das bolinhas da paginação */
 :deep(.swiper-pagination-bullet) {
-    background-color: #3D4877 !important; /* Cor das bolinhas */
+    background-color: #3D4877 !important;
+    /* Cor das bolinhas */
     opacity: 1;
 }
 
 :deep(.swiper-pagination-bullet-active) {
-    background-color: #BF0404 !important; /* Cor da bolinha ativa */
+    background-color: #BF0404 !important;
+    /* Cor da bolinha ativa */
 }
 </style>

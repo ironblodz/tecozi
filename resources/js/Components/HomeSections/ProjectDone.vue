@@ -3,7 +3,7 @@
         <img :src="kitchenwallpaper" alt="kitchenwallpaper"
             class="absolute top-[575px] right-2 object-cover w-[300px]" />
         <div class="container mx-auto w-full grid grid-col justify-center items-center">
-            <div class="flex flex-col z-20">
+            <div class="flex flex-col z-10 xl:z-0">
                 <p class="text-base xl:text-lg text-center mt-10">
                     {{ $t("projectdone.paragraph") }}
                 </p>

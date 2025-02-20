@@ -12,7 +12,7 @@
             <ProjectDone />
             <div class="w-full relative">
               <div class="absolute inset-0 bg-gray-600 opacity-30 h-[75%] mt-20"></div>
-              <div class="relative z-20">
+              <div class="relative">
                 <ProjectFeature />
                 <ContactSection />
               </div>
