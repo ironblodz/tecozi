@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\Portfolio\CategoriesController as PortfolioCategoriesController;
 use App\Http\Controllers\Portfolio\ImagesController as PortfolioImagesController;
 use App\Http\Controllers\Portfolio\PortfolioController;
@@ -65,14 +66,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/backoffice/portfolios/categories/{category}/toggle-archive', [PortfolioCategoriesController::class, 'toggleArchive'])->name('categories.toggleArchive');
     Route::post('/backoffice/portfolios/categories/{category}/toggle-visibility', [PortfolioCategoriesController::class, 'toggleVisibility'])->name('categories.toggleVisibility');
     Route::post('/backoffice/portfolios/categories/{category}/toggle-visibility-on-portfolio', [PortfolioCategoriesController::class, 'toggleVisibilityOnPortfolio'])
-    ->name('categories.toggle-visibility-on-portfolio');
-    Route::get('/api/categories/visible-in-materials', [PortfolioCategoriesController::class, 'getVisibleInMaterialsCategories'])
-    ->name('categories.visible-in-materials');
+        ->name('categories.toggle-visibility-on-portfolio');
     Route::post('Backoffice/Portfolio/Categories/Edit', [PortfolioCategoriesController::class, 'deleteGalleryImage']);
     Route::post('/backoffice/portfolios/upload-image', [PortfolioImagesController::class, 'store'])->name('portfolio.images.store');
     Route::post('/backoffice/portfolios/remove-image', [PortfolioImagesController::class, 'remove'])->name('portfolio.images.remove');
 
     Route::post('/backoffice/portfolios/categories/reorder', [CategoriesController::class, 'reorder'])->middleware('auth');
+
+
+    Route::resource('materials', controller: MaterialController::class);
+
 });
 
 Route::get('/api/portfolios', [PortfolioController::class, 'getPortfolios'])->name('portfolio.api');
@@ -121,4 +124,4 @@ Route::get('/resolution', function () {
 })->name('resolution');
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

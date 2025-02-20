@@ -14,10 +14,8 @@ class PortfolioCategory extends Model
     protected $fillable = [
         'name',
         'img',
-        'subtitle',
         'reference',
         'label',
-        'description',
         'archived',
         'visible_in_materials',
         'visible_on_portfolio',

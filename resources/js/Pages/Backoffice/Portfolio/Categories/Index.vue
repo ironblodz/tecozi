@@ -52,10 +52,6 @@
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Imagem
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Nome
                                 </th>
                                 <th
@@ -79,9 +75,6 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ element.name }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ element.subtitle }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex items-center space-x-4">
@@ -123,27 +116,6 @@
                                                     {{ element.archived ? "Desarquivar" : "Arquivar" }}
                                                 </span>
                                             </button>
-
-                                            <!-- Botão Alternar Visibilidade na Página de Materiais -->
-                                            <button @click.prevent="toggleVisibility(element)"
-                                                :class="element.visible_in_materials ? 'text-blue-500' : 'text-gray-500'"
-                                                class="flex items-center space-x-1">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" :d="element.visible_in_materials
-                                                            ? 'M13 10V3L4 14h7v7l9-11h-7z'
-                                                            : 'M13 10V3L4 14h7v7l9-11h-7z'" />
-                                                </svg>
-                                                <span>
-                                                    {{
-                                                        element.visible_in_materials
-                                                            ? "Ocultar na Materiais"
-                                                            : "Mostrar na Materiais"
-                                                    }}
-                                                </span>
-                                            </button>
-
                                             <!-- Botão Alternar Visibilidade no Portfólio -->
                                             <button @click.prevent="togglePortfolioVisibility(element)"
                                                 :class="element.visible_on_portfolio ? 'text-purple-500' : 'text-gray-500'"
@@ -289,29 +261,6 @@ const toggleArchive = async (category) => {
     } catch (error) {
         Toastify({
             text: "Erro ao atualizar o status de arquivamento.",
-            backgroundColor: "#dc3545",
-        }).showToast();
-    } finally {
-        loading.value = false;
-    }
-};
-
-// === 7) TOGGLE VISIBILITY (MATERIAIS) ===
-const toggleVisibility = async (category) => {
-    loading.value = true;
-    try {
-        await axios.post(`/backoffice/portfolios/categories/${category.id}/toggle-visibility`);
-        category.visible_in_materials = !category.visible_in_materials;
-
-        Toastify({
-            text: category.visible_in_materials
-                ? "Categoria agora visível na página de Materiais!"
-                : "Categoria agora oculta na página de Materiais!",
-            backgroundColor: category.visible_in_materials ? "#007bff" : "#6c757d",
-        }).showToast();
-    } catch (error) {
-        Toastify({
-            text: "Erro ao atualizar a visibilidade da categoria.",
             backgroundColor: "#dc3545",
         }).showToast();
     } finally {

@@ -1,11 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { usePage, Head } from '@inertiajs/vue3';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted} from 'vue';
 import axios from 'axios';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
-import Dropzone from 'dropzone';
 import 'dropzone/dist/dropzone.css';
 
 const { props } = usePage();
@@ -13,10 +12,7 @@ const { props } = usePage();
 // Declaração de `category`
 const category = ref({
     name: "",
-    subtitle: "",
-    description: "",
     img: null,
-    gallery: []
 });
 
 const galleryPreview = ref([]);
@@ -60,25 +56,15 @@ const createCategory = async () => {
     try {
         const formData = new FormData();
         formData.append("name", category.value.name);
-        formData.append("subtitle", category.value.subtitle);
-        formData.append("description", category.value.description);
+
 
         if (category.value.img) {
             formData.append("img", category.value.img);
         }
 
-        if (category.value.gallery.length) {
-            category.value.gallery.forEach((file, index) => {
-                formData.append(`gallery[${index}]`, file);
-            });
-        }
-
         console.log('Dados enviados:', {
             name: category.value.name,
-            subtitle: category.value.subtitle,
-            description: category.value.description,
             img: category.value.img,
-            gallery: category.value.gallery,
         });
 
         const response = await axios.post(
@@ -105,51 +91,8 @@ onMounted(() => {
     if (props.category) {
         category.value = {
             name: props.category.name || "",
-            subtitle: props.category.subtitle || "",
-            description: props.category.description || "",
             img: props.category.img ? `/storage/${props.category.img}` : null,
-            gallery: props.category.photos || [],
         };
-
-        galleryPreview.value = props.category.photos
-            ? props.category.photos.map(photo => `/storage/${photo.photo_path}`)
-            : [];
-    }
-
-    // Configuração do Dropzone
-    Dropzone.autoDiscover = false; // Evita que Dropzone automaticamente inicialize
-
-    myDropzone = new Dropzone(galleryDropzone.value, {
-        url: "/fake-url", // URL falsa já que vamos gerenciar o upload manualmente
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 10,
-        maxFilesize: 5, // em MB
-        acceptedFiles: 'image/*',
-        addRemoveLinks: true,
-        dictDefaultMessage: "Arraste e solte as imagens aqui ou clique para selecionar.",
-    });
-
-    // Evento quando um arquivo é adicionado
-    myDropzone.on("addedfile", (file) => {
-        category.value.gallery.push(file);
-        galleryPreview.value.push(URL.createObjectURL(file));
-    });
-
-    // Evento quando um arquivo é removido
-    myDropzone.on("removedfile", (file) => {
-        const index = category.value.gallery.indexOf(file);
-        if (index > -1) {
-            category.value.gallery.splice(index, 1);
-            galleryPreview.value.splice(index, 1);
-        }
-    });
-});
-
-// Limpeza ao desmontar o componente
-onBeforeUnmount(() => {
-    if (myDropzone) {
-        myDropzone.destroy();
     }
 });
 </script>
@@ -182,17 +125,6 @@ onBeforeUnmount(() => {
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm">
                             <p v-if="errors.name" class="text-red-600 text-sm">{{ errors.name }}</p>
                         </div>
-                        <div>
-                            <label for="subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
-                            <input id="subtitle" v-model="category.subtitle" type="text"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm">
-                        </div>
-
-                        <div>
-                            <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
-                            <textarea id="description" v-model="category.description" rows="4"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm"></textarea>
-                        </div>
                         <!-- Campo de imagem com pré-visualização -->
                         <div class="mb-4">
                             <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Imagem</label>
@@ -204,16 +136,6 @@ onBeforeUnmount(() => {
                                 </div>
                                 <input id="image" type="file" @change="handleImageChange"
                                     class="border border-gray-300 rounded-lg px-4 py-2 w-full">
-                            </div>
-                        </div>
-                        <div>
-                            <label for="gallery" class="block text-sm font-medium text-gray-700">Galeria de
-                                Imagens</label>
-                            <div id="gallery-dropzone" ref="galleryDropzone"
-                                class="dropzone mt-1 border-2 border-dashed border-gray-300 rounded-md p-4">
-                                <div class="dz-message">
-                                    Arraste e solte as imagens aqui ou clique para selecionar.
-                                </div>
                             </div>
                         </div>
                         <div class="flex justify-end space-x-4 mt-6">
