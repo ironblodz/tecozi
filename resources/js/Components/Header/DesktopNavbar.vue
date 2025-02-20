@@ -1,6 +1,6 @@
 <template>
     <nav :class="[
-        'fixed top-0 left-0 w-full bg-opacity-90 z-20 p-4 flex justify-between items-center',
+        'fixed top-0 left-0 w-full bg-opacity-90 z-30 p-4 flex justify-between items-center',
         isHome ? 'bg-primary-default' : 'bg-gray-200'
     ]">
         <!-- Logo à esquerda -->
