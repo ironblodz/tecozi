@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Material;
 use App\Models\MaterialPhoto;
+use App\Models\Portfolio;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Storage;
@@ -104,20 +105,21 @@ class MaterialController extends Controller
     // Método edit para exibir o formulário de edição de um material
     public function edit($id)
     {
-        $material = Material::with('photos')->findOrFail($id);
+        $portfolio = Portfolio::with('images')->findOrFail($id);
 
-        return Inertia::render('Backoffice/Materials/Edit', [
-            'material' => [
-                'id' => $material->id,
-                'title' => $material->title,
-                'description' => $material->description,
-                'photo' => $material->photo ? asset("storage/{$material->photo}") : null,
-                'gallery' => $material->photos ? $material->photos->map(function ($photo) {
-                    return asset("storage/{$photo->photo}");
-                }) : []
+        return Inertia::render('Backoffice/Portfolio/Edit', [
+            'portfolio' => [
+                'id' => $portfolio->id,
+                'title' => $portfolio->title,
+                'short_description' => $portfolio->short_description,
+                'description' => $portfolio->description,
+                'category_id' => $portfolio->category_id,
+                'main_image' => $portfolio->main_image ? "/storage/" . $portfolio->main_image : null,
+                'gallery' => $portfolio->images->map(fn($image) => "/storage/" . $image->path)->toArray(),
             ]
         ]);
     }
+
 
 
     // Método update para atualizar os dados de um material

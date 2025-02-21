@@ -5,77 +5,39 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
-import Dropzone from 'dropzone';
-import 'dropzone/dist/dropzone.css';
+import { useDropzone } from "vue3-dropzone";
 
-// Propriedades e estado
 const { props } = usePage();
 const portfolio = ref(props.portfolio);
+
 const previewImage = ref(portfolio.value.main_image ? `/storage/${portfolio.value.main_image}` : null);
-const dropzoneRef = ref(null); // Referência ao Dropzone
 
-// Inicializar Dropzone
-const initializeDropzone = () => {
-    dropzoneRef.value = new Dropzone("#dropzone", {
-        url: '/backoffice/portfolios/upload-image',
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        acceptedFiles: 'image/*',
-        addRemoveLinks: true,
-        dictRemoveFile: "Remover",
-        init() {
-            if (portfolio.value.images) {
-                portfolio.value.images.forEach((image) => {
-                    const mockFile = {
-                        name: `Imagem ${image.id}`,
-                        size: 12345,
-                        id: image.id,
-                        serverId: image.id
-                    };
+const gallery = ref(portfolio.value.gallery || []);
+const galleryFiles = ref([]);
 
-                    this.emit("addedfile", mockFile);
-                    this.emit("thumbnail", mockFile, `/storage/${image.path}`);
-                    this.emit("complete", mockFile);
-                });
-            }
+const categories = ref([]);
 
-            this.on("sending", (file, xhr, formData) => {
-                formData.append('portfolioId', portfolio.value.id);
-            });
 
-            this.on("success", (file, response) => {
-                if (response.imageId) {
-                    file.serverId = response.imageId; // Registra o ID retornado pelo backend
-                }
-            });
-
-            this.on("removedfile", async (file) => {
-                if (file.serverId) {
-                    try {
-                        await axios.post('/backoffice/portfolios/remove-image', {
-                            imageId: file.serverId,
-                        });
-                        Toastify({ text: "Imagem removida com sucesso!" }).showToast();
-                    } catch (error) {
-                        Toastify({ text: `Erro ao remover imagem: ${error.message}` }).showToast();
-                    }
-                }
-            });
-        },
-    });
+const handleGalleryChange = (event) => {
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+        galleryFiles.value.push(files[i]); // Guarda os novos ficheiros
+        gallery.value.push(URL.createObjectURL(files[i])); // Gera pré-visualização local
+    }
+    console.log("Novas imagens adicionadas:", galleryFiles.value);
 };
 
+
+// Função para atualizar a imagem principal
 const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
         portfolio.value.main_image = file;
-        previewImage.value = URL.createObjectURL(file); // Atualiza a pré-visualização com a nova imagem
+        previewImage.value = URL.createObjectURL(file);
     }
 };
 
-// Atualizar portfólio
+// Atualizar portfólio no backend
 const updatePortfolio = async () => {
     try {
         const formData = new FormData();
@@ -83,55 +45,74 @@ const updatePortfolio = async () => {
         formData.append('title', portfolio.value.title);
         formData.append('short_description', portfolio.value.short_description);
         formData.append('description', portfolio.value.description);
-        formData.append('category_id', portfolio.value.category_id); // Enviar categoria selecionada
+        formData.append('category_id', portfolio.value.category_id);
 
-        if (portfolio.value.main_image) {
+        // Apenas envia `main_image` se for uma nova imagem
+        if (portfolio.value.main_image instanceof File) {
             formData.append('main_image', portfolio.value.main_image);
         }
 
-        await axios.post('/backoffice/portfolios/update', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+        galleryFiles.value.forEach((file, index) => {
+            formData.append(`gallery_images[${index}]`, file);
         });
 
-        // Exibir mensagem de sucesso
-        Toastify({ text: "Portfólio atualizado com sucesso!" }).showToast();
+        const response = await axios.post('/backoffice/portfolios/update', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
+        if (response.data.data.main_image) {
+            previewImage.value = response.data.data.main_image;
+            console.log("Imagem principal atualizada:", previewImage.value);
+        }
+
+        if (response.data.data.gallery) {
+            gallery.value = response.data.data.gallery;
+            console.log("Galeria atualizada após upload:", gallery.value);
+        }
+
+        Toastify({ text: "Portfólio atualizado com sucesso!", backgroundColor: "green" }).showToast();
 
         setTimeout(() => {
-            window.location = `/backoffice/portfolios`; // Redirecionar para a página de portfólios
+            window.location = `/backoffice/portfolios`;
         }, 1500);
 
     } catch (error) {
-        Toastify({ text: `Erro ao atualizar portfólio: ${error.message}` }).showToast();
+        Toastify({ text: `Erro ao atualizar portfólio: ${error.message}`, backgroundColor: "red" }).showToast();
     }
 };
-
 
 const cancel = () => {
     window.location = `/backoffice/portfolios`;
 };
-
-// Inicializar Dropzone ao montar o componente
-const categories = ref([]); // Lista de categorias
-
 onMounted(() => {
-    initializeDropzone();
-
-    // Buscar categorias do backend
     axios.get('/backoffice/portfolios/categories')
         .then(response => {
-            console.log('Categorias recebidas:', response.data); // Log para depuração
-            categories.value = response.data;  // Atribui as categorias
+            categories.value = response.data;
+            console.log("Categorias carregadas:", categories.value);
         })
-        .catch(error => {
-            console.error("Erro ao carregar categorias:", error);
-        });
+        .catch(error => console.error("Erro ao carregar categorias:", error));
+
+    // Certifica-te de que a imagem principal e a galeria são carregadas corretamente
+    if (portfolio.value) {
+        previewImage.value = portfolio.value.main_image ? portfolio.value.main_image : null;
+        console.log("Imagem principal carregada:", previewImage.value);
+
+        if (portfolio.value.gallery && Array.isArray(portfolio.value.gallery)) {
+            gallery.value = portfolio.value.gallery;
+            console.log("Imagens da galeria carregadas:", gallery.value);
+        } else {
+            console.warn("Nenhuma imagem encontrada na galeria.");
+        }
+    }
 });
+
+
 </script>
 
+
 <template>
-    <Head title="Editar Projeto"/>
+
+    <Head title="Editar Projeto" />
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center">
@@ -196,11 +177,17 @@ onMounted(() => {
                         </div>
 
                         <!-- Galeria de imagens -->
-                        <div id="dropzone" class="dropzone mb-4">
-                            <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Galeria de
-                                Imagens</label>
-                            <div class="dz-message">Arraste e solte imagens ou clique para fazer upload</div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Galeria de Fotos</label>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div v-for="(img, index) in gallery" :key="index" class="relative">
+                                    <img :src="img" class="w-full h-24 object-cover rounded-md shadow">
+                                </div>
+                            </div>
+                            <input type="file" multiple @change="handleGalleryChange"
+                                class="mt-2 border border-gray-300 rounded-lg px-4 py-2 w-full">
                         </div>
+
 
                         <div class="flex justify-end space-x-4 mt-6">
                             <button type="button" @click="cancel"

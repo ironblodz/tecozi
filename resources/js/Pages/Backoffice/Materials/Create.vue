@@ -46,8 +46,6 @@ const handlePhotoChange = (event) => {
     }
 };
 
-
-
 // Função para criar o material
 const createMaterial = async () => {
     try {

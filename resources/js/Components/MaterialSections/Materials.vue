@@ -1,5 +1,5 @@
 <template>
-    <section class="relative min-h-screen py-10 px-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white overflow-hidden">
+    <section class="relative min-h-screen py-10 px-6 bg-gradient-to-br bg-gray-700 text-white overflow-hidden">
         <!-- Imagem de fundo animada -->
         <div class="absolute inset-0 bg-cover bg-center opacity-20" :style="{ backgroundImage: `url(${kitchen})` }"></div>
 
@@ -14,9 +14,9 @@
         </div>
 
         <!-- Lista de Materiais -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-8 relative z-10">
             <div v-for="material in materials" :key="material.id"
-                class="group bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center cursor-pointer transition-transform transform hover:scale-105"
+                class="group bg-primary-default rounded-xl shadow-lg p-6 flex flex-col items-center cursor-pointer transition-transform transform hover:scale-105"
                 @click="setActiveMaterial(material)">
                 <div class="relative w-32 h-32 mb-4 overflow-hidden rounded-xl">
                     <img :src="material.photo" :alt="material.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
@@ -28,7 +28,7 @@
         <!-- Detalhes do Material Ativo -->
         <transition name="fade-slide">
             <div v-if="activeMaterial" class="fixed inset-0 flex items-center justify-center bg-black/60 z-50 p-6">
-                <div class="bg-gray-900 p-8 rounded-xl shadow-2xl max-w-lg w-full relative">
+                <div class="bg-primary-default p-8 rounded-xl shadow-2xl max-w-2xl w-full relative">
                     <button class="absolute top-4 right-4 text-gray-300 hover:text-white text-xl" @click="activeMaterial = null">&times;</button>
                     <h3 class="text-2xl font-bold text-red-400 mb-4">{{ activeMaterial.title }}</h3>
                     <p class="text-gray-300 mb-6">{{ activeMaterial.description }}</p>
