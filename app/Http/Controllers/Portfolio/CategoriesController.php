@@ -145,21 +145,6 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Exibe o formulário de edição da categoria.
-     *
-     * @param int $id
-     * @return \Inertia\Response
-     */
-    public function edit($id)
-    {
-        $category = PortfolioCategory::findOrFail($id);
-
-        return Inertia::render('Backoffice/Portfolio/Categories/Edit', [
-            'category' => $category,
-        ]);
-    }
-
-    /**
      * Exibe o formulário de criação da categoria.
      *
      * @return \Inertia\Response
@@ -187,7 +172,7 @@ class CategoriesController extends Controller
                 'name' => $request->name,
                 'reference' => $request->reference,
                 'label' => $request->label,
-                'img' => $request->hasFile('img') ? $request->file('img')->store('images') : (isset($category) ? $category->img : null),
+                'img' => $request->hasFile('img') ? $request->file('img')->store('categories', 'public') : ($category->img ?? null),
                 'visible_on_portfolio' => $request->input('visible_on_portfolio', false),
                 'archived' => $request->input('archived', false),
             ]
@@ -197,50 +182,65 @@ class CategoriesController extends Controller
     }
 
     /**
+     * Exibe o formulário de edição da categoria.
+     *
+     * @param int $id
+     * @return \Inertia\Response
+     */
+    public function edit($id)
+    {
+        $category = PortfolioCategory::findOrFail($id);
+
+        // Garante que a URL da imagem é acessível no frontend
+        if ($category->img) {
+            $category->img = asset('storage/' . $category->img);
+        }
+
+        return Inertia::render('Backoffice/Portfolio/Categories/Edit', [
+            'category' => $category,
+        ]);
+    }
+
+
+
+    /**
      * Atualiza uma categoria existente.
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request)
+    public function update(Request $request, PortfolioCategory $category)
     {
-        // Validação dos dados de entrada
+        \Log::info('Recebendo dados no update:', $request->all());
+
         $validated = $request->validate([
-            'id' => 'required|exists:portfolio_categories,id',
             'name' => 'required|string|max:255',
             'reference' => 'nullable|string',
             'label' => 'nullable|string',
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
             'visible_on_portfolio' => 'boolean',
-
             'archived' => 'boolean',
         ]);
 
-        // Encontrar a categoria pelo ID
-        $category = PortfolioCategory::findOrFail($validated['id']);
+        $category->update([
+            'name' => $validated['name'],
+            'reference' => $validated['reference'],
+            'label' => $validated['label'],
+            'visible_on_portfolio' => $validated['visible_on_portfolio'],
+            'archived' => $validated['archived'],
+        ]);
 
-        // Atualizar os campos da categoria
-        $category->name = $validated['name'];
-        $category->reference = $validated['reference'];
-        $category->label = $validated['label'];
-        $category->visible_on_portfolio = $validated['visible_on_portfolio'];
-        $category->archived = $validated['archived'];
-
-        // Lidar com a imagem principal
         if ($request->hasFile('img')) {
-            // Excluir a imagem anterior, se existir
-            if ($category->img) {
-                Storage::delete($category->img);
+            if ($category->img && Storage::disk('public')->exists($category->img)) {
+                Storage::disk('public')->delete($category->img);
             }
-            // Armazenar a nova imagem
-            $category->img = $request->file('img')->store('images');
+
+            $imagePath = $request->file('img')->store('categories', 'public');
+            $category->img = $imagePath;
+            $category->save();
         }
 
-        // Salvar as alterações
-        $category->save();
-
-        // Retornar uma resposta de sucesso
-        return redirect()->route('portfolio.categories.index')->with('success', 'Categoria atualizada com sucesso!');
+        return response()->json(['message' => 'Categoria atualizada com sucesso!', 'category' => $category]);
     }
 
     /**
@@ -251,20 +251,22 @@ class CategoriesController extends Controller
      */
     public function destroy(Request $request)
     {
+        $id = $request->input('id');
+        \Log::info('Tentativa de eliminar categoria', ['id' => $id]);
+
+        if (!$id) {
+            return response()->json(['error' => 'ID não fornecido.'], 400);
+        }
+
         try {
-            $category = PortfolioCategory::findOrFail($request->id);
-
-            // Excluir a imagem de capa
-            if ($category->img) {
-                Storage::disk('public')->delete($category->img);
-            }
-
+            $category = PortfolioCategory::findOrFail($id);
             $category->delete();
 
-            return response()->json(['success' => true, 'message' => 'Categoria excluída com sucesso.']);
+            return response()->json(['success' => true, 'message' => 'Categoria eliminada com sucesso.']);
         } catch (\Exception $e) {
             \Log::error('Erro ao excluir categoria: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Erro ao excluir categoria!'], 500);
         }
     }
+
 }

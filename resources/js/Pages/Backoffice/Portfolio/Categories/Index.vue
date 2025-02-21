@@ -52,6 +52,10 @@
                                 </th>
                                 <th
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Imagem
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Nome
                                 </th>
                                 <th
@@ -61,9 +65,6 @@
                             </tr>
                         </thead>
 
-                        <!-- DRAGGABLE -->
-                        <!-- Usamos v-model="categoriesLocal" (a lista "oficial") -->
-                        <!-- e :list="filteredCategories" para exibir apenas as filtradas -->
                         <Draggable tag="tbody" v-model="categoriesLocal" :list="filteredCategories" itemKey="id"
                             @end="onDragEnd" handle=".drag-handle" :disabled="loading">
                             <template #item="{ element }">
@@ -72,6 +73,10 @@
                                         <span class="cursor-move drag-handle text-gray-500">
                                             &#x2630;
                                         </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <img v-if="element.img" :src="getImageUrl(element.img)"
+                                            alt="Imagem da Categoria" class="w-16 h-16 object-cover rounded-lg shadow">
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ element.name }}
@@ -181,6 +186,10 @@ import Draggable from "vuedraggable";
 
 const page = usePage();
 const props = ref(page.props);
+
+const getImageUrl = (imgPath) => {
+    return imgPath ? `/storage/${imgPath}` : '/images/default-image.png';
+};
 
 // === 1) ARRAY REATIVO LOCAL (onde Draggable atua) ===
 const categoriesLocal = ref([]);

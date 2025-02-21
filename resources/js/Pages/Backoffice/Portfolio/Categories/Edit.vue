@@ -21,7 +21,7 @@
                     </h2>
                 </div>
 
-                <form @submit.prevent="createOrUpdateCategory" class="p-6">
+                <form @submit.prevent="updateCategory" class="p-6">
                     <div class="space-y-4">
                         <!-- Nome -->
                         <div>
@@ -70,7 +70,6 @@
         </div>
     </AuthenticatedLayout>
 </template>
-
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { usePage, Head } from '@inertiajs/vue3';
@@ -84,29 +83,38 @@ const { props } = usePage();
 const category = ref({
     id: props.category?.id ?? null,
     name: props.category?.name ?? "",
-    mainImageId: props.category?.main_image_id ?? null,
-    category_id: props.category?.category_id ?? ""
+    reference: props.category?.reference ?? "",
+    label: props.category?.label ?? "",
+    archived: props.category?.archived ?? false,
+    visible_on_portfolio: props.category?.visible_on_portfolio ?? false,
+    img: props.category?.img ?? null, // URL da imagem existente
 });
 
 const previewImage = ref(null);
-if (props.category?.img) {
-    previewImage.value = `/storage/${props.category.img}`;
+const selectedImage = ref(null);
+
+if (category.value.img) {
+    previewImage.value = category.value.img.startsWith("http")
+        ? category.value.img
+        : `/storage/${category.value.img}`;
 }
+
 
 const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
         previewImage.value = URL.createObjectURL(file);
-        category.value.mainImageFile = file;
+        selectedImage.value = file;
     } else {
-        previewImage.value = null;
-        category.value.mainImageFile = null;
+        // Se o utilizador remover a seleção, mantém a imagem antiga
+        previewImage.value = category.value.img;
+        selectedImage.value = null;
     }
 };
 
+
 const errors = ref({});
 const isSubmitting = ref(false);
-const categories = ref([]);
 
 const cancel = () => {
     window.location = `/backoffice/portfolios/categories`;
@@ -121,46 +129,39 @@ const validateForm = () => {
     }
     return isValid;
 };
-
-const createOrUpdateCategory = async () => {
+const updateCategory = async () => {
     if (!validateForm()) return;
     isSubmitting.value = true;
+
     try {
         const formData = new FormData();
         formData.append("name", category.value.name);
-        formData.append("category_id", category.value.category_id);
+        formData.append("reference", category.value.reference);
+        formData.append("label", category.value.label);
+        formData.append("archived", category.value.archived ? 1 : 0);
+        formData.append("visible_on_portfolio", category.value.visible_on_portfolio ? 1 : 0);
 
-        if (category.value.mainImageFile) {
-            formData.append("main_image_file", category.value.mainImageFile);
-        } else if (category.value.mainImageId) {
-            formData.append("main_image_id", category.value.mainImageId);
+        if (selectedImage.value) {
+            formData.append("img", selectedImage.value);
         }
 
-        if (category.value.id) {
-            // Atualização usando PUT e incluindo o ID na URL
-            await axios.put(`/backoffice/portfolios/categories/${category.value.id}`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
-            Toastify({ text: "Categoria atualizada com sucesso!" }).showToast();
-        } else {
-            // Criação usando POST
-            await axios.post("/backoffice/portfolios/categories/store", formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
-            Toastify({ text: "Categoria criada com sucesso!" }).showToast();
-        }
+        await axios.post(`/backoffice/portfolios/categories/${category.value.id}/update`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        Toastify({ text: "Categoria atualizada com sucesso!" }).showToast();
 
         setTimeout(() => {
             window.location = `/backoffice/portfolios/categories`;
         }, 1500);
     } catch (error) {
         console.error(error);
-        let errorMessage = 'Erro ao salvar categoria.';
+        let errorMessage = 'Erro ao atualizar categoria.';
         if (error.response && error.response.data && error.response.data.message) {
             errorMessage = error.response.data.message;
         }
         Toastify({
-            text: `Erro ao salvar categoria: ${errorMessage}`,
+            text: `Erro ao atualizar categoria: ${errorMessage}`,
             backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
         }).showToast();
     } finally {
@@ -168,15 +169,4 @@ const createOrUpdateCategory = async () => {
     }
 };
 
-
-
-onMounted(() => {
-    axios.get('/backoffice/portfolios/categories')
-        .then(response => {
-            categories.value = response.data;
-        })
-        .catch(error => {
-            console.error("Erro ao carregar categorias:", error);
-        });
-});
 </script>
