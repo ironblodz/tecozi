@@ -42,7 +42,7 @@
 
         <!-- Modal com Swiper -->
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
-            <div class="relative w-[95%] md:w-[65%] xl:w-[50%] bg-gradient-to-r from-primary-default to-black rounded-2xl p-10 shadow-2xl transform scale-100  transition duration-300"
+            <div class="relative w-[95%] md:w-[65%] xl:w-[50%] bg-gray-200 rounded-2xl p-10 shadow-2xl transform scale-100  transition duration-300"
                 @click.stop>
                 <swiper v-if="selectedProject && selectedProject.images && selectedProject.images.length > 0"
                     :slides-per-view="1" :space-between="10"
@@ -57,7 +57,7 @@
 
                 <div class="text-center mt-6 text-white">
                     <h2 class="text-4xl font-extrabold text-secondary-default">{{ selectedProject.title }}</h2>
-                    <p class="text-lg text-gray-300 mt-4">{{ selectedProject.description }}</p>
+                    <p class="text-lg text-black mt-4">{{ selectedProject.description }}</p>
                 </div>
 
                 <button @click="closeModal"
