@@ -1,65 +1,79 @@
 <template>
-    <section class="relative min-h-screen py-10 bg-gradient-to-br from-white via-gray-50 to-gray-100">
+    <section class="relative min-h-screen py-10 bg-gradient-to-br from-gray-100 via-gray-50 to-white">
         <!-- Imagem de fundo -->
         <img :src="kitchen" alt="Fundo Inferior Direito"
-            class="absolute bottom-0 right-0 w-48 xl:w-60 scale-x-[-1] opacity-80 z-0" />
+            class="absolute bottom-0 right-0 w-48 xl:w-60 scale-x-[-1] opacity-50 z-0" />
 
         <!-- TÍTULO E DESCRIÇÃO -->
-        <div class="flex flex-col justify-center mx-10 mt-24 mb-10 text-center xl:text-left">
-            <h1 class="text-primary-default text-3xl xl:text-4xl font-bold mb-4 z-20 tracking-wide">
-                Trabalhamos com os <span class="text-secondary-default">melhores materiais</span> do mercado
+        <div class="flex flex-col justify-center mx-10 mt-20 mb-12 text-center xl:text-left">
+            <h1 class="text-xl xl:text-3xl  tracking-wide text-gray-800 animate-fadeIn">
+                Trabalhamos com as melhores <span class="text-secondary-default">Marcas do Mercado</span>
             </h1>
-            <p class="text-lg xl:text-xl max-w-7xl mx-auto xl:mx-0 text-gray-700">
-                Trabalho de qualidade acompanhado dos melhores materiais em cada projeto realizado!
-                Os materiais que garantem o melhor resultado.
-            </p>
+            <p class="text-lg mt-4 max-w-5xl mx-auto xl:mx-0 text-gray-700 animate-fadeIn delay-200">
+                Trabalho de qualidade acompanhado dos melhores materiais em cada projeto realizado! Os materiais que
+                garantem o melhor resultado: </p>
         </div>
 
         <!-- CONTAINER PRINCIPAL -->
-        <div class="flex flex-col gap-8 mx-10 mb-8 relative z-10">
-            <!-- COLUNA ESQUERDA: Lista de Materiais -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
-                <div v-for="material in materials" :key="material.id"
-                    class="shadow-lg rounded-lg bg-white text-black p-6 flex flex-col items-center cursor-pointer
-                           transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-                    :class="{ 'border-4 border-[#BF0404] bg-primary-default': activeMaterial?.id === material.id }"
+        <div class="flex flex-col gap-10 mx-10 mb-10 relative z-10">
+            <!-- LISTA DE MATERIAIS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full">
+                <div v-for="material in materials" :key="material.id" class="rounded-xl bg-white p-6 flex flex-col items-center cursor-pointer shadow-xl relative overflow-hidden
+                           transition-all duration-500 transform hover:scale-105 hover:shadow-2xl group"
+                    :class="{ 'border-4 border-secondary-default bg-gray-100': activeMaterial?.id === material.id }"
                     @click="setActiveMaterial(material)">
-                    <img :src="material.photo" :alt="material.title" class="w-40 h-40 object-cover rounded-lg shadow-md mb-4" />
-                    <p class="font-semibold text-xl xl:text-2xl text-center">{{ material.title }}</p>
+
+                    <!-- Imagem com profundidade -->
+                    <div
+                        class="relative w-48 h-48 overflow-hidden rounded-lg shadow-md transition-all duration-500 transform group-hover:scale-110">
+                        <img :src="material.photo" :alt="material.title"
+                            class="w-full h-full object-cover brightness-110 group-hover:brightness-125" />
+                    </div>
+
+                    <!-- Título com efeito de brilho -->
+                    <h3
+                        class="mt-5 text-xl font-semibold text-center text-primary-default group-hover:text-secondary-default transition-all">
+                        {{ material.title }}
+                    </h3>
                 </div>
             </div>
 
-            <!-- COLUNA DIREITA: Detalhes do Material Selecionado -->
-            <div class="w-full relative flex-grow rounded-xl p-8 shadow-2xl bg-gradient-to-bl from-white via-gray-100 to-white backdrop-blur-md border-l-4 border-[#BF0404] transition-all duration-300">
-                <transition name="zoom-fade" mode="out-in">
-                    <div v-if="activeMaterial" :key="activeMaterial.id" class="p-6 rounded-lg shadow-md bg-white/80 animate-contentFadeIn">
-                        <h2 class="text-2xl font-bold mb-4 text-primary-default tracking-wide">
+            <!-- DETALHES DO MATERIAL SELECIONADO -->
+            <div class="w-full relative flex-grow rounded-xl p-8 shadow-2xl bg-gradient-to-bl from-white via-gray-100 to-white
+                        backdrop-blur-md border-l-4 border-secondary-default transition-all duration-500 animate-fadeIn">
+                <transition name="fade-up" mode="out-in">
+                    <div v-if="activeMaterial" :key="activeMaterial.id"
+                        class="p-6 rounded-lg shadow-md bg-white/80 animate-fadeIn">
+                        <h2 class="text-lg xl:text-2xl font-bold mb-4 border-secondary-default tracking-wide">
                             {{ activeMaterial.title }}
                         </h2>
                         <p class="mb-6 text-gray-700 text-lg leading-relaxed">
                             {{ activeMaterial.description }}
                         </p>
 
-                        <!-- Galeria de fotos -->
-                        <div v-if="activeMaterial.gallery.length" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-6 mt-6">
-                            <div v-for="(photo, index) in activeMaterial.gallery" :key="index" class="relative group">
-                                <img :src="photo" :alt="`Imagem ${index + 1}`" loading="lazy"
-                                    class="w-64 h-64 object-cover rounded-md shadow-lg transform transition-transform duration-300 group-hover:scale-110 cursor-pointer"
+                        <!-- GALERIA INTERATIVA COM SPLIDE -->
+                        <Splide v-if="activeMaterial.gallery.length" class="mt-6" :options="splideOptions">
+                            <SplideSlide v-for="(photo, index) in activeMaterial.gallery" :key="index">
+                                <img :src="photo" :alt="'Imagem ' + (index + 1)"
+                                    class="w-full h-64 object-cover rounded-lg shadow-lg cursor-pointer transition-all duration-500 hover:scale-110"
                                     @click="openModal(photo)" />
-                            </div>
-                        </div>
+                            </SplideSlide>
+                        </Splide>
                     </div>
                 </transition>
             </div>
         </div>
 
         <!-- MODAL PARA VISUALIZAÇÃO DE IMAGENS -->
-        <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg relative">
-                <button @click="closeModal" class="absolute top-2 right-2 text-gray-600 text-3xl hover:text-red-500 transition">
+        <div v-if="showModal"
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 transition-opacity duration-500">
+            <div class="bg-white p-8 rounded-xl shadow-2xl relative max-w-3xl w-full">
+                <button @click="closeModal"
+                    class="absolute top-3 right-3 text-gray-700 text-4xl hover:text-red-500 transition-all">
                     &times;
                 </button>
-                <img :src="modalImage" alt="Imagem ampliada" class="w-full max-w-lg mx-auto rounded-md shadow-lg" />
+                <img :src="modalImage" alt="Imagem ampliada"
+                    class="w-full h-auto rounded-lg shadow-lg transition-transform duration-300 hover:scale-105" />
             </div>
         </div>
     </section>
@@ -68,22 +82,41 @@
 <script>
 import axios from "axios";
 import kitchen from "@/assets/images/footer/kitchnet.svg";
+import '@splidejs/splide/dist/css/splide.min.css';
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
 
 export default {
     name: "Materials",
+    components: { Splide, SplideSlide },
     data() {
         return {
             materials: [],
             activeMaterial: null,
             kitchen,
             showModal: false,
-            modalImage: null
+            modalImage: null,
+            splideOptions: {
+                type: 'loop',
+                perPage: 3,
+                perMove: 1,
+                focus: 'center',
+                autoplay: true,
+                interval: 3000,
+                gap: '1rem',
+                pauseOnHover: true,
+                pagination: false,
+                arrows: true,
+                breakpoints: {
+                    1024: { perPage: 2 },
+                    768: { perPage: 1 }
+                }
+            }
         };
     },
     methods: {
         async fetchMaterials() {
             try {
-                const response = await axios.get("/api/materials"); // Buscar todos os materiais
+                const response = await axios.get("/api/materials");
                 this.materials = response.data;
 
                 // Definir o primeiro material como ativo por padrão
@@ -111,52 +144,52 @@ export default {
     }
 };
 </script>
+
 <style scoped>
-/* Transição de Fade-In */
+/* Animação de Fade-In */
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-.animate-contentFadeIn {
-    animation: fadeIn 0.4s ease forwards;
+.animate-fadeIn {
+    animation: fadeIn 0.6s ease forwards;
 }
 
-/* Zoom Fade Transition */
-.zoom-fade-enter-active,
-.zoom-fade-leave-active {
-    transition: all 0.3s ease-in-out;
-}
-.zoom-fade-enter {
-    opacity: 0;
-    transform: scale(0.9);
-}
-.zoom-fade-leave-to {
-    opacity: 0;
-    transform: scale(1.05);
+/* Transição Suave */
+.fade-up-enter-active,
+.fade-up-leave-active {
+    transition: all 0.4s ease-in-out;
 }
 
-/* Efeito Hover nos Materiais */
+.fade-up-enter {
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.fade-up-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* Hover */
 .hover\:scale-105:hover {
     transform: scale(1.05);
 }
 
-/* Sombra elegante */
-.shadow-md {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
+/* Sombras Profundas */
 .shadow-lg {
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .shadow-2xl {
-    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.25);
 }
 </style>

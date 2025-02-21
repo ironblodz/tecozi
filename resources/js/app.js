@@ -11,6 +11,7 @@ import MaintenancePage from '@/Components/errors/MaintenancePage.vue';
 import { createMetaManager } from 'vue-meta';
 import { plugin as VueTippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
+import VueSplide, { Splide, SplideSlide } from '@splidejs/vue-splide';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Tecozi';
 
@@ -32,22 +33,22 @@ if (isMaintenance) {
             const app = createApp({ render: () => h(App, props) });
 
             app.use(plugin);
-            app.use(
-                VueTippy,
-                {
-                  directive: 'tippy', // => v-tippy
-                  component: 'tippy', // => <tippy/>
-                  componentSingleton: 'tippy-singleton', // => <tippy-singleton/>,
-                  defaultProps: {
+            app.use(VueTippy, {
+                directive: 'tippy',
+                component: 'tippy',
+                componentSingleton: 'tippy-singleton',
+                defaultProps: {
                     placement: 'auto-end',
                     allowHTML: true,
-                  },
-                }
-              )
+                },
+            });
             app.use(ZiggyVue);
             app.use(i18n);
+            app.use(VueSplide);
+            app.component('Splide', Splide);
+            app.component('SplideSlide', SplideSlide);
             app.use(createVuetify());
-            app.use(createMetaManager()); // Use vue-meta
+            app.use(createMetaManager());
 
             app.mount(el);
         },
