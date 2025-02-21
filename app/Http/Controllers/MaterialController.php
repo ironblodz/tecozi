@@ -41,24 +41,20 @@ class MaterialController extends Controller
         ]);
     }
 
-    public function getMaterials()
+    public function getAllMaterials()
     {
-        $materials = Material::with('photos')->latest()->get()->map(function ($material) {
+        $materials = Material::with('photos')->get();
+
+        return response()->json($materials->map(function ($material) {
             return [
                 'id' => $material->id,
                 'title' => $material->title,
                 'description' => $material->description,
-                'photo' => $material->photo ? asset("storage/{$material->photo}") : null,
-                'gallery' => $material->photos->map(function ($photo) {
-                    return asset("storage/{$photo->photo}");
-                })
+                'photo' => $material->photo ? asset("storage/{$material->photo}") : asset("storage/default.jpg"),
+                'gallery' => $material->photos->map(fn($photo) => asset("storage/{$photo->photo}"))
             ];
-        });
-
-        return response()->json(['materials' => $materials]);
+        }));
     }
-
-
 
     // Método create para exibir o formulário de criação
     public function create()

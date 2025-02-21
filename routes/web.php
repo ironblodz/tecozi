@@ -85,7 +85,7 @@ Route::middleware('auth')->group(function () {
 });
 
 //Frontoffice
-Route::get('/api/materials', [MaterialController::class, 'getMaterials']);
+Route::get('/api/materials/{id}', [MaterialController::class, 'getMaterial']);
 
 Route::get('/api/portfolios', [PortfolioController::class, 'getPortfolios'])->name('portfolio.api');
 Route::get('/api/categories', [PortfolioCategoriesController::class, 'getCategories'])->name('categories.api');
