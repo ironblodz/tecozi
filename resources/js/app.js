@@ -13,6 +13,7 @@ import { plugin as VueTippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
 import VueSplide, { Splide, SplideSlide } from '@splidejs/vue-splide';
 
+
 const appName = import.meta.env.VITE_APP_NAME || 'Tecozi';
 
 // Verificar se o Laravel está em modo de manutenção

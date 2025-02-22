@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactFormMail;
 use App\Models\Contact;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Mail;
 
 class ContactController extends Controller
 {
-    //
     public function validateData($request) {
         return $request->validate([
             'first_name' => 'required|string|max:100',
@@ -26,14 +27,11 @@ class ContactController extends Controller
     {
         $contacts = Contact::latest()->get();
 
-        if ($contacts) {
-            return Inertia::render('Backoffice/Contact/Index', [
-                'contacts' => $contacts
-            ]);
-        }
-
-        $this->returnError ($request, 'Algo deu errado!');
+        return Inertia::render('Backoffice/Contact/Index', [
+            'contacts' => $contacts
+        ]);
     }
+
 
     public function edit($id)
     {
@@ -49,37 +47,38 @@ class ContactController extends Controller
         return Inertia::render('Backoffice/Contact/Create');
     }
 
-    public function store(Request $request)
-    {
-        // Valida os dados do formulário
-        $validatedData = $this->validateData($request);
+public function store(Request $request)
+{
+    $validatedData = $this->validateData($request);
+    unset($validatedData['recaptcha_token']);
 
-        // Verifica o token do reCAPTCHA
-        $recaptchaResponse = $this->verifyRecaptcha($validatedData['recaptcha_token']);
+    try {
+        // Guardar o contacto na base de dados
+        $contact = Contact::create($validatedData);
 
-        if (!$recaptchaResponse || !$recaptchaResponse['success']) {
-            return back()->with('error', 'Falha na validação do reCAPTCHA.');
-        }
+        // Enviar o e-mail ao dono do site
+        Mail::to('joana.barros004@gmail.com')->send(new ContactFormMail($validatedData));
 
-        try {
-            // Cria um novo contato com os dados validados (exceto o recaptcha_token)
-            unset($validatedData['recaptcha_token']); // Remove o token antes de salvar no banco
-            Contact::create($validatedData);
-
-            return redirect()->route('contacts.index')->with('success', 'Contato criado com sucesso.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Erro ao criar o contato: ' . $e->getMessage());
-        }
+        return redirect()->route('contacts.index')->with('success', 'Contato criado e email enviado com sucesso.');
+    } catch (\Exception $e) {
+        return back()->with('error', 'Erro ao criar o contato ou enviar email: ' . $e->getMessage());
     }
+}
 
 
-private function verifyRecaptcha($recaptchaToken)
+    /**
+     * Verifica o reCAPTCHA ignorando a validação de SSL
+     */
+    private function verifyRecaptcha($recaptchaToken)
     {
-        $secretKey = env('RECAPTCHA_SECRET_KEY'); // Certifique-se de usar a chave correta
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => $secretKey,
-            'response' => $recaptchaToken,
-        ]);
+        $secretKey = env('RECAPTCHA_SECRET_KEY');
+
+        $response = Http::asForm()
+            ->withoutVerifying() // Ignora a verificação SSL
+            ->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => $secretKey,
+                'response' => $recaptchaToken,
+            ]);
 
         return $response->json();
     }
@@ -89,24 +88,20 @@ private function verifyRecaptcha($recaptchaToken)
         $validatedData = $this->validateData($request);
 
         try {
-            $contact->update($validatedData);  // Automatically uses the `$contact` instance
+            $contact->update($validatedData);
             return redirect()->route('contacts.index')->with('success', 'Contato atualizado com sucesso.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Erro para atualizar contato: ' . $e->getMessage());
+            return back()->with('error', 'Erro ao atualizar contato: ' . $e->getMessage());
         }
     }
 
     public function destroy(Request $request)
     {
         try {
-
             Contact::where('id', $request->id)->delete();
-            $this->returnSuccess ($request, 'Contato excluido com sucesso.');
-
+            return back()->with('success', 'Contato excluído com sucesso.');
         } catch (\Exception $e) {
-
-            $this->returnError ($request, 'Erro ao excluir contato: ' . $e->getMessage());
-
+            return back()->with('error', 'Erro ao excluir contato: ' . $e->getMessage());
         }
     }
 }
