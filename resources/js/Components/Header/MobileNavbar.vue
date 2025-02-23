@@ -8,7 +8,7 @@
         </a>
 
         <!-- Botão Mobile -->
-        <button @click="toggleMenu" class="lg:hidden focus:outline-none mr-4 relative z-50">
+        <button @click="toggleMenu" class="lg:hidden focus:outline-none mr-4 relative z-50 text-primary-default">
             <div class="hamburger" :class="{ 'open': menuOpen }">
                 <span></span>
                 <span></span>
@@ -71,7 +71,7 @@ export default {
     display: block;
     height: 4px;
     width: 100%;
-    background: white;
+    background: #BF0404;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 .hamburger.open span:nth-child(1) {

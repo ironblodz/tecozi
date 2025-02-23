@@ -12,7 +12,7 @@
                     <img class="absolute inset-0 w-full h-full object-cover rounded-lg z-0" :src="KitchenWallpaperGrey" alt="Background" />
 
                     <div class="relative z-10 flex flex-col w-full xl:h-full items-center py-4 bg-opacity-70 mt-2">
-                        <div class="flex flex-row xl:flex-col">
+                        <div class="flex flex-col w-full justify-center items-center">
                             <button type="button" @click="filterByCategory(null)" :class="[
                                 'text-base xl:text-lg font-medium px-2 xl:px-1 mr-2 py-1 text-center mb-3 w-full rounded-full',
                                 selectedCategory === null ? 'text-white bg-primary-default border-primary-default' : 'text-black border bg-gray-300'
@@ -20,7 +20,7 @@
                                 Todos
                             </button>
 
-                            <div v-for="category in sortedCategories" :key="category.id">
+                            <div v-for="category in sortedCategories" :key="category.id" class="w-full">
                                 <button @click="filterByCategory(category.id)" :class="[
                                     'text-base xl:text-lg font-medium px-10 py-1 text-center mb-3 w-full rounded-full',
                                     selectedCategory === category.id ? 'text-white bg-primary-default border-primary-default' : 'text-black border bg-gray-300'

@@ -316,11 +316,11 @@ export default {
 <style scoped>
 .group:hover .group-hover\:h-1\/2 {
     height: 50% !important;
-    transition-duration: 2s; /* Aumente para tornar a animação mais lenta */
+    transition-duration: 0.5s; /* Aumente para tornar a animação mais lenta */
 }
 
 .group:hover .group-hover\:py-8 {
-    padding: 1rem 1rem; /* Ajuste o padding caso necessário */
-    transition-duration: 2s; /* Aumente para tornar a animação mais lenta */
+     /* Ajuste o padding caso necessário */
+    transition-duration: 0.5s; /* Aumente para tornar a animação mais lenta */
 }
 </style>

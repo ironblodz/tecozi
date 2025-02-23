@@ -35,7 +35,7 @@
 
         setTimeout(() => {
           this.exitAnimation();
-        }, 2500);
+        }, 1000);
       },
       exitAnimation() {
         gsap.to(this.$refs.logoContainer, {
