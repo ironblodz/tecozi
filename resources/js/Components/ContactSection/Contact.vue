@@ -49,7 +49,7 @@
                                 <label for="first_name" class="text-base xl:text-lg text-primary-default">Primeiro Nome<span
                                         class="text-secondary-default"> *</span></label>
                                 <input id="first_name" v-model="form.first_name" type="text"
-                                    class="p-2 border border-primary-default rounded-xl outline-none focus:border-primary-default transition-colors mt-1"
+                                    class="p-2 border-0 border-b-2 focus:outline-none focus:ring-0 transition-colors mt-1"
                                     placeholder="O seu Nome" required />
                                 <span v-if="errors.first_name" class="text-red-500 text-sm">{{ errors.first_name[0]
                                     }}</span>
@@ -58,7 +58,7 @@
                                 <label for="nickname" class="text-base xl:text-lg text-primary-default">Apelido<span
                                         class="text-secondary-default"> *</span></label>
                                 <input id="nickname" v-model="form.nickname" type="text"
-                                    class="p-2 border border-primary-default rounded-xl outline-none focus:border-primary-default transition-colors mt-1"
+                                    class="p-2 border-0 border-b-2 focus:outline-none focus:ring-0 transition-colors mt-1"
                                     placeholder="O seu Apelido" required />
                                 <span v-if="errors.nickname" class="text-red-500 text-sm">{{ errors.nickname[0]
                                     }}</span>
@@ -70,13 +70,13 @@
                                 <label for="email" class="text-base xl:text-lg text-primary-default">E-mail<span
                                         class="text-secondary-default"> *</span></label>
                                 <input id="email" type="email" v-model="form.email"
-                                    class="p-2 border border-primary-default rounded-xl outline-none focus:border-primary-default transition-colors mt-1"
+                                    class="p-2 border-0 border-b-2 focus:outline-none focus:ring-0 transition-colors mt-1"
                                     placeholder="O seu E-mail" required />
                             </div>
                             <div class="flex flex-col">
                                 <label for="phone" class="text-base xl:text-lg text-primary-default">Telemóvel</label>
                                 <input id="phone" type="text" v-model="form.phone"
-                                    class="p-2 border border-primary-default rounded-xl outline-none focus:border-primary-default transition-colors mt-1"
+                                    class="p-2 border-0 border-b-2 focus:outline-none focus:ring-0 transition-colors mt-1"
                                     placeholder="O seu Telemóvel" />
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                             <label for="message" class="text-base xl:text-lg text-primary-default">Mensagem<span
                                     class="text-secondary-default"> *</span></label>
                             <textarea id="message"
-                                class="p-2 border border-primary-default rounded-xl bg-transparent outline-none focus:border-primary-default transition-colors mt-1 h-32"
+                                class="p-2 border-0 border-b-2 focus:outline-none focus:ring-0 bg-transparent mt-1 h-32"
                                 placeholder="Escreva a sua Mensagem" v-model="form.message" required></textarea>
                         </div>
 

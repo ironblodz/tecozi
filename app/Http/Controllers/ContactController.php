@@ -57,7 +57,7 @@ public function store(Request $request)
         $contact = Contact::create($validatedData);
 
         // Enviar o e-mail ao dono do site
-        Mail::to('joana.barros004@gmail.com')->send(new ContactFormMail($validatedData));
+        Mail::to('naylestorm12@gmail.com')->send(new ContactFormMail($validatedData));
 
         return redirect()->route('contacts.index')->with('success', 'Contato criado e email enviado com sucesso.');
     } catch (\Exception $e) {

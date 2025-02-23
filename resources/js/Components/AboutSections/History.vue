@@ -17,8 +17,8 @@
                         Roupeiros, focada na satisfação dos nossos clientes.
                     </p>
                 </div>
-                <div class="absolute xl:top-28 xl:right-2 right-4 hidden xl:block">
-                    <img :src="KitchenWallpaper" alt="kitchen" class="w-[600px] h-auto object-cover" />
+                <div class="absolute xl:top-28 xl:right-0 right-4 hidden xl:block">
+                    <img :src="KitchenWallpaper" alt="kitchen" class="w-[600px] h-auto object-cover opacity-40" />
                 </div>
             </div>
             <div class="flex flex-col items-start mx-10">

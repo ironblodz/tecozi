@@ -14,7 +14,7 @@
                     <a :href="route('services')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
-            <div class="absolute left-4 right-4 top-[76%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
+            <div class="absolute left-4 right-4 top-[73%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
                 <a href="#slide4">
                     <img :src="arrowleft" alt="arrowleft" class="w-10 md:w-12" />
                 </a>
@@ -38,7 +38,7 @@
                     <a :href="route('materials')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
-            <div class="absolute left-4 right-4 top-[80%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
+            <div class="absolute left-4 right-4 top-[77%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
                 <a href="#slide1">
                     <img :src="arrowleft" alt="arrowleft" class="w-10 md:w-12" />
                 </a>
@@ -86,7 +86,7 @@
                     <a :href="route('contacts')">{{ $t('carrousel.readmore') }}</a>
                 </button>
             </div>
-            <div class="absolute left-4 right-4 top-[74%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
+            <div class="absolute left-4 right-4 top-[73%] xl:top-[50%] flex -translate-y-1/2 transform justify-between">
                 <a href="#slide3">
                     <img :src="arrowleft" alt="arrowleft" class="w-10 md:w-12" />
                 </a>
