@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/backoffice/portfolios/store', [PortfolioController::class, 'store'])->name('portfolio.store');
     Route::get('/backoffice/portfolios/edit/{id}', [PortfolioController::class, 'edit'])->name('portfolio.edit');
     Route::post('/backoffice/portfolios/update', [PortfolioController::class, 'update'])->name('portfolio.update');
-    Route::post('/backoffice/portfolios/delete/', [PortfolioController::class, 'destroy'])->name('portfolio.destroy');
+    Route::delete('/backoffice/portfolios/delete/', [PortfolioController::class, 'destroy'])->name('portfolio.destroy');
     Route::post('/backoffice/portfolios/toggle-highlight', [PortfolioController::class, 'toggleHighlight']);
     Route::post('/backoffice/portfolios/toggle-archive', [PortfolioController::class, 'toggleArchive']);
 
@@ -83,6 +83,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/backoffice/materials/{id}', [MaterialController::class, 'destroy'])->name('materials.destroy');
 
 });
+
+Route::get('/teste-401', function () {
+    abort(401);
+});
+
 
 //Frontoffice
 Route::get('/api/materials/{id}', [MaterialController::class, 'getMaterial']);

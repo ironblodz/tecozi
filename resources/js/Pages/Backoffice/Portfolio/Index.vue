@@ -84,7 +84,10 @@ const deletePortfolio = async () => {
     if (portfolioToDelete.value) {
         loading.value = true;
         try {
-            await axios.post('/backoffice/portfolios/delete/', { id: portfolioToDelete.value });
+            await axios.delete('/backoffice/portfolios/delete', {
+                data: { id: portfolioToDelete.value }
+            });
+
             Toastify({ text: "Portfólio excluído com sucesso!" }).showToast();
 
             // Remover o portfolio da lista local de forma reativa

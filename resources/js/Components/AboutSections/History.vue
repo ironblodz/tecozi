@@ -1,7 +1,7 @@
 <template>
-    <section class="container mx-auto">
+     <section class="container mx-auto max-w-screen-3xl px-4 overflow-hidden">
         <div class="w-full grid grid-col justify-center items-center my-24">
-            <div class="flex flex-col md:flex-row justify-center items-start mx-10">
+            <div class="flex flex-colxl:flex-row justify-center items-start mx-20">
                 <div class="flex-1 text-center xl:text-left">
                     <h1 class="text-2xl xl:text-3xl text-primary-default mt-10 mb-5">
                         A nossa
@@ -21,7 +21,7 @@
                     <img :src="KitchenWallpaper" alt="kitchen" class="w-[600px] h-auto object-cover opacity-40" />
                 </div>
             </div>
-            <div class="flex flex-col items-start mx-10">
+            <div class="flex flex-col items-start mx-20">
                 <div class="mb-5">
                     <h1 class="text-2xl xl:text-3xl text-secondary-default mb-5 text-center xl:text-left">
                         Equipa
@@ -81,13 +81,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col md:flex-row justify-center mt-10">
+                <div class="flex flex-colxl:flex-row justify-center mt-10">
                     <!-- Cartão de Missão -->
                     <div class="flex flex-wrap justify-center xl:mt-4 xl:pr-4">
                         <div
-                            class="card card-compact bg-primary-default w-full xl:w-[750px] h-auto shadow-xl flex flex-row transition-all duration-300 ease-in-out transform">
+                            class="card card-compact bg-primary-default w-full shadow-xl flex flex-row ">
                             <div
-                                class="container mx-auto flex flex-col md:flex-row items-center justify-center gap-6 px-4 py-4">
+                                class="container mx-auto flex flex-colxl:flex-row items-center justify-center gap-6 px-4 py-4">
                                 <!-- Ícone e Título -->
                                 <div class="flex flex-col items-center justify-center w-1/5">
                                     <img :src="Goal_White" alt="Missao" class="w-16 mb-2" />
@@ -95,7 +95,7 @@
                                 </div>
                                 <!-- Parágrafo -->
                                 <div
-                                    class="text-base xl:text-lg text-white text-center xl:text-left xl:pt-2 w-full xl:w-[80%]">
+                                    class="text-base xl:text-lg text-white text-center xl:text-left xl:pt-2 w-full ">
                                     <p>
                                         Projetar, fabricar e assentar móveis que combinam qualidade, design durabilidade
                                         e funcionalidade para o dia-a-dia.
@@ -106,11 +106,11 @@
                     </div>
 
                     <!-- Cartão de Visão -->
-                    <div class="flex flex-wrap justify-center mt-5">
+                    <div class="flex flex-row justify-center items-center mt-5 gap-6">
                         <div
-                            class="card card-compact bg-gray-100 w-full xl:w-[700px] h-auto shadow-xl flex flex-row transition-all duration-300 ease-in-out transform">
+                            class="card card-compact bg-gray-100 w-full shadow-xl flex flex-row ">
                             <div
-                                class="container mx-auto flex flex-col md:flex-row items-center justify-center gap-6 px-4 py-4">
+                                class="container mx-auto flex flex-colxl:flex-row items-center justify-center gap-6 px-4 py-4">
                                 <!-- Ícone e Título -->
                                 <div class="flex flex-col items-center justify-center w-1/5">
                                     <img :src="Eye" alt="Visão" class="w-16 mb-2" />
@@ -118,7 +118,7 @@
                                 </div>
                                 <!-- Parágrafo -->
                                 <div
-                                    class="text-base xl:text-lg  text-black xl:text-left xl:pt-2 w-full xl:w-[80%] text-center">
+                                    class="text-base xl:text-lg  text-black xl:text-left xl:pt-2 w-full text-center">
                                     <p>
                                         Combinar produtos de qualidade e ser a preferência dos nossos clientes.
                                     </p>
@@ -128,7 +128,7 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col justify-center items-center mt-20">
+                <div class="flex flex-col xl:flex-row justify-center items-center mt-20">
                     <div class="mb-5">
                         <h1 class="text-2xl xl:text-3xl text-primary-default mb-5 text-center xl:text-left">
                             Os nossos
@@ -143,7 +143,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-5">
+                <div class="grid grid-cols-1 xl:grid-cols-4 gap-8 mt-5">
                     <!-- Card 1: Missão -->
                     <div
                         class="card card-compact w-full h-[220px] xl:w-[350px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
