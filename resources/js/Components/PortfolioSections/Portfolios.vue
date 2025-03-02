@@ -121,14 +121,14 @@ const fetchProjectsAndCategories = async () => {
             params: { visible_on_portfolio: true }
         });
 
-        projects.value = projectResponse.data || [];
+        projects.value = projectResponse.data.sort((a, b) => a.order - b.order);
         filteredProjects.value = [...projects.value];
         categories.value = categoryResponse.data || [];
-
     } catch (err) {
         console.error('Erro ao buscar dados:', err);
     }
 };
+
 
 // ✅ Ordenar categorias
 const sortedCategories = computed(() => {

@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/backoffice/portfolios/delete/', [PortfolioController::class, 'destroy'])->name('portfolio.destroy');
     Route::post('/backoffice/portfolios/toggle-highlight', [PortfolioController::class, 'toggleHighlight']);
     Route::post('/backoffice/portfolios/toggle-archive', [PortfolioController::class, 'toggleArchive']);
+    Route::post('/backoffice/portfolios/update-order', [PortfolioController::class, 'updateOrder']);
 
     Route::get('/backoffice/portfolios/categories', [PortfolioCategoriesController::class, 'index'])->name('portfolio.categories.index');
     Route::get('/backoffice/portfolios/categories/create', [PortfolioCategoriesController::class, 'create'])->name('portfolio.categories.create');

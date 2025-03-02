@@ -11,7 +11,7 @@ class Portfolio extends Model
     use HasFactory;
 
     protected $fillable  = [
-        'title', 'short_description', 'description', 'category_id', 'main_image', 'highlighted','archived',
+        'title', 'short_description', 'description', 'category_id', 'main_image', 'highlighted','archived, order',
     ];
 
     public function category()

@@ -97,6 +97,23 @@ class PortfolioController extends Controller
         }
     }
 
+    public function updateOrder(Request $request)
+    {
+        $request->validate([
+            'portfolios' => 'required|array',
+            'portfolios.*.id' => 'required|exists:portfolios,id',
+            'portfolios.*.order' => 'required|integer'
+        ]);
+    
+        foreach ($request->portfolios as $portfolioData) {
+            Portfolio::where('id', $portfolioData['id'])->update(['order' => $portfolioData['order']]);
+        }
+    
+        return response()->json(['success' => true, 'message' => 'Ordem dos portfólios atualizada com sucesso!']);
+    }
+    
+    
+
     public function create()
     {
         $categories = PortfolioCategory::all();
