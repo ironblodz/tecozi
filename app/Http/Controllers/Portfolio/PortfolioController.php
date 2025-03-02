@@ -201,59 +201,73 @@ class PortfolioController extends Controller
 
 
     public function update(Request $request)
-    {
-        $portfolio = Portfolio::findOrFail($request->id);
-        $validatedData = $this->validateData($request);
+{
+    $portfolio = Portfolio::findOrFail($request->id);
+    $validatedData = $this->validateData($request);
 
-        try {
-            // Atualizar a imagem principal apenas se uma nova for enviada
-            if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
-                if ($portfolio->main_image && Storage::disk('public')->exists($portfolio->main_image)) {
-                    Storage::disk('public')->delete($portfolio->main_image);
-                }
-                $path = $request->file('main_image')->store('portfolios', 'public');
-                $validatedData['main_image'] = $path;
-            } else {
-                // Se nenhuma nova imagem principal for enviada, mantém a existente
-                $validatedData['main_image'] = $portfolio->main_image;
+    try {
+        // Atualizar a imagem principal apenas se uma nova for enviada
+        if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
+            if ($portfolio->main_image && Storage::disk('public')->exists($portfolio->main_image)) {
+                Storage::disk('public')->delete($portfolio->main_image);
             }
-
-            // Processar imagens da galeria
-            $galleryPaths = [];
-            if ($request->hasFile('gallery_images')) {
-                foreach ($portfolio->images as $image) {
-                    if (Storage::disk('public')->exists($image->path)) {
-                        Storage::disk('public')->delete($image->path);
-                    }
-                    $image->delete();
-                }
-
-                foreach ($request->file('gallery_images') as $image) {
-                    $imagePath = $image->store('portfolios/gallery', 'public');
-                    $portfolio->images()->create(['path' => $imagePath]);
-                    $galleryPaths[] = "/storage/" . $imagePath;
-                }
-            } else {
-                $galleryPaths = $portfolio->images()->pluck('path')->map(fn($path) => "/storage/" . $path)->toArray();
-            }
-
-            $portfolio->update($validatedData);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Portfólio atualizado com sucesso.',
-                'data' => [
-                    'main_image' => $portfolio->main_image ? "/storage/" . $portfolio->main_image : null,
-                    'gallery' => $galleryPaths,
-                ],
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Erro ao atualizar portfólio: ' . $e->getMessage()], 500);
+            $path = $request->file('main_image')->store('portfolios', 'public');
+            $validatedData['main_image'] = $path;
+        } else {
+            $validatedData['main_image'] = $portfolio->main_image;
         }
+
+        // Processar imagens e vídeos da galeria
+        $galleryPaths = [];
+        if ($request->hasFile('gallery_images')) {
+            // Apagar arquivos antigos
+            foreach ($portfolio->images as $image) {
+                if (Storage::disk('public')->exists($image->path)) {
+                    Storage::disk('public')->delete($image->path);
+                }
+                $image->delete();
+            }
+
+            // Adicionar novos arquivos
+            foreach ($request->file('gallery_images') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $isVideo = in_array($extension, ['mp4', 'mov', 'avi', 'mkv', 'webm']);
+                $folder = $isVideo ? 'videos' : 'images';
+
+                $filePath = $file->store("portfolios/{$folder}", 'public');
+
+                $portfolio->images()->create([
+                    'path' => $filePath,
+                    'type' => $isVideo ? 'video' : 'image'
+                ]);
+
+                $galleryPaths[] = [
+                    'url' => "/storage/" . $filePath,
+                    'type' => $isVideo ? 'video' : 'image'
+                ];
+            }
+        } else {
+            $galleryPaths = $portfolio->images->map(fn($image) => [
+                'url' => "/storage/" . $image->path,
+                'type' => $image->type
+            ])->toArray();
+        }
+
+        $portfolio->update($validatedData);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Portfólio atualizado com sucesso.',
+            'data' => [
+                'main_image' => $portfolio->main_image ? "/storage/" . $portfolio->main_image : null,
+                'gallery' => $galleryPaths, // Retornar a galeria com os tipos
+            ],
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Erro ao atualizar portfólio: ' . $e->getMessage()], 500);
     }
-
-
+}
 
 
     public function getFeaturedPortfolios()

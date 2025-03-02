@@ -5,30 +5,34 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
-import { useDropzone } from "vue3-dropzone";
 
 const { props } = usePage();
 const portfolio = ref(props.portfolio);
 
 const previewImage = ref(portfolio.value.main_image ? `/storage/${portfolio.value.main_image}` : null);
-
 const gallery = ref(portfolio.value.gallery || []);
 const galleryFiles = ref([]);
-
 const categories = ref([]);
 
-
+// 🔥 Aceitar vídeos e imagens na galeria
 const handleGalleryChange = (event) => {
     const files = event.target.files;
     for (let i = 0; i < files.length; i++) {
-        galleryFiles.value.push(files[i]); // Guarda os novos ficheiros
-        gallery.value.push(URL.createObjectURL(files[i])); // Gera pré-visualização local
+        const file = files[i];
+        const fileType = file.type.split('/')[0];
+
+        galleryFiles.value.push(file); // Guarda os novos ficheiros
+
+        if (fileType === 'image') {
+            gallery.value.push({ url: URL.createObjectURL(file), type: 'image' });
+        } else if (fileType === 'video') {
+            gallery.value.push({ url: URL.createObjectURL(file), type: 'video' });
+        }
     }
-    console.log("Novas imagens adicionadas:", galleryFiles.value);
+    console.log("Novos ficheiros adicionados:", galleryFiles.value);
 };
 
-
-// Função para atualizar a imagem principal
+// Atualizar imagem principal
 const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -37,7 +41,7 @@ const handleImageChange = (event) => {
     }
 };
 
-// Atualizar portfólio no backend
+// 🔥 Enviar imagens e vídeos no update
 const updatePortfolio = async () => {
     try {
         const formData = new FormData();
@@ -84,6 +88,7 @@ const updatePortfolio = async () => {
 const cancel = () => {
     window.location = `/backoffice/portfolios`;
 };
+
 onMounted(() => {
     axios.get('/backoffice/portfolios/categories')
         .then(response => {
@@ -92,22 +97,26 @@ onMounted(() => {
         })
         .catch(error => console.error("Erro ao carregar categorias:", error));
 
-    // Certifica-te de que a imagem principal e a galeria são carregadas corretamente
+    // Certificar que a imagem principal e galeria são carregadas corretamente
     if (portfolio.value) {
         previewImage.value = portfolio.value.main_image ? portfolio.value.main_image : null;
         console.log("Imagem principal carregada:", previewImage.value);
 
         if (portfolio.value.gallery && Array.isArray(portfolio.value.gallery)) {
-            gallery.value = portfolio.value.gallery;
-            console.log("Imagens da galeria carregadas:", gallery.value);
+            // Converter galeria para ter objetos com tipo definido
+            gallery.value = portfolio.value.gallery.map(item => ({
+                url: item.url,
+                type: item.type
+            }));
+            console.log("Galeria carregada:", gallery.value);
         } else {
             console.warn("Nenhuma imagem encontrada na galeria.");
         }
     }
 });
 
-
 </script>
+
 
 
 <template>
@@ -178,15 +187,22 @@ onMounted(() => {
 
                         <!-- Galeria de imagens -->
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Galeria de Fotos</label>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Galeria de Fotos/Vídeos</label>
                             <div class="grid grid-cols-3 gap-4">
-                                <div v-for="(img, index) in gallery" :key="index" class="relative">
-                                    <img :src="img" class="w-full h-24 object-cover rounded-md shadow">
+                                <div v-for="(media, index) in gallery" :key="index" class="relative">
+                                    <img v-if="media.type === 'image'" :src="media.url"
+                                        class="w-full h-24 object-cover rounded-md shadow">
+                                    <video v-else-if="media.type === 'video'" controls
+                                        class="w-full h-24 rounded-md shadow">
+                                        <source :src="media.url" type="video/mp4">
+                                        O seu navegador não suporta vídeos.
+                                    </video>
                                 </div>
                             </div>
                             <input type="file" multiple @change="handleGalleryChange"
                                 class="mt-2 border border-gray-300 rounded-lg px-4 py-2 w-full">
                         </div>
+
 
 
                         <div class="flex justify-end space-x-4 mt-6">
