@@ -9,7 +9,8 @@
         <div class="container mx-auto xl:max-w-6xl">
             <div class="flex flex-col xl:flex-row justify-center">
                 <div class="relative flex items-center mx-5 px-10 bg-gray-100 xl:h-[650px] rounded-lg xl:mt-[24px]">
-                    <img class="absolute inset-0 w-full h-full object-cover rounded-lg z-0" :src="KitchenWallpaperGrey" alt="Background" />
+                    <img class="absolute inset-0 w-full h-full object-cover rounded-lg z-0" :src="KitchenWallpaperGrey"
+                        alt="Background" />
 
                     <div class="relative z-10 flex flex-col w-full xl:h-full items-center py-4 bg-opacity-70 mt-2">
                         <div class="flex flex-col w-full justify-center items-center">
@@ -35,14 +36,15 @@
                 <div class="bg-gray-100 rounded-lg mt-[22px] min-w-full">
                     <div v-if="filteredProjects.length > 0"
                         class="grid grid-cols-2 justify-center xl:mt-6 mx-6 xl:grid-cols-5 gap-4 mb-5 bg-gray-100 rounded-full">
-                        <div class="relative group bg-gray-100" v-for="(project, index) in paginatedProjects" :key="index">
+                        <div class="relative group bg-gray-100" v-for="(project, index) in paginatedProjects"
+                            :key="index">
                             <div class="relative overflow-hidden rounded-lg shadow-lg">
                                 <img @click="openModal(project)"
                                     class="w-full h-48 object-cover transition-transform duration-500 transform group-hover:scale-110"
-                                    :src="getImageUrl(project.main_image)"
-                                    :alt="project.title" />
+                                    :src="getImageUrl(project.main_image)" :alt="project.title" />
 
-                                <div class="text-base xl:text-lg absolute bottom-0 left-0 w-full h-[44%] bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-4 border-t-4 border-secondary-default">
+                                <div
+                                    class="text-base xl:text-lg absolute bottom-0 left-0 w-full h-[44%] bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-4 border-t-4 border-secondary-default">
                                     <h3 class="font-semibold text-base">{{ project.title }}</h3>
                                 </div>
                             </div>
@@ -58,22 +60,20 @@
             <!-- Modal com Swiper -->
             <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
                 @click="closeModal">
-                <div class="relative group w-[90%] md:w-[60%] xl:w-[50%] bg-gray-200 p-6 rounded-lg shadow-lg" @click.stop>
+                <div class="relative group w-[90%] md:w-[60%] xl:w-[50%] bg-gray-200 p-6 rounded-lg shadow-lg"
+                    @click.stop>
                     <button @click="closeModal"
                         class="absolute top-4 right-4 bg-gray-200 text-black rounded-lg p-2 text-xl z-50">✕</button>
 
                     <!-- Carrossel Swiper -->
                     <swiper v-if="selectedProject && selectedProject.images && selectedProject.images.length > 0"
-                        :slides-per-view="1"
-                        :space-between="10"
-                        :modules="[Navigation, Pagination]"
-                        navigation
-                        pagination
-                        loop
-                        class="rounded-xl">
+                        :slides-per-view="1" :space-between="10" :modules="[Navigation, Pagination]" navigation
+                        pagination loop class="rounded-xl">
                         <swiper-slide v-for="(image, index) in selectedProject.images" :key="index">
-                            <img :src="getImageUrl(image.path)" alt="Imagem do projeto"
-                                class="w-full h-auto object-cover rounded-xl" />
+                            <div class="w-full h-[500px] flex items-center justify-center overflow-hidden">
+                                <img :src="getImageUrl(image.path)" alt="Imagem do projeto"
+                                    class="w-auto h-full max-h-[500px] object-cover rounded-xl" />
+                            </div>
                         </swiper-slide>
                     </swiper>
 
@@ -182,16 +182,19 @@ onMounted(fetchProjectsAndCategories);
 
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-    color: #3D4877 !important; /* Altere para a cor desejada */
+    color: #3D4877 !important;
+    /* Altere para a cor desejada */
 }
 
 /* Mudar a cor das bolinhas da paginação */
 :deep(.swiper-pagination-bullet) {
-    background-color: #3D4877 !important; /* Cor das bolinhas */
+    background-color: #3D4877 !important;
+    /* Cor das bolinhas */
     opacity: 1;
 }
 
 :deep(.swiper-pagination-bullet-active) {
-    background-color: #BF0404 !important; /* Cor da bolinha ativa */
+    background-color: #BF0404 !important;
+    /* Cor da bolinha ativa */
 }
 </style>
