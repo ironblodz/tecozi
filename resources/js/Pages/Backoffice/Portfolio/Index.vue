@@ -32,24 +32,29 @@ const filteredPortfolio = computed(() => {
 });
 
 
-
-// Atualizar ordem no backend
 const updateOrder = async () => {
     const updatedOrder = portfolios.value.map((portfolio, index) => ({
         id: portfolio.id,
         order: index + 1
     }));
 
+    console.log("Ordem enviada para o backend:", updatedOrder);
+
     try {
         await axios.post('/backoffice/portfolios/update-order', { portfolios: updatedOrder });
-        Toastify({ text: "Ordem atualizada com sucesso!", duration: 3000 }).showToast();
 
-        // Atualiza a lista de portfólios após a alteração
-        await fetchPortfolios();
+        // Atualizar localmente para refletir a nova ordem
+        portfolios.value.forEach((portfolio, index) => {
+            portfolio.order = index + 1;
+        });
+
+        Toastify({ text: "Ordem atualizada com sucesso!", duration: 3000 }).showToast();
     } catch (error) {
         Toastify({ text: `Erro ao atualizar ordem: ${error.message}`, duration: 3000 }).showToast();
     }
 };
+
+
 
 // Atualiza os portfólios do backend
 const fetchPortfolios = async () => {
@@ -60,6 +65,7 @@ const fetchPortfolios = async () => {
         console.error("Erro ao buscar portfólios:", error);
     }
 };
+
 
 
 // Funções existentes
@@ -204,7 +210,8 @@ onMounted(async () => {
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ações</th>
                             </tr>
                         </thead>
-                        <draggable v-model="portfolios" tag="tbody" item-key="id" @end="updateOrder">
+                        <draggable v-model="portfolios" tag="tbody" item-key="id" :disabled="loading"
+                            @end="updateOrder">
                             <template #item="{ element }">
                                 <tr class="cursor-move">
                                     <td class="px-6 py-4 whitespace-nowrap">☰ {{ element.order }}</td>

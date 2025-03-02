@@ -41,14 +41,17 @@ class PortfolioController extends Controller
         $showArchived = $request->get('show_archived', false);
 
         $portfolios = Portfolio::with('images')->when(
-            !$showArchived, function ($query) {
-            $query->where('archived', false);
-        })->latest()->get();
+            !$showArchived,
+            function ($query) {
+                $query->where('archived', false);
+            }
+        )->latest()->get();
 
         return response()->json($portfolios->map(function ($portfolio) {
             return [
                 'id' => $portfolio->id,
                 'title' => $portfolio->title,
+                'order' => $portfolio->order, // <== Adiciona isto para garantir que é usado na ordenação
                 'description' => $portfolio->description,
                 'category_id' => $portfolio->category_id,
                 'main_image' => $portfolio->main_image ?: null,
@@ -58,6 +61,7 @@ class PortfolioController extends Controller
                 ])->toArray(),
             ];
         }));
+        
     }
 
     public function toggleHighlight(Request $request)
@@ -115,14 +119,14 @@ class PortfolioController extends Controller
             'portfolios.*.id' => 'required|exists:portfolios,id',
             'portfolios.*.order' => 'required|integer'
         ]);
-
+    
         foreach ($request->portfolios as $portfolioData) {
             Portfolio::where('id', $portfolioData['id'])->update(['order' => $portfolioData['order']]);
         }
-
+    
         return response()->json(['success' => true, 'message' => 'Ordem dos portfólios atualizada com sucesso!']);
     }
-
+    
 
 
     public function create()
@@ -145,7 +149,7 @@ class PortfolioController extends Controller
                 $path = $request->file('main_image')->store('portfolios', 'public');
                 $validatedData['main_image'] = $path;
             }
-            
+
 
 
             // Cria o portfólio com as informações validadas
@@ -201,73 +205,73 @@ class PortfolioController extends Controller
 
 
     public function update(Request $request)
-{
-    $portfolio = Portfolio::findOrFail($request->id);
-    $validatedData = $this->validateData($request);
+    {
+        $portfolio = Portfolio::findOrFail($request->id);
+        $validatedData = $this->validateData($request);
 
-    try {
-        // Atualizar a imagem principal apenas se uma nova for enviada
-        if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
-            if ($portfolio->main_image && Storage::disk('public')->exists($portfolio->main_image)) {
-                Storage::disk('public')->delete($portfolio->main_image);
-            }
-            $path = $request->file('main_image')->store('portfolios', 'public');
-            $validatedData['main_image'] = $path;
-        } else {
-            $validatedData['main_image'] = $portfolio->main_image;
-        }
-
-        // Processar imagens e vídeos da galeria
-        $galleryPaths = [];
-        if ($request->hasFile('gallery_images')) {
-            // Apagar arquivos antigos
-            foreach ($portfolio->images as $image) {
-                if (Storage::disk('public')->exists($image->path)) {
-                    Storage::disk('public')->delete($image->path);
+        try {
+            // Atualizar a imagem principal apenas se uma nova for enviada
+            if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
+                if ($portfolio->main_image && Storage::disk('public')->exists($portfolio->main_image)) {
+                    Storage::disk('public')->delete($portfolio->main_image);
                 }
-                $image->delete();
+                $path = $request->file('main_image')->store('portfolios', 'public');
+                $validatedData['main_image'] = $path;
+            } else {
+                $validatedData['main_image'] = $portfolio->main_image;
             }
 
-            // Adicionar novos arquivos
-            foreach ($request->file('gallery_images') as $file) {
-                $extension = $file->getClientOriginalExtension();
-                $isVideo = in_array($extension, ['mp4', 'mov', 'avi', 'mkv', 'webm']);
-                $folder = $isVideo ? 'videos' : 'images';
+            // Processar imagens e vídeos da galeria
+            $galleryPaths = [];
+            if ($request->hasFile('gallery_images')) {
+                // Apagar arquivos antigos
+                foreach ($portfolio->images as $image) {
+                    if (Storage::disk('public')->exists($image->path)) {
+                        Storage::disk('public')->delete($image->path);
+                    }
+                    $image->delete();
+                }
 
-                $filePath = $file->store("portfolios/{$folder}", 'public');
+                // Adicionar novos arquivos
+                foreach ($request->file('gallery_images') as $file) {
+                    $extension = $file->getClientOriginalExtension();
+                    $isVideo = in_array($extension, ['mp4', 'mov', 'avi', 'mkv', 'webm']);
+                    $folder = $isVideo ? 'videos' : 'images';
 
-                $portfolio->images()->create([
-                    'path' => $filePath,
-                    'type' => $isVideo ? 'video' : 'image'
-                ]);
+                    $filePath = $file->store("portfolios/{$folder}", 'public');
 
-                $galleryPaths[] = [
-                    'url' => "/storage/" . $filePath,
-                    'type' => $isVideo ? 'video' : 'image'
-                ];
+                    $portfolio->images()->create([
+                        'path' => $filePath,
+                        'type' => $isVideo ? 'video' : 'image'
+                    ]);
+
+                    $galleryPaths[] = [
+                        'url' => "/storage/" . $filePath,
+                        'type' => $isVideo ? 'video' : 'image'
+                    ];
+                }
+            } else {
+                $galleryPaths = $portfolio->images->map(fn($image) => [
+                    'url' => "/storage/" . $image->path,
+                    'type' => $image->type
+                ])->toArray();
             }
-        } else {
-            $galleryPaths = $portfolio->images->map(fn($image) => [
-                'url' => "/storage/" . $image->path,
-                'type' => $image->type
-            ])->toArray();
+
+            $portfolio->update($validatedData);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Portfólio atualizado com sucesso.',
+                'data' => [
+                    'main_image' => $portfolio->main_image ? "/storage/" . $portfolio->main_image : null,
+                    'gallery' => $galleryPaths, // Retornar a galeria com os tipos
+                ],
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao atualizar portfólio: ' . $e->getMessage()], 500);
         }
-
-        $portfolio->update($validatedData);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Portfólio atualizado com sucesso.',
-            'data' => [
-                'main_image' => $portfolio->main_image ? "/storage/" . $portfolio->main_image : null,
-                'gallery' => $galleryPaths, // Retornar a galeria com os tipos
-            ],
-        ]);
-
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Erro ao atualizar portfólio: ' . $e->getMessage()], 500);
     }
-}
 
 
     public function getFeaturedPortfolios()
