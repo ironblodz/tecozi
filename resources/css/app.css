@@ -17,6 +17,10 @@ body {
   overflow: auto;
 }
 
+*{
+  box-sizing: border-box;
+}
+
 body.loaded {
   overflow: auto;
 }

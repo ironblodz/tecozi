@@ -48,11 +48,13 @@
                     :slides-per-view="1" :space-between="10"
                     :modules="[Navigation, Pagination, Autoplay, EffectCoverflow]" navigation pagination
                     :autoplay="{ delay: 4000, disableOnInteraction: false }" effect="coverflow" loop
-                    class="rounded-2xl overflow-hidden">
+                    class="rounded-xl">
                     <swiper-slide v-for="(image, index) in selectedProject.images" :key="index">
+                        <div class="w-full h-[500px] flex items-center justify-center overflow-hidden">
                         <img :src="getImageUrl(image.path)" alt="Imagem do projeto"
                             class="w-full h-96 object-cover rounded-2xl shadow-lg transition-transform duration-500 hover:scale-110" />
-                    </swiper-slide>
+                        </div>
+                        </swiper-slide>
                 </swiper>
 
                 <div class="text-center mt-6 text-white">
