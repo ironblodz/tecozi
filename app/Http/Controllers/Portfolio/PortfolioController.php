@@ -18,7 +18,8 @@ class PortfolioController extends Controller
             'title' => 'required|string|max:255',
             'short_description' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
-            'category_id' => 'required|integer|exists:portfolio_categories,id'
+            'category_id' => 'required|integer|exists:portfolio_categories,id',
+            'gallery_photos.*' => 'file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,avi,mkv,webm|max:51200',
         ]);
     }
 
@@ -35,19 +36,29 @@ class PortfolioController extends Controller
         ]);
     }
 
-
     public function getPortfolios(Request $request)
     {
         $showArchived = $request->get('show_archived', false);
 
-        $portfolios = Portfolio::with('images')->when(!$showArchived, function ($query) {
+        $portfolios = Portfolio::with('images')->when(
+            !$showArchived, function ($query) {
             $query->where('archived', false);
         })->latest()->get();
 
-        return response()->json($portfolios);
+        return response()->json($portfolios->map(function ($portfolio) {
+            return [
+                'id' => $portfolio->id,
+                'title' => $portfolio->title,
+                'description' => $portfolio->description,
+                'category_id' => $portfolio->category_id,
+                'main_image' => $portfolio->main_image ?: null,
+                'gallery' => $portfolio->images->map(fn($image) => [
+                    'url' => "/storage/" . $image->path,
+                    'type' => $image->type
+                ])->toArray(),
+            ];
+        }));
     }
-
-
 
     public function toggleHighlight(Request $request)
     {
@@ -104,15 +115,15 @@ class PortfolioController extends Controller
             'portfolios.*.id' => 'required|exists:portfolios,id',
             'portfolios.*.order' => 'required|integer'
         ]);
-    
+
         foreach ($request->portfolios as $portfolioData) {
             Portfolio::where('id', $portfolioData['id'])->update(['order' => $portfolioData['order']]);
         }
-    
+
         return response()->json(['success' => true, 'message' => 'Ordem dos portfólios atualizada com sucesso!']);
     }
-    
-    
+
+
 
     public function create()
     {
@@ -134,15 +145,26 @@ class PortfolioController extends Controller
                 $path = $request->file('main_image')->store('portfolios', 'public');
                 $validatedData['main_image'] = $path;
             }
+            
+
 
             // Cria o portfólio com as informações validadas
             $portfolio = Portfolio::create($validatedData);
 
             // Upload das imagens da galeria
+            // Upload das imagens e vídeos da galeria
             if ($request->hasFile('gallery_photos')) {
-                foreach ($request->file('gallery_photos') as $image) {
-                    $imagePath = $image->store('portfolios/gallery', 'public');
-                    $portfolio->images()->create(['path' => $imagePath]);
+                foreach ($request->file('gallery_photos') as $file) {
+                    $extension = $file->getClientOriginalExtension();
+                    $isVideo = in_array($extension, ['mp4', 'mov', 'avi', 'mkv', 'webm']);
+                    $folder = $isVideo ? 'videos' : 'images';
+
+                    $filePath = $file->store("portfolios/{$folder}", 'public');
+
+                    $portfolio->images()->create([
+                        'path' => $filePath,
+                        'type' => $isVideo ? 'video' : 'image'
+                    ]);
                 }
             }
 
@@ -157,75 +179,79 @@ class PortfolioController extends Controller
     }
 
     public function edit($id)
-{
-    $portfolio = Portfolio::with('images')->findOrFail($id);
+    {
+        $portfolio = Portfolio::with('images')->findOrFail($id);
 
-    return Inertia::render('Backoffice/Portfolio/Edit', [
-        'portfolio' => [
-            'id' => $portfolio->id,
-            'title' => $portfolio->title,
-            'short_description' => $portfolio->short_description,
-            'description' => $portfolio->description,
-            'category_id' => $portfolio->category_id,
-            'main_image' => $portfolio->main_image ? "/storage/" . $portfolio->main_image : null,
-            'gallery' => $portfolio->images->map(fn($image) => "/storage/" . $image->path)->toArray(),
-        ]
-    ]);
-}
-
-
-public function update(Request $request)
-{
-    $portfolio = Portfolio::findOrFail($request->id);
-    $validatedData = $this->validateData($request);
-
-    try {
-        // Atualizar a imagem principal apenas se uma nova for enviada
-        if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
-            if ($portfolio->main_image && Storage::disk('public')->exists($portfolio->main_image)) {
-                Storage::disk('public')->delete($portfolio->main_image);
-            }
-            $path = $request->file('main_image')->store('portfolios', 'public');
-            $validatedData['main_image'] = $path;
-        } else {
-            // Se nenhuma nova imagem principal for enviada, mantém a existente
-            $validatedData['main_image'] = $portfolio->main_image;
-        }
-
-        // Processar imagens da galeria
-        $galleryPaths = [];
-        if ($request->hasFile('gallery_images')) {
-            foreach ($portfolio->images as $image) {
-                if (Storage::disk('public')->exists($image->path)) {
-                    Storage::disk('public')->delete($image->path);
-                }
-                $image->delete();
-            }
-
-            foreach ($request->file('gallery_images') as $image) {
-                $imagePath = $image->store('portfolios/gallery', 'public');
-                $portfolio->images()->create(['path' => $imagePath]);
-                $galleryPaths[] = "/storage/" . $imagePath;
-            }
-        } else {
-            $galleryPaths = $portfolio->images()->pluck('path')->map(fn($path) => "/storage/" . $path)->toArray();
-        }
-
-        $portfolio->update($validatedData);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Portfólio atualizado com sucesso.',
-            'data' => [
+        return Inertia::render('Backoffice/Portfolio/Edit', [
+            'portfolio' => [
+                'id' => $portfolio->id,
+                'title' => $portfolio->title,
+                'short_description' => $portfolio->short_description,
+                'description' => $portfolio->description,
+                'category_id' => $portfolio->category_id,
                 'main_image' => $portfolio->main_image ? "/storage/" . $portfolio->main_image : null,
-                'gallery' => $galleryPaths,
-            ],
+                'gallery' => $portfolio->images->map(fn($image) => [
+                    'url' => "/storage/" . $image->path,
+                    'type' => $image->type
+                ])->toArray(),
+            ]
         ]);
-
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Erro ao atualizar portfólio: ' . $e->getMessage()], 500);
     }
-}
+
+
+
+    public function update(Request $request)
+    {
+        $portfolio = Portfolio::findOrFail($request->id);
+        $validatedData = $this->validateData($request);
+
+        try {
+            // Atualizar a imagem principal apenas se uma nova for enviada
+            if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
+                if ($portfolio->main_image && Storage::disk('public')->exists($portfolio->main_image)) {
+                    Storage::disk('public')->delete($portfolio->main_image);
+                }
+                $path = $request->file('main_image')->store('portfolios', 'public');
+                $validatedData['main_image'] = $path;
+            } else {
+                // Se nenhuma nova imagem principal for enviada, mantém a existente
+                $validatedData['main_image'] = $portfolio->main_image;
+            }
+
+            // Processar imagens da galeria
+            $galleryPaths = [];
+            if ($request->hasFile('gallery_images')) {
+                foreach ($portfolio->images as $image) {
+                    if (Storage::disk('public')->exists($image->path)) {
+                        Storage::disk('public')->delete($image->path);
+                    }
+                    $image->delete();
+                }
+
+                foreach ($request->file('gallery_images') as $image) {
+                    $imagePath = $image->store('portfolios/gallery', 'public');
+                    $portfolio->images()->create(['path' => $imagePath]);
+                    $galleryPaths[] = "/storage/" . $imagePath;
+                }
+            } else {
+                $galleryPaths = $portfolio->images()->pluck('path')->map(fn($path) => "/storage/" . $path)->toArray();
+            }
+
+            $portfolio->update($validatedData);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Portfólio atualizado com sucesso.',
+                'data' => [
+                    'main_image' => $portfolio->main_image ? "/storage/" . $portfolio->main_image : null,
+                    'gallery' => $galleryPaths,
+                ],
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao atualizar portfólio: ' . $e->getMessage()], 500);
+        }
+    }
 
 
 

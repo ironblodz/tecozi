@@ -14,7 +14,8 @@ class PortfolioImage extends Model
 
     protected $fillable = [
         'portfolio_id',
-        'path'
+        'path',
+        'type',
     ];
 
     public function portfolio(): BelongsTo

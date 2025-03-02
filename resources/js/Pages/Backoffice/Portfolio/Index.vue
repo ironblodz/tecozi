@@ -214,9 +214,14 @@ onMounted(async () => {
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex flex-wrap gap-2">
-                                            <div v-for="image in element.images" :key="image.id" class="w-16 h-16">
-                                                <img :src="`/storage/${image.path}`"
+                                            <div v-for="file in element.gallery" :key="file.url" class="w-16 h-16">
+                                                <!-- Se for imagem, exibir normalmente -->
+                                                <img v-if="file.type === 'image'" :src="file.url"
                                                     class="object-cover w-full h-full rounded-md">
+
+                                                <!-- Se for vídeo, exibir com controles -->
+                                                <video v-else-if="file.type === 'video'" :src="file.url"
+                                                    class="object-cover w-full h-full rounded-md" controls />
                                             </div>
                                         </div>
                                     </td>

@@ -24,15 +24,25 @@ const previewGallery = ref([]); // Adicionando ref para a pré-visualização
 
 const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFiles) => {
-        console.log("Arquivos aceitos:", acceptedFiles);
         acceptedFiles.forEach(file => {
-            galleryFiles.value.push(file); // Usando .value para acessar o array
-            previewGallery.value.push(URL.createObjectURL(file)); // Gerar URL para pré-visualização
+            // Verificar se é uma imagem ou vídeo
+            if (file.type.startsWith("image/")) {
+                galleryFiles.value.push(file);
+                previewGallery.value.push({ type: "image", url: URL.createObjectURL(file) });
+            } else if (file.type.startsWith("video/")) {
+                galleryFiles.value.push(file);
+                previewGallery.value.push({ type: "video", url: URL.createObjectURL(file) });
+            } else {
+                console.warn("Ficheiro não suportado:", file.type);
+            }
         });
     },
-    accept: "image/*",
+    accept: "image/*,video/mp4,video/quicktime,video/x-msvideo,video/x-matroska,video/webm", // Adiciona suporte a vídeos
     multiple: true
 });
+
+
+
 
 // Função para limpar o formulário
 const cancel = () => {
@@ -60,12 +70,12 @@ const createPortfolio = async () => {
         formData.append('description', portfolio.value.description);
         formData.append('category_id', portfolio.value.category_id);
 
-        // Adicionando a imagem principal
+        // Adicionar a imagem principal
         if (portfolio.value.main_image) {
             formData.append('main_image', portfolio.value.main_image);
         }
 
-        // Adicionando as imagens da galeria
+        // Adicionar as imagens e vídeos da galeria
         galleryFiles.value.forEach((file) => {
             formData.append('gallery_photos[]', file);
         });
@@ -82,10 +92,11 @@ const createPortfolio = async () => {
         }, 1500);
 
     } catch (error) {
-        console.error('Erro ao criar portfolio:', error);
+        console.error('Erro ao criar portfólio:', error);
         Toastify({ text: error.message }).showToast();
     }
 };
+
 
 onMounted(() => {
     categories.value = props.categories;
@@ -138,7 +149,7 @@ onMounted(() => {
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600 sm:text-sm">
                                 <option v-for="category in categories" :key="category.id" :value="category.id">{{
                                     category.name
-                                }}</option>
+                                    }}</option>
                             </select>
                         </div>
 
@@ -172,13 +183,15 @@ onMounted(() => {
                             <!-- Lista de imagens carregadas -->
                             <div class="mt-4 grid grid-cols-3 gap-2">
                                 <div v-for="(file, index) in previewGallery" :key="index" class="relative">
-                                    <img :src="file" class="w-full h-24 object-cover rounded-md shadow" />
+                                    <img v-if="file.type === 'image'" :src="file.url"
+                                        class="w-full h-24 object-cover rounded-md shadow" />
+                                    <video v-else-if="file.type === 'video'" :src="file.url"
+                                        class="w-full h-24 object-cover rounded-md shadow" controls />
                                 </div>
                             </div>
 
 
                         </div>
-
 
                         <div class="flex justify-end space-x-4 mt-6">
                             <button type="button" @click="cancel"

@@ -66,16 +66,25 @@
                         class="absolute top-4 right-4 bg-gray-200 text-black rounded-lg p-2 text-xl z-50">✕</button>
 
                     <!-- Carrossel Swiper -->
-                    <swiper v-if="selectedProject && selectedProject.images && selectedProject.images.length > 0"
+                    <!-- Carrossel Swiper -->
+                    <swiper v-if="selectedProject && selectedProject.gallery && selectedProject.gallery.length > 0"
                         :slides-per-view="1" :space-between="10" :modules="[Navigation, Pagination]" navigation
                         pagination loop class="rounded-xl">
-                        <swiper-slide v-for="(image, index) in selectedProject.images" :key="index">
+
+                        <swiper-slide v-for="(media, index) in selectedProject.gallery" :key="index">
                             <div class="w-full h-[500px] flex items-center justify-center overflow-hidden">
-                                <img :src="getImageUrl(image.path)" alt="Imagem do projeto"
+                                <!-- Exibir imagem -->
+                                <img v-if="media.type === 'image'" :src="media.url" alt="Imagem do projeto"
                                     class="w-auto h-full max-h-[500px] object-cover rounded-xl" />
+
+                                <!-- Exibir vídeo -->
+                                <video v-else-if="media.type === 'video'" :src="media.url"
+                                    class="w-full max-h-[500px] rounded-xl" controls />
                             </div>
                         </swiper-slide>
+
                     </swiper>
+
 
                     <!-- Título e descrição -->
                     <div class="mt-4 text-center">
@@ -152,10 +161,11 @@ const filterByCategory = (categoryId) => {
 const openModal = (project) => {
     selectedProject.value = {
         ...project,
-        images: project.images?.length > 0 ? project.images : [{ path: project.main_image }]
+        gallery: project.gallery?.length > 0 ? project.gallery : [{ url: project.main_image, type: "image" }]
     };
     showModal.value = true;
 };
+
 
 // ✅ Fechar modal
 const closeModal = () => {

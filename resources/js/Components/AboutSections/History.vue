@@ -1,7 +1,7 @@
 <template>
      <section class="container mx-auto max-w-screen-3xl px-4 overflow-hidden">
         <div class="w-full grid grid-col justify-center items-center my-24">
-            <div class="flex flex-colxl:flex-row justify-center items-start mx-20">
+            <div class="flex flex-colxl:flex-row justify-center items-start mx-12">
                 <div class="flex-1 text-center xl:text-left">
                     <h1 class="text-2xl xl:text-3xl text-primary-default mt-10 mb-5">
                         A nossa
@@ -17,11 +17,8 @@
                         Roupeiros, focada na satisfação dos nossos clientes.
                     </p>
                 </div>
-                <div class="absolute xl:top-28 xl:right-0 right-4 hidden xl:block">
-                    <img :src="KitchenWallpaper" alt="kitchen" class="w-[600px] h-auto object-cover opacity-40" />
-                </div>
             </div>
-            <div class="flex flex-col items-start mx-20">
+            <div class="flex flex-col items-start mx-12">
                 <div class="mb-5">
                     <h1 class="text-2xl xl:text-3xl text-secondary-default mb-5 text-center xl:text-left">
                         Equipa
@@ -143,10 +140,10 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 xl:grid-cols-4 gap-8 mt-5">
+                <div class="grid grid-cols-1 xl:grid-cols-4 justify-items-center gap-6 mt-5">
                     <!-- Card 1: Missão -->
                     <div
-                        class="card card-compact w-full h-[220px] xl:w-[350px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
+                        class="card card-compact w-full h-[220px] xl:w-[330px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
                         <div class="flex flex-col items-center xl:items-start xl:justify-center">
                             <img :src="Client" alt="Missão" class="w-14 h-14 mb-4" />
                             <p class="text-base xl:text-lg text-center xl:text-left">
@@ -160,7 +157,7 @@
 
                     <!-- Card 2: Visão -->
                     <div
-                        class="card card-compact w-full h-[170px] xl:w-[350px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
+                        class="card card-compact w-full h-[170px] xl:w-[330px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
                         <div class="flex flex-col items-center xl:items-start xl:justify-center">
                             <img :src="HandShake" alt="Visão" class="w-14 h-14 mb-4" />
                             <p class="text-base xl:text-lg  text-center xl:text-left">
@@ -172,7 +169,7 @@
 
                     <!-- Card 3: Qualidade -->
                     <div
-                        class="card card-compact w-full h-[190px] xl:w-[350px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
+                        class="card card-compact w-full h-[190px] xl:w-[330px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
                         <div class="flex flex-col items-center xl:items-start xl:justify-center">
                             <img :src="Guarantee" alt="Qualidade" class="w-14 h-14 mb-4" />
                             <p class="text-base xl:text-lg  text-center xl:text-left">
@@ -185,7 +182,7 @@
 
                     <!-- Card 4: Responsabilidade -->
                     <div
-                        class="card card-compact w-full h-[170px] xl:w-[350px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
+                        class="card card-compact w-full h-[170px] xl:w-[330px] xl:h-[240px] bg-base-200 shadow-gray shadow-2xl p-3 text-left">
                         <div class="flex flex-col items-center xl:items-start xl:justify-center">
                             <img :src="Business" alt="Responsabilidade" class="w-14 h-14 mb-4" />
                             <p class="text-base xl:text-lg  text-center xl:text-left">
